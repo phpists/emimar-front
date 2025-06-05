@@ -1,0 +1,63 @@
+import { useRef, useState } from "react";
+import { useClickOutside } from "../../../hooks";
+
+export const Profile = () => {
+  const [show, setShow] = useState(false);
+  const dropdownRef = useRef();
+
+  useClickOutside(dropdownRef, () => setShow(false));
+
+  return (
+    <li ref={dropdownRef} className="dropdown user-dropdown">
+      <a
+        href="#"
+        className={`dropdown-toggle me-n1 ${show ? "show" : ""}`}
+        data-bs-toggle="dropdown"
+        onClick={() => setShow(!show)}
+      >
+        <div className="user-toggle">
+          <div className="user-avatar sm">
+            <em className="icon ni ni-user-alt" />
+          </div>
+        </div>
+      </a>
+      <div
+        className={`dropdown-menu dropdown-menu-md dropdown-menu-end ${
+          show ? "show" : ""
+        }`}
+      >
+        <div className="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
+          <div className="user-card">
+            <div className="user-avatar">
+              <span>AB</span>
+            </div>
+            <div className="user-info">
+              <span className="lead-text">Abu Bin Ishtiyak</span>
+              <span className="sub-text">info@softnio.com</span>
+            </div>
+          </div>
+        </div>
+        <div className="dropdown-inner">
+          <ul className="link-list">
+            <li>
+              <a href="./profile.html">
+                <em className="icon ni ni-user-alt" />
+                <span>Profile settings</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div className="dropdown-inner">
+          <ul className="link-list">
+            <li>
+              <a href="./login.html">
+                <em className="icon ni ni-signout" />
+                <span>Sign out</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </li>
+  );
+};
