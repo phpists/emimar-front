@@ -1,45 +1,78 @@
-export const Pagination = () => (
-  <div className="card-inner">
-    <div className="nk-block-between-md g-3">
-      <div className="g">
-        <ul className="pagination justify-content-center justify-content-md-start">
-          <li className="page-item">
-            <a className="page-link" href="#">
-              Prev
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              1
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              2
-            </a>
-          </li>
-          <li className="page-item">
-            <span className="page-link">
-              <em className="icon ni ni-more-h" />
-            </span>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              6
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              7
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              Next
-            </a>
-          </li>
-        </ul>
+export const Pagination = ({ currentPage, lastPage, onPageChange }) => {
+  if (lastPage === 1) {
+    return null;
+  }
+  const handleClick = (page) => {
+    if (page >= 1 && page <= lastPage && page !== currentPage) {
+      onPageChange(page);
+    }
+  };
+
+  const renderPageNumbers = () => {
+    const pages = [];
+
+    for (let i = 1; i <= lastPage; i++) {
+      pages.push(
+        <li
+          key={i}
+          className={`page-item ${i === currentPage ? "active" : ""}`}
+        >
+          <a
+            className="page-link"
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              handleClick(i);
+            }}
+          >
+            {i}
+          </a>
+        </li>
+      );
+    }
+
+    return pages;
+  };
+
+  return (
+    <div className="card-inner">
+      <div className="nk-block-between-md g-3">
+        <div className="g">
+          <ul className="pagination justify-content-center justify-content-md-start">
+            <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+              <a
+                className="page-link"
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleClick(currentPage - 1);
+                }}
+              >
+                Prev
+              </a>
+            </li>
+
+            {renderPageNumbers()}
+
+            <li
+              className={`page-item ${
+                currentPage === lastPage ? "disabled" : ""
+              }`}
+            >
+              <a
+                className="page-link"
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleClick(currentPage + 1);
+                }}
+              >
+                Next
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};

@@ -1,7 +1,16 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../../../hooks";
 
-export const Row = () => {
+export const Row = ({
+  name,
+  email,
+  createdAt,
+  onDelete,
+  onEdit,
+  id,
+  selected,
+  onSelect,
+}) => {
   const [dropdown, setDrodown] = useState(false);
   const dropdownRef = useRef();
 
@@ -9,23 +18,32 @@ export const Row = () => {
   return (
     <tr className="nk-tb-item">
       <td className="nk-tb-col nk-tb-col-check">
-        <div className="custom-control custom-control-sm custom-checkbox notext">
-          <input type="checkbox" className="custom-control-input" id="pid-01" />
-          <label className="custom-control-label" htmlFor="pid-01" />
+        <div
+          className="custom-control custom-control-sm custom-checkbox notext"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <input
+            type="checkbox"
+            className="custom-control-input"
+            id={`pid-${id}`}
+            checked={selected}
+            onChange={onSelect}
+          />
+          <label className="custom-control-label" htmlFor={`pid-${id}`} />
         </div>
       </td>
       <td className="nk-tb-col">
-        <a href="./project.html" className="project-title">
+        <div className="project-title">
           <div className="project-info">
-            <h6 className="title">Ivan</h6>
+            <h6 className="title">{name}</h6>
           </div>
-        </a>
+        </div>
       </td>
       <td className="nk-tb-col">
-        <span>02.06.2025</span>
+        <span>{new Date(createdAt).toLocaleString()}</span>
       </td>
       <td className="nk-tb-col">
-        <span>test@gmail.com</span>
+        <span>{email}</span>
       </td>
       <td className="nk-tb-col nk-tb-col-tools">
         <ul className="nk-tb-actions gx-1">
@@ -38,7 +56,10 @@ export const Row = () => {
                 href="#"
                 className="dropdown-toggle btn btn-sm btn-icon btn-trigger"
                 data-bs-toggle="dropdown"
-                onClick={() => setDrodown(!dropdown)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setDrodown(!dropdown);
+                }}
               >
                 <em className="icon ni ni-more-h" />
               </a>
@@ -49,13 +70,25 @@ export const Row = () => {
               >
                 <ul className="link-list-opt no-bdr">
                   <li>
-                    <a href="./project.html">
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onDelete();
+                      }}
+                    >
                       <em className="icon ni ni-trash" />
-                      <span>Remove</span>
+                      <span>Delete</span>
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onEdit();
+                      }}
+                    >
                       <em className="icon ni ni-edit" />
                       <span>Edit</span>
                     </a>

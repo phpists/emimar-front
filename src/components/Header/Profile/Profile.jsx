@@ -1,11 +1,18 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../../hooks";
+import { useNavigate } from "react-router";
 
 export const Profile = () => {
   const [show, setShow] = useState(false);
   const dropdownRef = useRef();
+  const navigate = useNavigate();
 
   useClickOutside(dropdownRef, () => setShow(false));
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
 
   return (
     <li ref={dropdownRef} className="dropdown user-dropdown">
@@ -50,7 +57,13 @@ export const Profile = () => {
         <div className="dropdown-inner">
           <ul className="link-list">
             <li>
-              <a href="./login.html">
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleLogout();
+                }}
+              >
                 <em className="icon ni ni-signout" />
                 <span>Sign out</span>
               </a>

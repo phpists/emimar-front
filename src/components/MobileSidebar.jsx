@@ -51,7 +51,7 @@ export const MobileSidebar = ({ active }) => {
                       <li className="nk-menu-item">
                         <NavLink to="/users" className="nk-menu-link">
                           <span className="nk-menu-icon">
-                            <em class="icon ni ni-user-list"></em>{" "}
+                            <em className="icon ni ni-user-list"></em>{" "}
                           </span>
                           <span className="nk-menu-text">Users</span>
                         </NavLink>
@@ -91,7 +91,7 @@ export const MobileSidebar = ({ active }) => {
         </div>
       </div>
       {active ? (
-        <div class="nk-sidebar-overlay" data-target="sidebarMenu"></div>
+        <div className="nk-sidebar-overlay" data-target="sidebarMenu"></div>
       ) : null}
     </div>
   );

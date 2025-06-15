@@ -131,3 +131,11 @@ li.divider {
     display: block;
   }
 }
+
+.nk-menu-trigger {
+  cursor: pointer;
+}
+
+.select__dropdown-indicator:after {
+  display: none !important;
+}

@@ -1,7 +1,34 @@
 import { useEffect, useState } from "react";
+import { useGetGroupsQuery } from "../../store/groups/groups.api";
+import { useGetUsersQuery } from "../../store/auth/auth.api";
+import {
+  useLazyCreateProjectQuery,
+  useLazyUpdateProjectQuery,
+} from "../../store/projects/projects.api";
+import { toast } from "react-toastify";
+import { useActions } from "../../hooks/actions";
+import { useNavigate } from "react-router";
+import Select from "react-select";
 
-export const CreateProject = ({ onClose }) => {
-  const [selectionType, setSelectionType] = useState("users");
+export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
+  const { data: groupsList } = useGetGroupsQuery();
+  const { data: usersList } = useGetUsersQuery({ perPage: 100 });
+  const [data, setData] = useState({
+    title: `Project #${total}`,
+    users: [],
+    groups: [],
+    rules_type: "users",
+  });
+  const [createProject] = useLazyCreateProjectQuery();
+  const [updateProject] = useLazyUpdateProjectQuery();
+  const [loading, setLoading] = useState(false);
+  const { selectProject } = useActions();
+  const navigate = useNavigate();
+
+  const handleOpenProject = (id) => {
+    selectProject(id);
+    navigate("/project");
+  };
 
   useEffect(() => {
     const overlay = document.querySelector(".modal-backdrop");
@@ -9,6 +36,58 @@ export const CreateProject = ({ onClose }) => {
     return () => overlay?.classList.remove("show");
   }, []);
 
+  useEffect(() => {
+    if (editData) {
+      setData({
+        id: editData?.id,
+        title: editData?.title,
+        users: editData?.user?.map((u) => u.id),
+        groups: editData?.groups?.map((g) => g.id),
+        rules_type: editData?.rules_type,
+      });
+    }
+  }, [editData]);
+
+  const handleSubmit = () => {
+    setLoading(true);
+    if (editData) {
+      updateProject(data).then((resp) => {
+        setLoading(false);
+        if (resp.isSuccess) {
+          onClose();
+          onRefetchData();
+          toast.success("Успешно сохранено");
+        } else {
+          toast.error("Ошибка");
+        }
+      });
+    } else {
+      createProject(data).then((resp) => {
+        setLoading(false);
+        if (resp.isSuccess) {
+          handleOpenProject(resp?.data?.response?.id);
+          //   onClose();
+          //   onRefetchData();
+          toast.success("Успешно создано");
+        } else {
+          toast.error("Ошибка");
+        }
+      });
+    }
+  };
+
+  const handleGetOptions = () =>
+    data?.rules_type === "users"
+      ? usersList?.response?.users?.data?.map(({ id, display_name }) => ({
+          value: id,
+          label: display_name,
+        }))
+      : groupsList?.response?.map(({ title, id }) => ({
+          value: id,
+          label: title,
+        }));
+
+  console.log(data);
   return (
     <div
       className="modal fade show"
@@ -21,7 +100,9 @@ export const CreateProject = ({ onClose }) => {
       <div className="modal-dialog" role="document">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Create Project</h5>
+            <h5 className="modal-title">
+              {editData ? "Edit" : "Create"} Project
+            </h5>
             <a href="#" className="close" onClick={onClose} aria-label="Close">
               <em className="icon ni ni-cross" />
             </a>
@@ -39,6 +120,10 @@ export const CreateProject = ({ onClose }) => {
                     className="form-control"
                     id="project-name"
                     placeholder="Enter project name"
+                    value={data.title}
+                    onChange={(e) =>
+                      setData({ ...data, title: e.target.value })
+                    }
                   />
                 </div>
               </div>
@@ -50,22 +135,22 @@ export const CreateProject = ({ onClose }) => {
                   <button
                     type="button"
                     className={`btn p-2 btn-sm ${
-                      selectionType === "users"
+                      data?.rules_type === "users"
                         ? "btn-primary"
                         : "btn-outline-primary"
                     }`}
-                    onClick={() => setSelectionType("users")}
+                    onClick={() => setData({ ...data, rules_type: "users" })}
                   >
                     Users
                   </button>
                   <button
                     type="button"
                     className={`btn p-2 btn-sm ${
-                      selectionType === "groups"
+                      data?.rules_type === "groups"
                         ? "btn-primary"
                         : "btn-outline-primary"
                     }`}
-                    onClick={() => setSelectionType("groups")}
+                    onClick={() => setData({ ...data, rules_type: "groups" })}
                   >
                     Groups
                   </button>
@@ -75,33 +160,42 @@ export const CreateProject = ({ onClose }) => {
               {/* Conditional Select */}
               <div className="form-group">
                 <label className="form-label">
-                  {selectionType === "users" ? "Assign Users" : "Assign Groups"}
+                  {data?.rules_type === "users"
+                    ? "Assign Users"
+                    : "Assign Groups"}
                 </label>
-                <div className="form-control-wrap">
-                  <select className="form-select" multiple>
-                    {selectionType === "users" ? (
-                      <>
-                        <option value="1">Alice Johnson</option>
-                        <option value="2">Bob Smith</option>
-                        <option value="3">Charlie Brown</option>
-                        <option value="4">Diana Prince</option>
-                      </>
-                    ) : (
-                      <>
-                        <option value="g1">Frontend Team</option>
-                        <option value="g2">Backend Team</option>
-                        <option value="g3">QA Engineers</option>
-                      </>
-                    )}
-                  </select>
-                </div>
+                <Select
+                  isMulti
+                  name="colors"
+                  options={handleGetOptions()}
+                  value={handleGetOptions()?.filter((v) =>
+                    data?.[data.rules_type]?.includes(v.value)
+                  )}
+                  onChange={(e) => {
+                    setData({
+                      ...data,
+                      [data?.rules_type]: e.map((v) => v.value),
+                    });
+                  }}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                />
               </div>
             </form>
           </div>
 
           <div className="modal-footer bg-light">
-            <button type="button" className="btn btn-primary">
-              Create
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleSubmit}
+              disabled={
+                data.title?.length === 0 ||
+                data?.[data?.rules_type]?.length === 0 ||
+                loading
+              }
+            >
+              {editData ? "Save" : "Create"}
             </button>
             <button
               type="button"

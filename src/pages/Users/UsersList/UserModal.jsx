@@ -1,20 +1,63 @@
 import { useEffect, useState } from "react";
+import {
+  useLazyCreateUserQuery,
+  useLazyUpdateUserQuery,
+} from "../../../store/auth/auth.api";
+import { toast } from "react-toastify";
 
-export const UserModal = ({ onClose }) => {
+export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
   const [newUser, setNewUser] = useState({
-    fullName: "",
-    displayName: "",
+    full_name: "",
+    display_name: "",
     email: "",
-    dob: "",
-    password: "",
+    birth_day: "",
   });
-  const [changePassword, setChangePassword] = useState(false);
+
+  const [createUser] = useLazyCreateUserQuery();
+  const [updateUser] = useLazyUpdateUserQuery();
 
   useEffect(() => {
     const overlay = document.querySelector(".modal-backdrop");
     overlay?.classList.add("show");
+
+    // Якщо це редагування, підставляємо значення
+    if (editUser) {
+      setNewUser({
+        full_name: editUser.full_name || "",
+        display_name: editUser.display_name || "",
+        email: editUser.email || "",
+        birth_day: editUser.birth_day?.split("T")[0] || "", // якщо це ISO рядок
+      });
+    }
+
     return () => overlay?.classList.remove("show");
-  }, []);
+  }, [editUser]);
+
+  const handleSubmit = () => {
+    if (editUser) {
+      updateUser(newUser).then((resp) => {
+        if (resp.isSuccess) {
+          onClose();
+          onRefetchUser();
+          toast.success("Успешно сохранено");
+        } else {
+          toast.error("Ошибка");
+        }
+      });
+    } else {
+      createUser(newUser).then((resp) => {
+        if (resp.isSuccess) {
+          onClose();
+          onRefetchUser();
+          toast.success("Успешно создано");
+        } else {
+          toast.error("Ошибка");
+        }
+      });
+    }
+  };
+
+  const isFormInvalid = !newUser.email || !newUser.full_name;
 
   return (
     <div
@@ -26,11 +69,21 @@ export const UserModal = ({ onClose }) => {
       <div className="modal-dialog" role="document">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Create User</h5>
-            <a href="#" className="close" onClick={onClose}>
+            <h5 className="modal-title">
+              {editUser ? "Edit User" : "Create User"}
+            </h5>
+            <a
+              href="#"
+              className="close"
+              onClick={(e) => {
+                e.preventDefault();
+                onClose();
+              }}
+            >
               <em className="icon ni ni-cross" />
             </a>
           </div>
+
           <div className="modal-body">
             <div className="row">
               <div className="form-group col-md-6">
@@ -38,9 +91,9 @@ export const UserModal = ({ onClose }) => {
                 <input
                   type="text"
                   className="form-control"
-                  value={newUser.fullName}
+                  value={newUser.full_name}
                   onChange={(e) =>
-                    setNewUser({ ...newUser, fullName: e.target.value })
+                    setNewUser({ ...newUser, full_name: e.target.value })
                   }
                 />
               </div>
@@ -49,9 +102,9 @@ export const UserModal = ({ onClose }) => {
                 <input
                   type="text"
                   className="form-control"
-                  value={newUser.displayName}
+                  value={newUser.display_name}
                   onChange={(e) =>
-                    setNewUser({ ...newUser, displayName: e.target.value })
+                    setNewUser({ ...newUser, display_name: e.target.value })
                   }
                 />
               </div>
@@ -74,49 +127,21 @@ export const UserModal = ({ onClose }) => {
               <input
                 type="date"
                 className="form-control"
-                value={newUser.dob}
+                value={newUser.birth_day}
                 onChange={(e) =>
-                  setNewUser({ ...newUser, dob: e.target.value })
+                  setNewUser({ ...newUser, birth_day: e.target.value })
                 }
               />
             </div>
-
-            <div className="form-group">
-              <div className="custom-control custom-switch">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="changePasswordSwitch"
-                  checked={changePassword}
-                  onChange={() => setChangePassword(!changePassword)}
-                />
-                <label
-                  className="custom-control-label"
-                  htmlFor="changePasswordSwitch"
-                >
-                  Change Password
-                </label>
-              </div>
-            </div>
-
-            {changePassword && (
-              <div className="form-group">
-                <label className="form-label">New Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  value={newUser.password}
-                  onChange={(e) =>
-                    setNewUser({ ...newUser, password: e.target.value })
-                  }
-                />
-              </div>
-            )}
           </div>
 
           <div className="modal-footer bg-light">
-            <button className="btn btn-primary" onClick={onClose}>
-              Create
+            <button
+              className="btn btn-primary"
+              onClick={handleSubmit}
+              disabled={isFormInvalid}
+            >
+              {editUser ? "Save Changes" : "Create"}
             </button>
             <button className="btn btn-light" onClick={onClose}>
               Cancel

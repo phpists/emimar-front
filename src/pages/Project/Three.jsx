@@ -1,12 +1,13 @@
 import { useEffect, useRef } from "react";
+import { FileThree } from "./FileThree";
 
-export const Three = () => {
+export const Three = ({ data, selected, onSelect }) => {
   const isFirstRender = useRef(true);
 
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
-      window.JSLists?.createTree("f1combined");
+      setTimeout(() => window.JSLists?.createTree("f1combined"), 1000);
     }
   }, []);
 
@@ -34,44 +35,11 @@ export const Three = () => {
             >
               <div className="simplebar-content">
                 <ul id="f1combined" className="jslists">
-                  <li>
-                    <h6>Folder 1</h6>
-                    <ul>
-                      <li>
-                        <h6>Folder 2</h6>
-                        <ul>
-                          <li>
-                            <div className="file">File 1</div>
-                          </li>
-                          <li>
-                            <div className="file">File 2</div>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>
-                        <h6>Folder 3</h6>
-                        <ul>
-                          <li>
-                            <div className="file">File 1</div>
-                          </li>
-                          <li>
-                            <div className="file">File 2</div>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>
-                        <h6>Folder 4</h6>
-                        <ul>
-                          <li>
-                            <div className="file">File 1</div>
-                          </li>
-                          <li>
-                            <div className="file">File 2</div>
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </li>
+                  <FileThree
+                    nodes={data ?? []}
+                    selected={selected}
+                    onSelect={onSelect}
+                  />
                 </ul>
               </div>
             </div>

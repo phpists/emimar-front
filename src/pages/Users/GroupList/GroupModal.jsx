@@ -1,7 +1,17 @@
 import { useEffect, useState } from "react";
+import {
+  useLazyCreateGroupQuery,
+  useLazyUpdateGroupQuery,
+} from "../../../store/groups/groups.api";
+import { toast } from "react-toastify";
+import { useGetUsersQuery } from "../../../store/auth/auth.api";
+import Select from "react-select";
 
-export const GroupModal = ({ onClose }) => {
-  const [newUser, setNewUser] = useState({ name: "", email: "" });
+export const GroupModal = ({ onClose, editData, onRefreshData }) => {
+  const [data, setData] = useState({ title: "", users: "" });
+  const { data: users } = useGetUsersQuery({ page: 1, perPage: 100 });
+  const [createGroup] = useLazyCreateGroupQuery();
+  const [updateGroup] = useLazyUpdateGroupQuery();
 
   useEffect(() => {
     const overlay = document.querySelector(".modal-backdrop");
@@ -10,6 +20,46 @@ export const GroupModal = ({ onClose }) => {
 
     return () => overlay.classList.remove("show");
   }, []);
+
+  useEffect(() => {
+    if (editData) {
+      setData({
+        id: editData?.id,
+        title: editData?.title,
+        users: editData?.users,
+      });
+    }
+  }, [editData]);
+
+  const handleSubmit = () => {
+    if (editData) {
+      updateGroup(data).then((resp) => {
+        if (resp.isSuccess) {
+          onClose();
+          onRefreshData();
+          toast.success("Успешно сохранено");
+        } else {
+          toast.error("Ошибка");
+        }
+      });
+    } else {
+      createGroup(data).then((resp) => {
+        if (resp.isSuccess) {
+          onClose();
+          onRefreshData();
+          toast.success("Успешно создано");
+        } else {
+          toast.error("Ошибка");
+        }
+      });
+    }
+  };
+
+  const handleGetOptions = () =>
+    users?.response?.users?.data?.map(({ id, display_name }) => ({
+      value: id,
+      label: display_name,
+    }));
 
   return (
     <div
@@ -21,10 +71,12 @@ export const GroupModal = ({ onClose }) => {
       <div className="modal-dialog" role="document">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Create Group</h5>
-            <a href="#" className="close" onClick={onClose}>
+            <h5 className="modal-title">
+              {editData ? "Edit" : "Create"} Group
+            </h5>
+            <div className="close" onClick={onClose}>
               <em className="icon ni ni-cross" />
-            </a>
+            </div>
           </div>
           <div className="modal-body">
             <div className="form-group">
@@ -32,33 +84,39 @@ export const GroupModal = ({ onClose }) => {
               <input
                 type="text"
                 className="form-control"
-                value={newUser.name}
-                onChange={(e) =>
-                  setNewUser({ ...newUser, name: e.target.value })
-                }
+                value={data.title}
+                onChange={(e) => setData({ ...data, title: e.target.value })}
               />
             </div>
             <div className="form-group">
               <label className="form-label" htmlFor="project-users">
                 Assign Users
               </label>
-              <div className="form-control-wrap">
-                <select
-                  id="project-users"
-                  className="form-select js-select2"
-                  multiple
-                >
-                  <option value="1">Alice Johnson</option>
-                  <option value="2">Bob Smith</option>
-                  <option value="3">Charlie Brown</option>
-                  <option value="4">Diana Prince</option>
-                </select>
-              </div>
+              <Select
+                isMulti
+                name="colors"
+                options={handleGetOptions()}
+                value={handleGetOptions()?.filter((v) =>
+                  data?.users?.includes(v.value)
+                )}
+                onChange={(e) => {
+                  setData({
+                    ...data,
+                    users: e.map((v) => v.value),
+                  });
+                }}
+                className="basic-multi-select"
+                classNamePrefix="select"
+              />
             </div>
           </div>
           <div className="modal-footer bg-light">
-            <button className="btn btn-primary" onClick={onClose}>
-              Create
+            <button
+              className="btn btn-primary"
+              onClick={handleSubmit}
+              disabled={data?.title?.length === 0 || data?.users?.length === 0}
+            >
+              {editData ? "Save" : "Create"}
             </button>
             <button className="btn btn-light" onClick={onClose}>
               Cancel

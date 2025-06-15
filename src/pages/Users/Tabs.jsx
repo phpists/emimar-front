@@ -9,7 +9,10 @@ export const Tabs = ({ activeTab, onChangeTab }) => (
       <li className="nav-item" key={value}>
         <a
           className={`nav-link ${activeTab === value ? "active" : ""}`}
-          onClick={() => onChangeTab(value)}
+          onClick={(e) => {
+            e.preventDefault();
+            onChangeTab(value);
+          }}
           href="#"
         >
           {title}

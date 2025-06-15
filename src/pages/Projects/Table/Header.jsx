@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../../hooks";
 
-export const Header = () => {
+export const Header = ({ isSelectedAll, onSelectAll, onDelete }) => {
   const [dropdown, setDrodown] = useState(false);
   const dropdownRef = useRef();
 
@@ -10,11 +10,18 @@ export const Header = () => {
   return (
     <tr className="nk-tb-item nk-tb-head">
       <th className="nk-tb-col nk-tb-col-check">
-        <div className="custom-control custom-control-sm custom-checkbox notext">
+        <div
+          className="custom-control custom-control-sm custom-checkbox notext"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
           <input
             type="checkbox"
             className="custom-control-input"
             id="pid-all"
+            checked={isSelectedAll}
+            onChange={(e) => onSelectAll()}
           />
           <label className="custom-control-label" htmlFor="pid-all" />
         </div>
@@ -27,6 +34,9 @@ export const Header = () => {
       </th>
       <th className="nk-tb-col">
         <span className="sub-text">Users</span>
+      </th>
+      <th className="nk-tb-col">
+        <span className="sub-text">Groups</span>
       </th>
       <th className="nk-tb-col nk-tb-col-tools text-end">
         <div ref={dropdownRef} className={`dropdown ${dropdown ? "show" : ""}`}>
@@ -46,9 +56,15 @@ export const Header = () => {
           >
             <ul className="link-list-opt no-bdr">
               <li>
-                <a href="#">
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onDelete();
+                  }}
+                >
                   <em className="icon ni ni-trash" />
-                  <span>Remove Projects</span>
+                  <span>Delete Projects</span>
                 </a>
               </li>
             </ul>

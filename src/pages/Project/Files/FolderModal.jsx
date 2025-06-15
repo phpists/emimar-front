@@ -1,10 +1,19 @@
 import { useEffect, useState } from "react";
+import {
+  useLazyCreateFolderQuery,
+  useLazyUpdateFolderQuery,
+} from "../../../store/files/files.api";
+import { toast } from "react-toastify";
+import { useAppSelect } from "../../../hooks/redux";
 
-export const FolderModal = ({ onClose }) => {
+export const FolderModal = ({ onClose, parentId, editData, onRefetchData }) => {
   const [folderData, setFolderData] = useState({
-    name: "",
-    assignedUsers: [],
+    folder_name: "",
   });
+  const [createFolder] = useLazyCreateFolderQuery();
+  const [updateFolder] = useLazyUpdateFolderQuery();
+  const [loading, setLoading] = useState(false);
+  const { selectedProject } = useAppSelect((state) => state.auth);
 
   useEffect(() => {
     const overlay = document.querySelector(".modal-backdrop");
@@ -12,11 +21,42 @@ export const FolderModal = ({ onClose }) => {
     return () => overlay?.classList.remove("show");
   }, []);
 
-  const handleUserChange = (e) => {
-    const selectedOptions = Array.from(e.target.selectedOptions).map(
-      (option) => option.value
-    );
-    setFolderData({ ...folderData, assignedUsers: selectedOptions });
+  useEffect(() => {
+    if (editData) {
+      setFolderData({ folder_name: editData?.name, folder_id: editData?.id });
+    }
+  }, [editData]);
+
+  const handleSubmit = () => {
+    if (editData) {
+      updateFolder({ ...folderData, new_name: folderData?.folder_name }).then(
+        (resp) => {
+          setLoading(false);
+          if (resp.isSuccess) {
+            onClose();
+            onRefetchData();
+            toast.success("Успешно сохранено");
+          } else {
+            toast.error("Ошибка");
+          }
+        }
+      );
+    } else {
+      createFolder({
+        project_id: selectedProject,
+        parent_id: parentId,
+        folder_name: folderData.folder_name,
+      }).then((resp) => {
+        setLoading(false);
+        if (resp.isSuccess) {
+          onClose();
+          onRefetchData();
+          toast.success("Успешно сохранено");
+        } else {
+          toast.error("Ошибка");
+        }
+      });
+    }
   };
 
   return (
@@ -29,10 +69,12 @@ export const FolderModal = ({ onClose }) => {
       <div className="modal-dialog" role="document">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Create Folder</h5>
-            <a href="#" className="close" onClick={onClose}>
+            <h5 className="modal-title">
+              {editData ? "Edit" : "Create"} Folder
+            </h5>
+            <div href="#" className="close" onClick={onClose}>
               <em className="icon ni ni-cross" />
-            </a>
+            </div>
           </div>
           <div className="modal-body">
             <div className="form-group">
@@ -40,13 +82,13 @@ export const FolderModal = ({ onClose }) => {
               <input
                 type="text"
                 className="form-control"
-                value={folderData.name}
+                value={folderData.folder_name}
                 onChange={(e) =>
-                  setFolderData({ ...folderData, name: e.target.value })
+                  setFolderData({ ...folderData, folder_name: e.target.value })
                 }
               />
             </div>
-
+            {/* 
             <div className="form-group">
               <label className="form-label">Assign Users</label>
               <select
@@ -61,18 +103,18 @@ export const FolderModal = ({ onClose }) => {
                 <option value="4">Diana Prince</option>
               </select>
               <small className="text-muted"></small>
-            </div>
+            </div> */}
           </div>
 
           <div className="modal-footer bg-light">
             <button
               className="btn btn-primary"
               onClick={() => {
-                console.log("Folder data:", folderData);
-                onClose();
+                handleSubmit();
               }}
+              disabled={folderData?.folder_name?.length === 0 || loading}
             >
-              Create
+              {editData ? "Save" : "Create"}
             </button>
             <button className="btn btn-light" onClick={onClose}>
               Cancel

@@ -1,15 +1,9 @@
-import { useState } from "react";
-import { UserModal } from "../UserModal";
-
-export const Header = () => {
-  const [showModal, setShowModal] = useState(false);
-
+export const Header = ({ onCreateUser }) => {
   return (
     <div>
-      {showModal && <UserModal onClose={() => setShowModal(false)} />}
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h5 className="title">User List</h5>
-        <button className="btn btn-primary" onClick={() => setShowModal(true)}>
+        <button className="btn btn-primary" onClick={onCreateUser}>
           + Create User
         </button>
       </div>

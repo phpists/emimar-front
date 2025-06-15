@@ -9,14 +9,12 @@ export const Sidebar = () => {
         <NavLink to="/" className="logo-link">
           <img
             className="logo-light logo-img"
-            src="/assets/images/logo-small.png"
-            srcSet="/assets/images/logo-small2x.png 2x"
+            src="/assets/images/small-logo.png"
             alt="logo"
           />
           <img
             className="logo-dark logo-img"
-            src="/assets/images/logo-dark-small.png"
-            srcSet="/assets/images/logo-dark-small2x.png 2x"
+            src="/assets/images/small-logo.png"
             alt="logo-dark"
           />
         </NavLink>

@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../../../hooks";
 
-export const Header = () => {
+export const Header = ({ isSelectedAll, onSelectAll, onDelete }) => {
   const [dropdown, setDrodown] = useState(false);
   const dropdownRef = useRef();
 
@@ -10,11 +10,18 @@ export const Header = () => {
   return (
     <tr className="nk-tb-item nk-tb-head">
       <th className="nk-tb-col nk-tb-col-check">
-        <div className="custom-control custom-control-sm custom-checkbox notext">
+        <div
+          className="custom-control custom-control-sm custom-checkbox notext"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
           <input
             type="checkbox"
             className="custom-control-input"
             id="pid-all"
+            checked={isSelectedAll}
+            onChange={(e) => onSelectAll()}
           />
           <label className="custom-control-label" htmlFor="pid-all" />
         </div>
@@ -46,9 +53,15 @@ export const Header = () => {
           >
             <ul className="link-list-opt no-bdr">
               <li>
-                <a href="#">
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onDelete();
+                  }}
+                >
                   <em className="icon ni ni-trash" />
-                  <span>Remove</span>
+                  <span>Delete users</span>
                 </a>
               </li>
             </ul>

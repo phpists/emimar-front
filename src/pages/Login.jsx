@@ -1,8 +1,28 @@
 import { useState } from "react";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
+import { useLazyLoginQuery } from "../store/auth/auth.api";
+import { toast } from "react-toastify";
+import { useActions } from "../hooks/actions";
 
 export const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [login] = useLazyLoginQuery();
+  const { loginUser } = useActions();
+  const navigate = useNavigate();
+
+  const handleSubmit = () => {
+    login({ login: email, password }).then((resp) => {
+      if (resp.isSuccess) {
+        loginUser(resp?.data.response.user);
+        localStorage.setItem("token", resp?.data.response.access_token);
+        navigate("/");
+      } else {
+        toast.error("Данные не найдены");
+      }
+    });
+  };
 
   return (
     <div className="nk-body npc-apps apps-only has-apps-sidebar npc-apps-files no-touch nk-nio-theme has-sidebar">
@@ -11,6 +31,13 @@ export const Login = () => {
           <div className="nk-wrap nk-wrap nosidebar">
             <div className="nk-content">
               <div className="nk-block nk-block-middle nk-auth-body wide-xs">
+                <div class="brand-logo pb-4 text-center">
+                  <img
+                    src="/assets/images/big-logo.png"
+                    alt=""
+                    className="auth-logo"
+                  />
+                </div>
                 <div className="card card-bordered">
                   <div className="card-inner card-inner-lg">
                     <div className="nk-block-head">
@@ -18,7 +45,7 @@ export const Login = () => {
                         <h4 className="nk-block-title">Sign-In</h4>
                       </div>
                     </div>
-                    <form action="/demo3/index.html">
+                    <div>
                       <div className="form-group">
                         <div className="form-label-group">
                           <label className="form-label" for="default-01">
@@ -31,6 +58,8 @@ export const Login = () => {
                             className="form-control form-control-lg"
                             id="default-01"
                             placeholder="Enter your email address or username"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                           />
                         </div>
                       </div>
@@ -41,9 +70,9 @@ export const Login = () => {
                           </label>
                         </div>
                         <div className="form-control-wrap">
-                          <a
+                          <div
                             href="#"
-                            className={`form-icon form-icon-right passcode-switch lg  ${
+                            className={` form-icon form-icon-right passcode-switch lg  ${
                               showPassword && "is-shown"
                             }`}
                             data-target="password"
@@ -56,7 +85,7 @@ export const Login = () => {
                               className="passcode-icon icon-hide icon ni ni-eye-off"
                               onClick={() => setShowPassword(false)}
                             ></em>
-                          </a>
+                          </div>
                           <input
                             type={showPassword ? "text" : "password"}
                             className={`form-control form-control-lg is-shown ${
@@ -64,18 +93,23 @@ export const Login = () => {
                             }`}
                             id="password"
                             placeholder="Enter your passcode"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                           />
                         </div>
                       </div>
                       <div className="form-group">
-                        <NavLink
-                          to="/"
+                        <button
                           className="btn btn-lg btn-primary btn-block"
+                          disabled={
+                            email.length === 0 || password?.length === 0
+                          }
+                          onClick={handleSubmit}
                         >
                           Sign in
-                        </NavLink>
+                        </button>
                       </div>
-                    </form>
+                    </div>
                   </div>
                 </div>
               </div>
