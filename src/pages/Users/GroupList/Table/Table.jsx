@@ -6,7 +6,7 @@ import { ConfirmDeleteModal } from "../../../../components/ConfirmModal";
 import { Loading } from "../../../../components/Loading";
 import { EmptyMessage } from "../../../../components/EmptyMessage";
 
-export const Table = ({ data, onRefetch, onEdit, isLoading }) => {
+export const Table = ({ data, search, onRefetch, onEdit, isLoading }) => {
   const [deleting, setDeleting] = useState(null);
   const [deleteGroup] = useLazyDeleteGroupQuery();
   const [selected, setSelected] = useState([]);
@@ -65,7 +65,12 @@ export const Table = ({ data, onRefetch, onEdit, isLoading }) => {
                 />
               </thead>
               <tbody>
-                {data?.response?.map(({ id, title, create_at, user }) => (
+                {data?.response?.filter((u) =>
+                    search?.length > 0
+                      ? u.title.toLowerCase().includes(search.toLowerCase())
+                      : true
+                  )
+                  ?.map(({ id, title, create_at, user }) => (
                   <Row
                     key={id}
                     title={title}

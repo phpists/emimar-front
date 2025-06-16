@@ -9,6 +9,7 @@ import { EmptyMessage } from "../../../../components/EmptyMessage";
 
 export const Table = ({
   data,
+  search,
   onChangePage,
   onRefetchUser,
   onEdit,
@@ -74,7 +75,12 @@ export const Table = ({
                 />
               </thead>
               <tbody>
-                {data?.response?.users?.data?.map(
+                {data?.response?.users?.data?.filter((u) =>
+                    search?.length > 0
+                      ? u.full_name.toLowerCase().includes(search.toLowerCase())
+                      : true
+                  )
+                  ?.map(
                   ({ display_name, email, created_at, id, ...rest }) => (
                     <Row
                       key={id}
