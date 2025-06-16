@@ -13,9 +13,9 @@ export const FoldersList = ({
     <div className="nk-files-group">
       <h6 className="title">Folder</h6>
       <div className="nk-files-list">
-        {data?.filter(({ parent_id, name }) =>
+        {data?.filter(({ parent_id, full_name }) =>
           search
-            ? name.toLowerCase().includes(search)
+            ? full_name.toLowerCase().includes(search)
             : selected
             ? parent_id === selected
             : parent_id === null
@@ -23,22 +23,22 @@ export const FoldersList = ({
           <EmptyMessage title="Empty" />
         ) : (
           data
-            ?.filter(({ parent_id, name }) =>
+            ?.filter(({ parent_id, full_name }) =>
               search
-                ? name.toLowerCase().includes(search)
+                ? full_name.toLowerCase().includes(search)
                 : selected
                 ? parent_id === selected
                 : parent_id === null
             )
-            ?.map(({ id, name, size, created_at }) => (
+            ?.map(({ id, full_name, size, created_at }) => (
               <FileCard
                 key={id}
-                name={name}
+                name={full_name}
                 type="folder"
                 size={size}
                 date={created_at}
-                onEdit={() => onEdit({ id, name })}
-                onDelete={() => onDelete({ id, name, type: "folder" })}
+                onEdit={() => onEdit({ id, full_name })}
+                onDelete={() => onDelete({ id, full_name, type: "folder" })}
                 onSelect={() => onSelectFolder(id)}
               />
             ))

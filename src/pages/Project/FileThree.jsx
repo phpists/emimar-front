@@ -34,7 +34,7 @@ export function transformTree(data, parentPath = "") {
       const currentPath = parentPath ? `${parentPath}/${item.name}` : item.name;
 
       return {
-        title: item.name,
+        title: item.full_name,
         key: currentPath,
         id: item?.id,
         path: currentPath,
