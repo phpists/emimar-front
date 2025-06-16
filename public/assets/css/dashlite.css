@@ -33952,6 +33952,7 @@ p > span > .icon.ni {
   align-items: start;
 }
 .project-title {
+  cursor: pointer;
   display: flex;
   align-items: center;
   margin-right: 0.75rem;

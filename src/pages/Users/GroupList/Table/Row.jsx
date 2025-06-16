@@ -36,7 +36,12 @@ export const Row = ({
         </div>
       </td>
       <td className="nk-tb-col">
-        <a href="/#/project" className="project-title">
+        <div
+          onClick={(e) => {
+          e.stopPropagation();
+          onEdit();
+          }} 
+        className="project-title">
           <div className="user-avatar sq bg-purple">
             <span>
               {title?.[0]?.toUpperCase() ?? ""}
@@ -46,7 +51,7 @@ export const Row = ({
           <div className="project-info">
             <h6 className="title">{title}</h6>
           </div>
-        </a>
+        </div>
       </td>
       <td className="nk-tb-col">
         <span>{createAt}</span>

@@ -30,6 +30,7 @@ export const Header = ({ isSelectedAll, onSelectAll, onDelete }) => {
         <span className="sub-text">Name</span>
       </th>
       <th className="nk-tb-col">
+          {/* Добавити клік на th  */}
         <span className="sub-text">Date create</span>
       </th>
       <th className="nk-tb-col">

@@ -11,7 +11,8 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
     display_name: "",
     email: "",
     birth_day: "",
-    user_id: ""
+    user_id: "",
+    phone_number: ""
   });
 
   const [createUser] = useLazyCreateUserQuery();
@@ -24,11 +25,12 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
     // Якщо це редагування, підставляємо значення
     if (editUser) {
       setNewUser({
+        user_id: editUser.user_id,
         full_name: editUser.full_name || "",
         display_name: editUser.display_name || "",
         email: editUser.email || "",
-        user_id: editUser.user_id,
         birth_day: editUser.birth_day?.split("T")[0] || "", // якщо це ISO рядок
+        phone_number: editUser.phone_number || ""
       });
     }
 
@@ -124,17 +126,32 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Date of Birth</label>
-              <input
-                type="date"
-                className="form-control"
-                value={newUser.birth_day}
-                onChange={(e) =>
-                  setNewUser({ ...newUser, birth_day: e.target.value })
-                }
-              />
-            </div>
+            <div className="row">
+              <div className="form-group col-md-6">
+                <label className="form-label">Telephone</label>
+                <input
+                  type="tel"
+                  className="form-control"
+                  placeholder="Enter telephone number"
+                  value={newUser.phone_number}
+                  onChange={(e) =>
+                    setNewUser({ ...newUser, phone_number: e.target.value })
+                  }
+                />
+              </div>
+
+              <div className="form-group col-md-6">
+                <label className="form-label">Date of Birth</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  value={newUser.birth_day}
+                  onChange={(e) =>
+                    setNewUser({ ...newUser, birth_day: e.target.value })
+                  }
+                />
+              </div>
+            </div>    
           </div>
 
           <div className="modal-footer bg-light">
