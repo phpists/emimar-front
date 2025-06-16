@@ -11,6 +11,7 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
     display_name: "",
     email: "",
     birth_day: "",
+    user_id: ""
   });
 
   const [createUser] = useLazyCreateUserQuery();
@@ -26,6 +27,7 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
         full_name: editUser.full_name || "",
         display_name: editUser.display_name || "",
         email: editUser.email || "",
+        user_id: editUser.user_id,
         birth_day: editUser.birth_day?.split("T")[0] || "", // якщо це ISO рядок
       });
     }
