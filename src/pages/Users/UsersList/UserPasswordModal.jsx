@@ -6,9 +6,8 @@ import { toast } from "react-toastify";
 
 export const UserPasswordModal = ({ onClosePasswordModal, onRefetchUser, editUser }) => {
   const [user, setNewUser] = useState({
-    email: editUser.email,
-    password: "",
-    password_confirmation: ""
+    user_id: editUser.user_id,
+    password: ""
   });
 
   const [updateUserPassword] = useLazyUpdateUserPasswordQuery();
@@ -20,6 +19,7 @@ export const UserPasswordModal = ({ onClosePasswordModal, onRefetchUser, editUse
   }, [editUser]);
 
   const handleSubmit = () => {
+    console.log(user)
       updateUserPassword(user).then((resp) => {
         if (resp.isSuccess) {
           onClosePasswordModal();
@@ -31,8 +31,8 @@ export const UserPasswordModal = ({ onClosePasswordModal, onRefetchUser, editUse
       });
   };
 
-  const isFormInvalid = !user.password || !user.password_confirmation;
-  //Додати перевірку чи збігаються паролі
+  const isFormInvalid = !user.password;
+
   return (
     <div
       className="modal fade show"
@@ -60,7 +60,7 @@ export const UserPasswordModal = ({ onClosePasswordModal, onRefetchUser, editUse
 
           <div className="modal-body">
             <div className="row">
-              <div className="form-group col-md-6">
+              <div className="form-group">
                 <label className="form-label">Password</label>
                 <input
                   type="tel"
@@ -69,19 +69,6 @@ export const UserPasswordModal = ({ onClosePasswordModal, onRefetchUser, editUse
                   value={user.password}
                   onChange={(e) =>{
                     setNewUser({ ...user, password: e.target.value })
-                  }}
-                />
-              </div>
-
-              <div className="form-group col-md-6">
-                <label className="form-label">Confirm password</label>
-                <input
-                  type="tel"
-                  className="form-control"
-                  placeholder="Enter new password"
-                  value={user.password_confirmation}
-                  onChange={(e) =>{
-                    setNewUser({ ...user, password_confirmation: e.target.value })
                   }}
                 />
               </div>

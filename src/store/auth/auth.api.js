@@ -43,7 +43,8 @@ export const auth = createApi({
     }),
     updateUserPassword: build.query({
       query: (data) => ({
-        url: "/auth/reset-password",
+        // url: "/auth/reset-password",
+        url: "/auth/change-password",
         method: "POST",
         headers: headers(),
         body: data,

@@ -1,17 +1,29 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../../hooks";
+import { useAppSelect } from "../../../hooks/redux";
+
+import {
+  useLazyGetProjectFileEntryFilterQuery
+} from "../../../store/files/files.api";
 
 export const Header = ({
   onOpenUploadModal,
   onCreateFolder,
   selected,
-  search,
-  onSearch,
+  search,// delete
+  onSearch,// delete 
 }) => {
   const [dropdown, setDropdown] = useState(false);
   const dropdownRef = useRef();
+  const { selectedProject } = useAppSelect((state) => state.auth);
+
+  const [triggerSearch, { data, error, isLoading }] = useLazyGetProjectFileEntryFilterQuery();
 
   useClickOutside(dropdownRef, () => setDropdown(false));
+
+  let searchFoldersFiles = (e) => {
+    triggerSearch({project_id: Number(selectedProject), e}); 
+  }
 
   return (
     <div className="nk-fmg-body-head d-none d-lg-flex">
@@ -21,8 +33,8 @@ export const Header = ({
           type="text"
           className="form-control border-transparent form-focus-none"
           placeholder="Search files, folders"
-          value={search}
-          onChange={(e) => onSearch(e.target.value)}
+          // value={search}
+          onChange={(e) => searchFoldersFiles(e.target.value)}
         />
       </div>
       {selected ? (

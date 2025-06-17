@@ -32,7 +32,7 @@ export const Actions = ({ onEdit, onDelete }) => {
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
-                    e.stopPropagation()
+                    e.stopPropagation();
                     onEdit();
                   }}
                 >
@@ -47,6 +47,7 @@ export const Actions = ({ onEdit, onDelete }) => {
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
+                  e.stopPropagation();
                   onDelete();
                 }}
               >

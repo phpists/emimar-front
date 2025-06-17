@@ -20,7 +20,7 @@ export const Table = ({
   const [deleteUser] = useLazyDeleteUserQuery();
   const [selected, setSelected] = useState([]);
   const [deletingItems, setDeletingItems] = useState([]);
-  const [sortConfig, setSortConfig] = useState({ key: "create_at", order: "desc" });
+  const [sortConfig, setSortConfig] = useState({ key: "created_at", order: "desc" });
 
   const handleCloseDeleting = () => {
     setDeletingUser(null);
