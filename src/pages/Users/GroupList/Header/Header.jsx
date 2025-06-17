@@ -12,7 +12,6 @@ export const Header = ({ onCreateGroup, search, onSearch }) => {
         <h5 className="title">Group List</h5>
 
         <div className="d-flex align-items-center">
-          {/* Інпут зліва */}
           <div className="form-control-wrap me-2">
             <input
               type="text"

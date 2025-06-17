@@ -13,6 +13,7 @@ export const Table = ({
   onChangePage,
   onRefetchUser,
   onEdit,
+  onEditPassword,
   isLoading,
 }) => {
   const [deletingUser, setDeletingUser] = useState(null);
@@ -90,6 +91,15 @@ export const Table = ({
                       onDelete={() => setDeletingUser({ display_name, id })}
                       onEdit={() =>
                         onEdit({
+                          display_name,
+                          email,
+                          created_at,
+                          user_id: id,
+                          ...rest,
+                        })
+                      }
+                      onEditPassword={() =>
+                        onEditPassword({
                           display_name,
                           email,
                           created_at,

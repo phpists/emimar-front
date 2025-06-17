@@ -8,6 +8,7 @@ export const Info = () => {
     display_name: "",
     email: "",
     birth_day: "",
+    phone: ""
   });
 
   // Ініціалізація стейту лише при першому рендері
@@ -18,6 +19,7 @@ export const Info = () => {
         display_name: user.display_name || "",
         email: user.email || "",
         birth_day: user.birth_day || "",
+        phone: user.phone || ""
       });
     }
   }, [user]);

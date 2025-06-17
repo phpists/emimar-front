@@ -41,6 +41,14 @@ export const auth = createApi({
         body: data,
       }),
     }),
+    updateUserPassword: build.query({
+      query: (data) => ({
+        url: "/auth/reset-password",
+        method: "POST",
+        headers: headers(),
+        body: data,
+      }),
+    }),
     deleteUser: build.query({
       query: (id) => ({
         url: "/user/delete-user",
@@ -68,4 +76,5 @@ export const {
   useLazyGetUsersQuery,
   useGetUsersQuery,
   useLazyUpdateUserQuery,
+  useLazyUpdateUserPasswordQuery
 } = auth;

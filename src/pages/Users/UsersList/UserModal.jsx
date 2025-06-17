@@ -12,7 +12,7 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
     email: "",
     birth_day: "",
     user_id: "",
-    phone_number: ""
+    phone: ""
   });
 
   const [createUser] = useLazyCreateUserQuery();
@@ -30,7 +30,7 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
         display_name: editUser.display_name || "",
         email: editUser.email || "",
         birth_day: editUser.birth_day?.split("T")[0] || "", // якщо це ISO рядок
-        phone_number: editUser.phone_number || ""
+        phone: editUser.phone || ""
       });
     }
 
@@ -133,9 +133,9 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
                   type="tel"
                   className="form-control"
                   placeholder="Enter telephone number"
-                  value={newUser.phone_number}
+                  value={newUser.phone}
                   onChange={(e) =>
-                    setNewUser({ ...newUser, phone_number: e.target.value })
+                    setNewUser({ ...newUser, phone: e.target.value })
                   }
                 />
               </div>
