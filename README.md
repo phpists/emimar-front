@@ -1,70 +1,29 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Доробки/баги
 
-## Available Scripts
+Нижче наведено статус робіт по доробкам та виправленням багів:
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+*   **назви папок беруться з проперті name а треба з full_name**
+    *   **Статус:** Виконано. Змінено використання `name` на `full_name` для відображення назв папок.
+*   **при апдейті юзера не передається id тому модалка Edit User не працює (саме збереження)**
+    *   **Статус:** Виконано. Виправлено передачу `id` для оновлення користувача. Також API-виклик змінено на `build.mutation`.
+*   **нема аплоаду файлів в папку**
+    *   **Статус:** Виконано. Додана функціональність завантаження файлів у папку, включаючи відображення тостів для відповіді сервера. (Нагадування: було тимчасове повернення `uploadFile` до `build.query` через особливості бекенду).
+*   **нема drag and drop в папку**
+    *   **Статус:** Виконано. Додана функціональність Drag & Drop для переміщення файлів у папки.
+*   **додати в users поле телефону**
+    *   **Статус:** Виконано. Додано поле телефону в модалку створення/редагування користувача.
+*   **додати окрему модалку для зміни пароля**
+    *   **Статус:** Виконано. Створено окрему модалку для зміни пароля користувача.
+*   **додати до табличок сортування order by по стовпчиках**
+    *   **Статус:** Частково виконано. Логіка сортування додана на фронтенді (передача параметрів `sortBy` та `sortOrder` в API-запити). **Не працює коректно через відсутність підтримки на бекенді або невідповідність очікуваних параметрів.** Потрібна перевірка бекенду.
+*   **в групах нажимаю на групу, перекидує на файли, хоча має відкривати редагування групи**
+    *   **Статус:** Виконано. Виправлено поведінку при кліку на групу, тепер відкривається модалка редагування групи.
+*   **додати пошук по групам та по юзерам**
+    *   **Статус:** Частково виконано. Логіка пошуку додана на фронтенді (передача параметра `search` в API-запити). **Не працює коректно через відсутність підтримки на бекенді або невідповідність очікуваних параметрів.** Потрібна перевірка бекенду.
+*   **зробити щоб дерево було розкрите по дефолту**
+    *   **Статус:** Виконано. Дерево файлів/папок розкривається за замовчуванням.
+*   **для пошуку заюзати метод бекенду (/api/file-entry/get-project-file-entry) бо зараз працює без нього**
+    *   **Статус:** Виконано. Фронтенд використовує `/api/file-entry/get-project-file-entry` для отримання даних про файли та папки. (Зверніть увагу: проблема пошуку вище стосується таблиць користувачів/груп, а не цього API).
+*   **при видаленні папок все пригає і зникає**
+    *   **Статус:** Виконано. Додана логіка для коректного видалення папок з оновленням даних. (Нагадування: було тимчасове повернення `deleteFolder` до `build.query` через особливості бекенду).
