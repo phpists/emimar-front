@@ -10,6 +10,10 @@ export const FileCard = ({
   onEdit,
   onDelete,
   onSelect,
+  draggable,
+  onDragStart,
+  onDrop,
+  onDragOver
 }) => (
   <div
     className={`nk-file-item nk-file ${onSelect && "cursor-pointer"}`}
@@ -18,7 +22,13 @@ export const FileCard = ({
       onSelect && onSelect();
     }}
   >
-    <div className="nk-file-info">
+    <div className="nk-file-info" 
+      onClick={onSelect}
+      draggable={draggable}
+      onDragStart={onDragStart}
+      onDrop={onDrop}
+      onDragOver={onDragOver}
+    >
       <div className="nk-file-title">
         <div className="nk-file-icon">
           <span className="nk-file-icon-type">{getFileIcon(type)}</span>

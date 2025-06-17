@@ -7,6 +7,7 @@ import { FoldersList } from "./FoldersList/FoldersList";
 import { Files as FilesList } from "./Files/Files";
 import { ConfirmDeleteModal } from "../../../components/ConfirmModal";
 import {
+  useLazyMoveFolderQuery,
   useLazyDeleteFileQuery,
   useLazyDeleteFolderQuery,
 } from "../../../store/files/files.api";
@@ -20,6 +21,9 @@ export const Files = ({ data, selected, onRefetchData, onSelectFolder }) => {
   const [deleteFolder] = useLazyDeleteFolderQuery();
   const [deleteFile] = useLazyDeleteFileQuery();
   const [search, setSearch] = useState("");
+
+  const [moveFolder] = useLazyMoveFolderQuery();
+  const [draggedItem, setDraggedItem] = useState(null);
 
   const handleOpenUploadModal = () => setUploadModal(true);
   const handleOpenFolderModal = () => setFolderModal(true);
@@ -56,6 +60,19 @@ export const Files = ({ data, selected, onRefetchData, onSelectFolder }) => {
     }
     setDeleting(null);
   };
+
+  const handleMove = ({ fromId, toFolderId, type }) => {
+    moveFolder({ folder_id: fromId, new_parent_id: toFolderId }).then(
+      (resp) => {
+        if (resp.isSuccess) {
+          toast.success("Перемещено!");
+          onRefetchData()
+        } else {
+          toast.error("Ошибка");
+        }
+      })
+  };
+  
 
   return (
     <div className="nk-fmg-body">
@@ -102,6 +119,9 @@ export const Files = ({ data, selected, onRefetchData, onSelectFolder }) => {
           >
             <div className="nk-files nk-files-view-group">
               <FoldersList
+                onMove={handleMove}
+                draggedItem={draggedItem}
+                setDraggedItem={setDraggedItem}
                 data={data?.response?.list?.folders ?? []}
                 selected={selected}
                 onEdit={handleEditFolder}
@@ -110,6 +130,9 @@ export const Files = ({ data, selected, onRefetchData, onSelectFolder }) => {
                 search={search}
               />
               <FilesList
+                onMove={handleMove}
+                draggedItem={draggedItem}
+                setDraggedItem={setDraggedItem}
                 data={data?.response?.list?.files ?? []}
                 selected={selected}
                 onDelete={(data) => setDeleting(data)}

@@ -8,6 +8,9 @@ export const FoldersList = ({
   onDelete,
   onSelectFolder,
   search,
+  onMove,
+  draggedItem,
+  setDraggedItem
 }) => {
   return (
     <div className="nk-files-group">
@@ -40,6 +43,19 @@ export const FoldersList = ({
                 onEdit={() => onEdit({ id, full_name })}
                 onDelete={() => onDelete({ id, full_name, type: "folder" })}
                 onSelect={() => onSelectFolder(id)}
+                draggable
+                onDragStart={() => setDraggedItem({ id, type: "folder" })}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  if (draggedItem && draggedItem.id !== id) {
+                    onMove({
+                      fromId: draggedItem.id,
+                      toFolderId: id,
+                      type: draggedItem.type,
+                    });
+                  }
+                }}
               />
             ))
         )}
