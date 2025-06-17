@@ -11,6 +11,7 @@ export const Table = ({ data, search, onRefetch, onEdit, isLoading }) => {
   const [deleteGroup] = useLazyDeleteGroupQuery();
   const [selected, setSelected] = useState([]);
   const [deletingItems, setDeletingItems] = useState([]);
+  const [sortConfig, setSortConfig] = useState({ key: "create_at", order: "desc" });
 
   const handleCloseDeleting = () => {
     setDeleting(null);
@@ -34,6 +35,51 @@ export const Table = ({ data, search, onRefetch, onEdit, isLoading }) => {
     handleCloseDeleting();
   };
 
+  const handleSortGroups = (key) => {
+    setSortConfig((prev) => {
+      if (prev.key === key) {
+        return { key, order: prev.order === "asc" ? "desc" : "asc" };
+      }
+      return { key, order: "asc" };
+    });
+  };
+
+  const sortedData = data?.response
+    ?.filter((u) =>
+      search?.length > 0
+        ? u.title.toLowerCase().includes(search.toLowerCase())
+        : true
+    )
+    .slice() 
+    .sort((a, b) => {
+      const { key, order } = sortConfig;
+    
+      let aValue = a[key];
+      let bValue = b[key];
+    
+      if (key === "users") {
+        aValue = a.user?.length || 0;
+        bValue = b.user?.length || 0;
+      }
+
+      if (key === "create_at") {
+        const parseDate = (dateStr) => {
+          const [day, month, year] = dateStr.split(".");
+          return new Date(`${year}-${month}-${day}`);
+        };
+    
+        aValue = parseDate(aValue);
+        bValue = parseDate(bValue);
+      }
+    
+      if (typeof aValue === "string") aValue = aValue.toLowerCase();
+      if (typeof bValue === "string") bValue = bValue.toLowerCase();
+    
+      if (aValue < bValue) return order === "asc" ? -1 : 1;
+      if (aValue > bValue) return order === "asc" ? 1 : -1;
+      return 0;
+    });
+
   return (
     <div className="nk-block">
       {(deleting || deletingItems?.length > 0) && (
@@ -53,6 +99,8 @@ export const Table = ({ data, search, onRefetch, onEdit, isLoading }) => {
             <table className="nk-tb-list nk-tb-ulist">
               <thead>
                 <Header
+                  onSortGroups={handleSortGroups}
+                  sortConfig={sortConfig}
                   isSelectedAll={selected.length === data?.response?.length}
                   onSelectAll={() =>
                     setSelected(
@@ -65,7 +113,7 @@ export const Table = ({ data, search, onRefetch, onEdit, isLoading }) => {
                 />
               </thead>
               <tbody>
-                {data?.response?.filter((u) =>
+                {sortedData?.filter((u) =>
                     search?.length > 0
                       ? u.title.toLowerCase().includes(search.toLowerCase())
                       : true

@@ -33,7 +33,6 @@ export const UserPasswordModal = ({ onClosePasswordModal, onRefetchUser, editUse
 
   const isFormInvalid = !user.password || !user.password_confirmation;
   //Додати перевірку чи збігаються паролі
-
   return (
     <div
       className="modal fade show"

@@ -1,11 +1,16 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../../../hooks";
 
-export const Header = ({ isSelectedAll, onSelectAll, onDelete }) => {
+export const Header = ({ isSelectedAll, onSelectAll, onDelete , onSortGroups, sortConfig }) => {
   const [dropdown, setDrodown] = useState(false);
   const dropdownRef = useRef();
 
   useClickOutside(dropdownRef, () => setDrodown(false));
+
+  const renderSortArrow = (key) => {
+    if (sortConfig.key !== key) return null;
+    return sortConfig.order === "asc" ? " ↑" : " ↓";
+  };
 
   return (
     <tr className="nk-tb-item nk-tb-head">
@@ -26,14 +31,14 @@ export const Header = ({ isSelectedAll, onSelectAll, onDelete }) => {
           <label className="custom-control-label" htmlFor="pid-all" />
         </div>
       </th>
-      <th className="nk-tb-col">
-        <span className="sub-text">Name</span>
+      <th className="nk-tb-col" onClick={() => onSortGroups("display_name")}>
+        <span className="sub-text">Name{renderSortArrow("display_name")}</span>
       </th>
-      <th className="nk-tb-col">
-        <span className="sub-text">Date create</span>
+      <th className="nk-tb-col" onClick={() => onSortGroups("created_at")}>
+        <span className="sub-text">Date create{renderSortArrow("created_at")}</span>
       </th>
-      <th className="nk-tb-col">
-        <span className="sub-text">Email</span>
+      <th className="nk-tb-col" onClick={() => onSortGroups("email")}>
+        <span className="sub-text">Email{renderSortArrow("email")}</span>
       </th>
       <th className="nk-tb-col nk-tb-col-tools text-end">
         <div ref={dropdownRef} className={`dropdown ${dropdown ? "show" : ""}`}>
