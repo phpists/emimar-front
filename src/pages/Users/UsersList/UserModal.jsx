@@ -125,31 +125,32 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
                   }
               />
             </div>
+            <div className="row">
+              <div className="form-group col-md-6">
+                <label className="form-label">Phone number</label>
+                <input
+                    type="tel"
+                    maxLength={16}
+                    pattern="^\+?[0-9]{0,15}$"
+                    className="form-control"
+                    value={newUser.phone}
+                    onChange={(e) =>
+                        setNewUser({...newUser, phone: e.target.value})
+                    }
+                />
+              </div>
 
-            <div className="form-group">
-              <label className="form-label">Phone number</label>
-              <input
-                  type="tel"
-                  maxLength={16}
-                  pattern="^\+?[0-9]{0,15}$"
-                  className="form-control"
-                  value={newUser.phone}
-                  onChange={(e) =>
-                      setNewUser({...newUser, phone: e.target.value})
-                  }
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">Date of Birth</label>
-              <input
-                  type="date"
-                  className="form-control"
-                  value={newUser.birth_day}
-                  onChange={(e) =>
-                      setNewUser({...newUser, birth_day: e.target.value})
-                  }
-              />
+              <div className="form-group col-md-6">
+                <label className="form-label">Date of Birth</label>
+                <input
+                    type="date"
+                    className="form-control"
+                    value={newUser.birth_day}
+                    onChange={(e) =>
+                        setNewUser({...newUser, birth_day: e.target.value})
+                    }
+                />
+              </div>
             </div>
           </div>
 
