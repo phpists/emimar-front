@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useMemo} from "react";
 import { Tree } from "antd";
 const { DirectoryTree } = Tree;
 
@@ -34,7 +34,7 @@ export function transformTree(data, parentPath = "") {
       const currentPath = parentPath ? `${parentPath}/${item.name}` : item.name;
 
       return {
-        title: item.name,
+        title: item.full_name,
         key: currentPath,
         id: item?.id,
         path: currentPath,
@@ -48,17 +48,34 @@ export function transformTree(data, parentPath = "") {
 }
 
 export const FileThree = ({ nodes, selected, onSelect }) => {
+  const tree = useMemo(() => transformTree(nodes), [nodes]);
   const [expandedKeys, setExpandedKeys] = useState([]);
 
-  const tree = transformTree(nodes);
+  useEffect(() => {
+    if (tree.length > 0) {
+      const getAllKeys = (nodes) => {
+        const keys = [];
+        const traverse = (list) => {
+          for (const node of list) {
+            keys.push(node.key);
+            if (node.children?.length) traverse(node.children);
+          }
+        };
+        traverse(nodes);
+        return keys;
+      };
+
+      setExpandedKeys(getAllKeys(tree));
+    }
+  }, [tree]);
 
   useEffect(() => {
     if (selected && nodes?.response?.tree) {
       const res = findPathById(nodes?.response?.tree, selected);
       if (res) {
-        setExpandedKeys((prev) => {
-          return Array.from(new Set([...prev, ...res.keys.slice(0, -1)]));
-        });
+        setExpandedKeys((prev) =>
+            Array.from(new Set([...prev, ...res.keys.slice(0, -1)]))
+        );
       }
     }
   }, [selected, nodes]);

@@ -12,7 +12,11 @@ export const Table = ({
   onChangePage,
   onRefetchUser,
   onEdit,
+  onChangePassword,
   isLoading,
+  sortBy,
+  sortDesc,
+  onSortChange
 }) => {
   const [deletingUser, setDeletingUser] = useState(null);
   const [deleteUser] = useLazyDeleteUserQuery();
@@ -71,6 +75,9 @@ export const Table = ({
                     )
                   }
                   onDelete={() => setDeletingItems(selected)}
+                  sortBy={sortBy}
+                  sortDesc={sortDesc}
+                  onSortChange={onSortChange}
                 />
               </thead>
               <tbody>
@@ -91,6 +98,10 @@ export const Table = ({
                           ...rest,
                         })
                       }
+                      onChangePassword={() =>
+                        onChangePassword({userId: id, fullName: display_name})
+                      }
+
                       id={id}
                       selected={selected.includes(id)}
                       onSelect={() =>

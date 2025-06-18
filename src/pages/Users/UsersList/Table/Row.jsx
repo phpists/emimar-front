@@ -7,6 +7,7 @@ export const Row = ({
   createdAt,
   onDelete,
   onEdit,
+  onChangePassword,
   id,
   selected,
   onSelect,
@@ -68,32 +69,44 @@ export const Row = ({
                   dropdown ? "show" : ""
                 }`}
               >
-                <ul className="link-list-opt no-bdr">
-                  <li>
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        onDelete();
-                      }}
-                    >
-                      <em className="icon ni ni-trash" />
-                      <span>Delete</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        onEdit();
-                      }}
-                    >
-                      <em className="icon ni ni-edit" />
-                      <span>Edit</span>
-                    </a>
-                  </li>
-                </ul>
+                  <ul className="link-list-opt no-bdr">
+                      <li>
+                          <a
+                              href="#"
+                              onClick={(e) => {
+                                  e.preventDefault();
+                                  onDelete();
+                              }}
+                          >
+                              <em className="icon ni ni-trash"/>
+                              <span>Delete</span>
+                          </a>
+                      </li>
+                      <li>
+                          <a
+                              href="#"
+                              onClick={(e) => {
+                                  e.preventDefault();
+                                  onEdit();
+                              }}
+                          >
+                              <em className="icon ni ni-edit"/>
+                              <span>Edit</span>
+                          </a>
+                      </li>
+                      <li>
+                          <a
+                              href="#"
+                              onClick={(e) => {
+                                  e.preventDefault();
+                                  onChangePassword();
+                              }}
+                          >
+                              <em className="icon ni ni-edit"/>
+                              <span>Change password</span>
+                          </a>
+                      </li>
+                  </ul>
               </div>
             </div>
           </li>

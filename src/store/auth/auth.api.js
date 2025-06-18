@@ -50,10 +50,18 @@ export const auth = createApi({
       }),
     }),
     getUsers: build.query({
-      query: ({ page, perPage = 25 }) => ({
+      query: ({ page, perPage = 25, q = "", sortBy = "id", sortDesc = false }) => ({
         url: "/user/get-users",
         headers: headers(),
-        params: { perPage, page },
+        params: { perPage, page, q, sortBy, sortDesc},
+      }),
+    }),
+    updateUserPassword: build.mutation({
+      query: ({ user_id, password }) => ({
+        url: "/auth/change-password",
+        method: "POST",
+        headers: headers(),
+        params: { user_id, password }, // ← важливо!
       }),
     }),
   }),
@@ -62,6 +70,7 @@ export const auth = createApi({
 export const {
   useLazyLoginQuery,
   useLazyLogoutQuery,
+  useUpdateUserPasswordMutation,
   useLazyGetUserQuery,
   useLazyCreateUserQuery,
   useLazyDeleteUserQuery,

@@ -30,10 +30,10 @@ export const FoldersList = ({
                 ? parent_id === selected
                 : parent_id === null
             )
-            ?.map(({ id, name, size, created_at }) => (
+            ?.map(({ id, name, full_name, size, created_at }) => (
               <FileCard
                 key={id}
-                name={name}
+                name={full_name}
                 type="folder"
                 size={size}
                 date={created_at}

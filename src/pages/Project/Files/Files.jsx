@@ -12,18 +12,16 @@ import {
 } from "../../../store/files/files.api";
 import { toast } from "react-toastify";
 
-export const Files = ({ data, selected, onRefetchData, onSelectFolder }) => {
+export const Files = ({ data, search, onSearch, selected, onRefetchData, onSelectFolder }) => {
   const [uploadModal, setUploadModal] = useState(false);
   const [folderModal, setFolderModal] = useState(false);
   const [editFolder, setEditFolder] = useState(null);
   const [deleting, setDeleting] = useState(null);
   const [deleteFolder] = useLazyDeleteFolderQuery();
   const [deleteFile] = useLazyDeleteFileQuery();
-  const [search, setSearch] = useState("");
 
   const handleOpenUploadModal = () => setUploadModal(true);
   const handleOpenFolderModal = () => setFolderModal(true);
-  const handleSearch = (val) => setSearch(val);
 
   const handleCloseFolderModal = () => {
     setFolderModal(false);
@@ -64,7 +62,7 @@ export const Files = ({ data, selected, onRefetchData, onSelectFolder }) => {
         onCreateFolder={handleOpenFolderModal}
         selected={selected}
         search={search}
-        onSearch={handleSearch}
+        onSearch={onSearch}
       />
       {uploadModal ? (
         <UploadModal

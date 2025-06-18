@@ -7,9 +7,10 @@ export const groups = createApi({
   baseQuery: fetchBaseQuery({ baseUrl }),
   endpoints: (build) => ({
     getGroups: build.query({
-      query: () => ({
+      query: ({page, perPage = 25, q = "", sortBy = "id", sortDesc = false}) => ({
         url: "/group/get-groups",
         headers: headers(),
+        params: { perPage, page, q, sortBy, sortDesc},
       }),
     }),
     createGroup: build.query({

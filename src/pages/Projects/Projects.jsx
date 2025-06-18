@@ -1,16 +1,40 @@
-import { useState } from "react";
+import {useMemo, useState} from "react";
 import { useGetProjectsQuery } from "../../store/projects/projects.api";
 import { Header } from "./Header/Header";
 import { Table } from "./Table/Table";
 import { CreateProject } from "./CreateProject";
+import {useDebounce} from "use-debounce";
+import {useGetUsersQuery} from "../../store/auth/auth.api";
 
 export const Projects = () => {
-  const { data, refetch, isLoading } = useGetProjectsQuery();
-  const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [modal, setModal] = useState(false);
   const [editData, setEditData] = useState(null);
+  const [search, setSearch] = useState("");
+
+  const [sortBy, setSortBy] = useState("title");
+  const [sortDesc, setSortDesc] = useState(false);
+
+  const [debouncedSearch] = useDebounce(search, 500);
+
+  const queryArgs = useMemo(
+      () => ({
+        page: currentPage,
+        q: debouncedSearch,
+        sortBy,
+        sortDesc,
+      }),
+      [currentPage, debouncedSearch, sortBy, sortDesc]
+  );
+
+  const { data, refetch, isLoading } = useGetProjectsQuery(
+      queryArgs,
+      { refetchOnMountOrArgChange: true }
+  );
 
   const handleSearch = (val) => setSearch(val);
+
+  const handleChangePage = (page) => setCurrentPage(page);
 
   const handleCloseModal = () => {
     setModal(false);
@@ -42,18 +66,22 @@ export const Projects = () => {
                     search={search}
                     onSearch={handleSearch}
                     onCreate={() => setModal(true)}
-                    total={
-                      data?.response?.projects?.filter((u) =>
-                        search?.length > 0
-                          ? u.title.toLowerCase().includes(search.toLowerCase())
-                          : true
-                      )?.length
-                    }
+                    total={data?.response?.count}
                   />
                   <Table
                     data={data}
-                    search={search}
+                    onChangePage={handleChangePage}
                     onEdit={handleEdit}
+                    sortBy={sortBy}
+                    sortDesc={sortDesc}
+                    onSortChange={(column) => {
+                      if (sortBy === column) {
+                        setSortDesc((prev) => !prev);
+                      } else {
+                        setSortBy(column);
+                        setSortDesc(false);
+                      }
+                    }}
                     onRefetchData={refetch}
                     isLoading={isLoading}
                   />

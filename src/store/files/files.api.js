@@ -14,11 +14,19 @@ export const files = createApi({
       }),
     }),
     getProjectFileEntry: build.query({
-      query: (project_id) => ({
-        url: "/file-entry/get-project-file-entry",
-        headers: headers(),
-        params: { project_id },
-      }),
+      query: ({ project_id, parent_id, q = "" }) => {
+        const params = {
+          project_id,
+          q,
+          ...(parent_id ? { parent_id } : {}), // тільки якщо є
+        };
+
+        return {
+          url: "/file-entry/get-project-file-entry",
+          headers: headers(),
+          params,
+        };
+      },
     }),
     createFolder: build.query({
       query: (data) => ({

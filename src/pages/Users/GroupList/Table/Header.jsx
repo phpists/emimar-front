@@ -1,7 +1,8 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../../../hooks";
+import {Arrow} from "../../../../components/Arrow";
 
-export const Header = ({ isSelectedAll, onSelectAll, onDelete }) => {
+export const Header = ({ isSelectedAll, onSelectAll, sortBy, sortDesc, onSortChange, onDelete }) => {
   const [dropdown, setDrodown] = useState(false);
   const dropdownRef = useRef();
 
@@ -26,23 +27,34 @@ export const Header = ({ isSelectedAll, onSelectAll, onDelete }) => {
           <label className="custom-control-label" htmlFor="pid-all" />
         </div>
       </th>
-      <th className="nk-tb-col">
-        <span className="sub-text">Name</span>
-      </th>
-      <th className="nk-tb-col">
-        <span className="sub-text">Date create</span>
-      </th>
-      <th className="nk-tb-col">
-        <span className="sub-text">Users</span>
-      </th>
-      <th className="nk-tb-col nk-tb-col-tools text-end">
-        <div ref={dropdownRef} className={`dropdown ${dropdown ? "show" : ""}`}>
-          <button
-            href="#"
-            className="btn btn-xs btn-trigger btn-icon dropdown-toggle me-n1"
-            data-bs-toggle="dropdown"
-            data-offset="0,5"
-            onClick={() => setDrodown(!dropdown)}
+        <th className="nk-tb-col" style={{cursor: "pointer"}} onClick={() => onSortChange("display_name")}>
+              <span className="sub-text d-flex align-items-center">
+                Name
+                <Arrow active={sortBy === "display_name"} desc={sortDesc}/>
+              </span>
+        </th>
+
+        <th className="nk-tb-col" style={{cursor: "pointer"}} onClick={() => onSortChange("created_at")}>
+              <span className="sub-text d-flex align-items-center">
+                Date create
+                <Arrow active={sortBy === "created_at"} desc={sortDesc}/>
+              </span>
+        </th>
+
+        <th className="nk-tb-col" style={{cursor: "pointer"}} onClick={() => onSortChange("users")}>
+              <span className="sub-text d-flex align-items-center">
+                Users
+                <Arrow active={sortBy === "users"} desc={sortDesc}/>
+              </span>
+        </th>
+        <th className="nk-tb-col nk-tb-col-tools text-end">
+            <div ref={dropdownRef} className={`dropdown ${dropdown ? "show" : ""}`}>
+                <button
+                    href="#"
+                    className="btn btn-xs btn-trigger btn-icon dropdown-toggle me-n1"
+                    data-bs-toggle="dropdown"
+                    data-offset="0,5"
+                    onClick={() => setDrodown(!dropdown)}
           >
             <em className="icon ni ni-more-h" />
           </button>

@@ -7,10 +7,12 @@ import { toast } from "react-toastify";
 
 export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
   const [newUser, setNewUser] = useState({
+    user_id: "",
     full_name: "",
     display_name: "",
     email: "",
     birth_day: "",
+    phone: ""
   });
 
   const [createUser] = useLazyCreateUserQuery();
@@ -23,10 +25,12 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
     // Якщо це редагування, підставляємо значення
     if (editUser) {
       setNewUser({
+        user_id: editUser.user_id || "",
         full_name: editUser.full_name || "",
         display_name: editUser.display_name || "",
         email: editUser.email || "",
         birth_day: editUser.birth_day?.split("T")[0] || "", // якщо це ISO рядок
+        phone: editUser.phone || "",
       });
     }
 
@@ -89,23 +93,23 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
               <div className="form-group col-md-6">
                 <label className="form-label">Full Name</label>
                 <input
-                  type="text"
-                  className="form-control"
-                  value={newUser.full_name}
-                  onChange={(e) =>
-                    setNewUser({ ...newUser, full_name: e.target.value })
-                  }
+                    type="text"
+                    className="form-control"
+                    value={newUser.full_name}
+                    onChange={(e) =>
+                        setNewUser({...newUser, full_name: e.target.value})
+                    }
                 />
               </div>
               <div className="form-group col-md-6">
                 <label className="form-label">Display Name</label>
                 <input
-                  type="text"
-                  className="form-control"
-                  value={newUser.display_name}
-                  onChange={(e) =>
-                    setNewUser({ ...newUser, display_name: e.target.value })
-                  }
+                    type="text"
+                    className="form-control"
+                    value={newUser.display_name}
+                    onChange={(e) =>
+                        setNewUser({...newUser, display_name: e.target.value})
+                    }
                 />
               </div>
             </div>
@@ -113,33 +117,47 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
             <div className="form-group">
               <label className="form-label">Email</label>
               <input
-                type="email"
-                className="form-control"
-                value={newUser.email}
-                onChange={(e) =>
-                  setNewUser({ ...newUser, email: e.target.value })
-                }
+                  type="email"
+                  className="form-control"
+                  value={newUser.email}
+                  onChange={(e) =>
+                      setNewUser({...newUser, email: e.target.value})
+                  }
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Phone number</label>
+              <input
+                  type="tel"
+                  maxLength={16}
+                  pattern="^\+?[0-9]{0,15}$"
+                  className="form-control"
+                  value={newUser.phone}
+                  onChange={(e) =>
+                      setNewUser({...newUser, phone: e.target.value})
+                  }
               />
             </div>
 
             <div className="form-group">
               <label className="form-label">Date of Birth</label>
               <input
-                type="date"
-                className="form-control"
-                value={newUser.birth_day}
-                onChange={(e) =>
-                  setNewUser({ ...newUser, birth_day: e.target.value })
-                }
+                  type="date"
+                  className="form-control"
+                  value={newUser.birth_day}
+                  onChange={(e) =>
+                      setNewUser({...newUser, birth_day: e.target.value})
+                  }
               />
             </div>
           </div>
 
           <div className="modal-footer bg-light">
             <button
-              className="btn btn-primary"
-              onClick={handleSubmit}
-              disabled={isFormInvalid}
+                className="btn btn-primary"
+                onClick={handleSubmit}
+                disabled={isFormInvalid}
             >
               {editUser ? "Save Changes" : "Create"}
             </button>

@@ -36,7 +36,15 @@ export const Row = ({
         </div>
       </td>
       <td className="nk-tb-col">
-        <a href="/#/project" className="project-title">
+        <a
+            href="#"
+            className="project-title"
+            onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onEdit();
+            }}
+        >
           <div className="user-avatar sq bg-purple">
             <span>
               {title?.[0]?.toUpperCase() ?? ""}
