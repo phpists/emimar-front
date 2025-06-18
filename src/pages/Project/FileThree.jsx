@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Tree } from "antd";
 const { DirectoryTree } = Tree;
 
@@ -28,6 +28,18 @@ function findPathById(tree, id, path = [], keys = [], keyPath = "") {
   return null;
 }
 
+// Helper function to get all keys from the tree structure
+function getAllKeys(nodes) {
+  let keys = [];
+  nodes.forEach(node => {
+    keys.push(node.key);
+    if (node.children && node.children.length) {
+      keys = keys.concat(getAllKeys(node.children));
+    }
+  });
+  return keys;
+}
+
 export function transformTree(data, parentPath = "") {
   return (
     data?.response?.tree?.map((item) => {
@@ -49,19 +61,35 @@ export function transformTree(data, parentPath = "") {
 
 export const FileThree = ({ nodes, selected, onSelect }) => {
   const [expandedKeys, setExpandedKeys] = useState([]);
+  const hasExpandedOnce = useRef(false); // Flag to ensure default expansion only happens once
 
-  const tree = transformTree(nodes);
+  const tree = useMemo(() => transformTree(nodes), [nodes]); // Memoize tree creation
 
   useEffect(() => {
+    // Only expand all if nodes data is available and we haven't done it before
+    if (nodes?.response?.tree && !hasExpandedOnce.current) {
+      const allKeys = getAllKeys(tree);
+      setExpandedKeys(allKeys);
+      hasExpandedOnce.current = true; // Set flag to true after initial expansion
+    }
+  }, [nodes, tree]); // Depend on nodes and memoized tree
+
+  useEffect(() => {
+    // This effect handles selection, should run independently
     if (selected && nodes?.response?.tree) {
       const res = findPathById(nodes?.response?.tree, selected);
       if (res) {
         setExpandedKeys((prev) => {
-          return Array.from(new Set([...prev, ...res.keys.slice(0, -1)]));
+          const newExpandedKeys = Array.from(new Set([...prev, ...res.keys.slice(0, -1)]));
+          // Only update if truly different to avoid unnecessary re-renders
+          if (JSON.stringify(newExpandedKeys) !== JSON.stringify(prev)) { // Deep comparison for arrays
+            return newExpandedKeys;
+          }
+          return prev;
         });
       }
     }
-  }, [selected, nodes]);
+  }, [selected, nodes]); // Don't depend on `tree` or `expandedKeys` directly here to avoid loops
 
   const onSelectFile = (keys, info) => {
     onSelect?.(info.node.id);

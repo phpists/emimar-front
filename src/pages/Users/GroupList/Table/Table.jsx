@@ -6,7 +6,7 @@ import { ConfirmDeleteModal } from "../../../../components/ConfirmModal";
 import { Loading } from "../../../../components/Loading";
 import { EmptyMessage } from "../../../../components/EmptyMessage";
 
-export const Table = ({ data, onRefetch, onEdit, isLoading }) => {
+export const Table = ({ data, onRefetch, onEdit, isLoading, onSort, sortBy, sortOrder }) => {
   const [deleting, setDeleting] = useState(null);
   const [deleteGroup] = useLazyDeleteGroupQuery();
   const [selected, setSelected] = useState([]);
@@ -62,6 +62,9 @@ export const Table = ({ data, onRefetch, onEdit, isLoading }) => {
                     )
                   }
                   onDelete={() => setDeletingItems(selected)}
+                  onSort={onSort}
+                  sortBy={sortBy}
+                  sortOrder={sortOrder}
                 />
               </thead>
               <tbody>

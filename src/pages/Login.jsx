@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { NavLink, useNavigate } from "react-router";
-import { useLazyLoginQuery } from "../store/auth/auth.api";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../store/auth/auth.api";
 import { toast } from "react-toastify";
 import { useActions } from "../hooks/actions";
 
@@ -8,20 +8,25 @@ export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [login] = useLazyLoginQuery();
+  const [login, { isLoading }] = useLoginMutation();
   const { loginUser } = useActions();
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    login({ login: email, password }).then((resp) => {
-      if (resp.isSuccess) {
-        loginUser(resp?.data.response.user);
-        localStorage.setItem("token", resp?.data.response.access_token);
+  const handleSubmit = async () => {
+    try {
+      const response = await login({ login: email, password }).unwrap();
+      if (response?.data?.response?.user) {
+        loginUser(response.data.response.user);
+        localStorage.setItem("token", response.data.response.access_token);
         navigate("/");
+        toast.success("Успешный вход");
       } else {
-        toast.error("Данные не найдены");
+        toast.error("Неверные данные для входа");
       }
-    });
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error(error?.data?.message || "Ошибка при входе");
+    }
   };
 
   return (

@@ -50,19 +50,104 @@ code {
 .upload-zone {
   position: relative;
   cursor: pointer;
-  input {
-    cursor: pointer;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    opacity: 0;
-  }
+  transition: all 0.3s ease;
+  border: 2px dashed #e5e9f2;
+  border-radius: 4px;
+  padding: 20px;
+  text-align: center;
 }
 
+.upload-zone.dragging {
+  border-color: #6576ff;
+  background-color: rgba(101, 118, 255, 0.05);
+}
+
+.upload-zone input {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.upload-zone .dz-message {
+  margin: 0;
+  padding: 0;
+}
+
+.upload-zone .dz-message-text {
+  color: #8094ae;
+  font-size: 14px;
+}
+
+.upload-zone .dz-message-text span {
+  color: #6576ff;
+  font-weight: 500;
+  margin: 0 5px;
+}
 
 .dropdown-menu.left {
     left: 0;
     right: unset;
+}
+
+.nk-tb-col {
+  cursor: pointer;
+  user-select: none;
+}
+
+.nk-tb-col:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.nk-tb-col .sub-text {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nk-tb-col .sub-text::after {
+  content: "↕";
+  opacity: 0.3;
+  font-size: 12px;
+}
+
+.nk-tb-col:hover .sub-text::after {
+  opacity: 0.6;
+}
+
+.nk-tb-col[data-sort="asc"] .sub-text::after,
+.nk-tb-col[data-sort="desc"] .sub-text::after {
+  opacity: 1;
+}
+
+.nk-tb-col[data-sort="asc"] .sub-text::after {
+  content: "↑";
+}
+
+.nk-tb-col[data-sort="desc"] .sub-text::after {
+  content: "↓";
+}
+
+.nk-fmg-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  max-width: 400px; /* Adjust as needed */
+  margin: 0 15px; /* Add spacing */
+}
+
+.nk-fmg-search .icon {
+  position: absolute;
+  left: 10px;
+  color: #8094ae;
+  z-index: 1;
+}
+
+.nk-fmg-search .form-control {
+  padding-left: 35px; /* Make space for the icon */
+  width: 100%;
 }

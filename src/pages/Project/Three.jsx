@@ -7,7 +7,6 @@ export const Three = ({ data, selected, onSelect }) => {
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
-      setTimeout(() => window.JSLists?.createTree("f1combined"), 1000);
     }
   }, []);
 

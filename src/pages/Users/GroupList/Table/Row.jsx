@@ -19,7 +19,7 @@ export const Row = ({
   useClickOutside(dropdownRef, () => setDrodown(false));
 
   return (
-    <tr className="nk-tb-item" onClick={() => navigate("/project")}>
+    <tr className="nk-tb-item" onClick={onEdit}>
       <td className="nk-tb-col nk-tb-col-check">
         <div
           className="custom-control custom-control-sm custom-checkbox notext"
@@ -36,7 +36,7 @@ export const Row = ({
         </div>
       </td>
       <td className="nk-tb-col">
-        <a href="/#/project" className="project-title">
+        <a href="#" className="project-title" onClick={(e) => { e.preventDefault(); onEdit(); }}>
           <div className="user-avatar sq bg-purple">
             <span>
               {title?.[0]?.toUpperCase() ?? ""}

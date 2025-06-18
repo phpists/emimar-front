@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../../../hooks";
 
-export const Header = ({ isSelectedAll, onSelectAll, onDelete }) => {
+export const Header = ({ isSelectedAll, onSelectAll, onDelete, onSort, sortBy, sortOrder }) => {
   const [dropdown, setDrodown] = useState(false);
   const dropdownRef = useRef();
 
@@ -26,13 +26,25 @@ export const Header = ({ isSelectedAll, onSelectAll, onDelete }) => {
           <label className="custom-control-label" htmlFor="pid-all" />
         </div>
       </th>
-      <th className="nk-tb-col">
+      <th 
+        className="nk-tb-col" 
+        onClick={() => onSort("display_name")} 
+        data-sort={sortBy === "display_name" ? sortOrder : null}
+      >
         <span className="sub-text">Name</span>
       </th>
-      <th className="nk-tb-col">
+      <th 
+        className="nk-tb-col" 
+        onClick={() => onSort("created_at")} 
+        data-sort={sortBy === "created_at" ? sortOrder : null}
+      >
         <span className="sub-text">Date create</span>
       </th>
-      <th className="nk-tb-col">
+      <th 
+        className="nk-tb-col" 
+        onClick={() => onSort("email")} 
+        data-sort={sortBy === "email" ? sortOrder : null}
+      >
         <span className="sub-text">Email</span>
       </th>
       <th className="nk-tb-col nk-tb-col-tools text-end">

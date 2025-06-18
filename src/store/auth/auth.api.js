@@ -6,11 +6,15 @@ export const auth = createApi({
   reducerPath: "auth/api",
   baseQuery: fetchBaseQuery({ baseUrl }),
   endpoints: (build) => ({
-    login: build.query({
+    login: build.mutation({
       query: ({ login, password }) => ({
         url: "/auth/login",
         method: "POST",
-        params: { login, password },
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ login, password })
       }),
     }),
     logout: build.query({
@@ -33,7 +37,7 @@ export const auth = createApi({
         body: data,
       }),
     }),
-    updateUser: build.query({
+    updateUser: build.mutation({
       query: (data) => ({
         url: "/user/update-user",
         method: "POST",
@@ -50,22 +54,31 @@ export const auth = createApi({
       }),
     }),
     getUsers: build.query({
-      query: ({ page, perPage = 25 }) => ({
+      query: ({ page, perPage = 25, sortBy, sortOrder, search }) => ({
         url: "/user/get-users",
         headers: headers(),
-        params: { perPage, page },
+        params: { perPage, page, sortBy, sortOrder, search },
+      }),
+    }),
+    changePassword: build.query({
+      query: (data) => ({
+        url: "/user/change-password",
+        method: "POST",
+        headers: headers(),
+        body: data,
       }),
     }),
   }),
 });
 
 export const {
-  useLazyLoginQuery,
+  useLoginMutation,
   useLazyLogoutQuery,
   useLazyGetUserQuery,
   useLazyCreateUserQuery,
   useLazyDeleteUserQuery,
   useLazyGetUsersQuery,
   useGetUsersQuery,
-  useLazyUpdateUserQuery,
+  useUpdateUserMutation,
+  useLazyChangePasswordQuery,
 } = auth;

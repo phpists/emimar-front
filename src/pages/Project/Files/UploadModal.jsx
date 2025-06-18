@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { getFileIcon } from "../../../helpers";
 import { useLazyUploadFileQuery } from "../../../store/files/files.api";
 import { useAppSelect } from "../../../hooks/redux";
+import { toast } from "react-toastify";
 
 export const UploadModal = ({ onClose, parentId, onRefetchData }) => {
   const [files, setFiles] = useState([]);
   const [uploadFile] = useLazyUploadFileQuery();
   const { selectedProject } = useAppSelect((state) => state.auth);
   const [loading, setLoading] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     const overlay = document.querySelector(".modal-backdrop");
@@ -19,10 +21,34 @@ export const UploadModal = ({ onClose, parentId, onRefetchData }) => {
     };
   }, []);
 
-  const handleFileSelect = (e) => {
-    const selectedFiles = Array.from(e.target.files);
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    
+    const droppedFiles = Array.from(e.dataTransfer.files);
+    handleFiles(droppedFiles);
+  };
+
+  const handleFiles = (selectedFiles) => {
     selectedFiles?.forEach((file) => {
-      // Simulating upload progress
       const newFile = { name: file.name, progress: 0, file };
       setFiles((prev) => [...prev, newFile]);
 
@@ -39,6 +65,11 @@ export const UploadModal = ({ onClose, parentId, onRefetchData }) => {
     });
   };
 
+  const handleFileSelect = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+    handleFiles(selectedFiles);
+  };
+
   const handleRemove = (index) => {
     setFiles((prev) => prev.filter((file, i) => i !== index));
   };
@@ -51,13 +82,26 @@ export const UploadModal = ({ onClose, parentId, onRefetchData }) => {
         data.append("project_id", selectedProject);
         data.append("parent_id", parentId);
         data.append("file", file);
-        uploadFile(data);
+        return uploadFile(data).then((resp) => {
+          if (!resp.isSuccess) {
+            toast.error("Error uploading file");
+            throw new Error("Upload failed");
+          }
+          return resp;
+        });
       })
-    ).finally((resp) => {
-      setLoading(false);
-      onClose();
-      setTimeout(onRefetchData, 600);
-    });
+    )
+      .then(() => {
+        toast.success("Files uploaded successfully");
+        onClose();
+        setTimeout(onRefetchData, 600);
+      })
+      .catch(() => {
+        toast.error("Some files failed to upload");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -84,8 +128,13 @@ export const UploadModal = ({ onClose, parentId, onRefetchData }) => {
               <div className="nk-upload-form">
                 <h5 className="title mb-3">Upload File</h5>
 
-                <div className="upload-zone small bg-lighter dropzone dz-clickable">
-                  {" "}
+                <div 
+                  className={`upload-zone small bg-lighter dropzone dz-clickable ${isDragging ? 'dragging' : ''}`}
+                  onDragEnter={handleDragEnter}
+                  onDragLeave={handleDragLeave}
+                  onDragOver={handleDragOver}
+                  onDrop={handleDrop}
+                >
                   <input
                     type="file"
                     multiple

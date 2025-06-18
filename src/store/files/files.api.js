@@ -44,7 +44,7 @@ export const files = createApi({
         body: { folder_id },
       }),
     }),
-    moveFolder: build.query({
+    moveFolder: build.mutation({
       query: (data) => ({
         url: "/file-entry/move-folder",
         method: "POST",
@@ -60,7 +60,7 @@ export const files = createApi({
         body: data,
       }),
     }),
-    moveFile: build.query({
+    moveFile: build.mutation({
       query: (data) => ({
         url: "/file-entry/move-file",
         method: "POST",
@@ -76,6 +76,13 @@ export const files = createApi({
         body: { file_id },
       }),
     }),
+    getFileUrl: build.query({
+      query: (file_id) => ({
+        url: "/file-entry/get-file-url",
+        headers: headers(),
+        params: { file_id },
+      }),
+    }),
   }),
 });
 
@@ -85,8 +92,9 @@ export const {
   useLazyCreateFolderQuery,
   useLazyUpdateFolderQuery,
   useLazyDeleteFolderQuery,
-  useLazyMoveFolderQuery,
+  useMoveFolderMutation,
   useLazyUploadFileQuery,
-  useLazyMoveFileQuery,
+  useMoveFileMutation,
   useLazyDeleteFileQuery,
+  useLazyGetFileUrlQuery,
 } = files;

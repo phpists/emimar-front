@@ -13,6 +13,9 @@ export const Table = ({
   onRefetchUser,
   onEdit,
   isLoading,
+  onSort,
+  sortBy,
+  sortOrder,
 }) => {
   const [deletingUser, setDeletingUser] = useState(null);
   const [deleteUser] = useLazyDeleteUserQuery();
@@ -71,6 +74,9 @@ export const Table = ({
                     )
                   }
                   onDelete={() => setDeletingItems(selected)}
+                  onSort={onSort}
+                  sortBy={sortBy}
+                  sortOrder={sortOrder}
                 />
               </thead>
               <tbody>
@@ -87,7 +93,7 @@ export const Table = ({
                           display_name,
                           email,
                           created_at,
-                          user_id: id,
+                          id: id,
                           ...rest,
                         })
                       }

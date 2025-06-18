@@ -6,7 +6,15 @@ import { UserModal } from "./UserModal";
 
 export const UsersList = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const { data, refetch, isLoading } = useGetUsersQuery({ page: currentPage });
+  const [sortBy, setSortBy] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [search, setSearch] = useState("");
+  const { data, refetch, isLoading } = useGetUsersQuery({ 
+    page: currentPage,
+    sortBy,
+    sortOrder,
+    search
+  });
   const [showModal, setShowModal] = useState(false);
   const [editUser, setEditUser] = useState(null);
 
@@ -20,6 +28,15 @@ export const UsersList = () => {
     setEditUser(null);
   };
 
+  const handleSort = (column) => {
+    if (sortBy === column) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortBy(column);
+      setSortOrder("asc");
+    }
+  };
+
   return (
     <div className="tab-pane fade show active">
       {showModal && (
@@ -29,13 +46,16 @@ export const UsersList = () => {
           editUser={editUser}
         />
       )}
-      <Header onCreateUser={() => setShowModal(true)} />
+      <Header onCreateUser={() => setShowModal(true)} search={search} onSearch={setSearch} />
       <Table
         data={data}
         onChangePage={handleChangePage}
         onRefetchUser={refetch}
         onEdit={handleEditUser}
         isLoading={isLoading}
+        onSort={handleSort}
+        sortBy={sortBy}
+        sortOrder={sortOrder}
       />
     </div>
   );

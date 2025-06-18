@@ -6,7 +6,15 @@ import { Table } from "./Table/Table";
 
 export const GroupList = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const { data, refetch, isLoading } = useGetGroupsQuery({ page: currentPage });
+  const [sortBy, setSortBy] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [search, setSearch] = useState("");
+  const { data, refetch, isLoading } = useGetGroupsQuery({ 
+    page: currentPage,
+    sortBy,
+    sortOrder,
+    search
+  });
   const [showModal, setShowModal] = useState(false);
   const [editGroup, setEditGroup] = useState(null);
 
@@ -19,6 +27,16 @@ export const GroupList = () => {
     setShowModal(false);
     setEditGroup(null);
   };
+
+  const handleSort = (column) => {
+    if (sortBy === column) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortBy(column);
+      setSortOrder("asc");
+    }
+  };
+
   return (
     <div className="tab-pane fade show active">
       {showModal && (
@@ -28,12 +46,15 @@ export const GroupList = () => {
           editData={editGroup}
         />
       )}
-      <Header onCreateGroup={() => setShowModal(true)} />
+      <Header onCreateGroup={() => setShowModal(true)} search={search} onSearch={setSearch} />
       <Table
         data={data}
         onRefetch={refetch}
         onEdit={handleEdit}
         isLoading={isLoading}
+        onSort={handleSort}
+        sortBy={sortBy}
+        sortOrder={sortOrder}
       />
     </div>
   );
