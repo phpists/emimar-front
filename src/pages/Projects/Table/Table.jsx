@@ -128,9 +128,10 @@ export const Table = ({ data, search, onEdit, onRefetchData, isLoading }) => {
                       : true
                   )
                   ?.map(
-                    ({ id, title, create_at, user, groups, rules_type }) => (
+                    ({ id, title, create_at, user, groups, rules_type } , index) => (
                       <Row
                         key={id}
+                        index={index} 
                         title={title}
                         createAt={create_at}
                         users={handleCutList(user?.map((u) => u?.display_name))}

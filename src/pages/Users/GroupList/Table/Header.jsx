@@ -21,14 +21,15 @@ export const Header = ({ isSelectedAll, onSelectAll, onDelete, onSortGroups, sor
             e.stopPropagation();
           }}
         >
-          <input
+          №
+          {/* <input
             type="checkbox"
             className="custom-control-input"
             id="pid-all"
             checked={isSelectedAll}
             onChange={(e) => onSelectAll()}
           />
-          <label className="custom-control-label" htmlFor="pid-all" />
+          <label className="custom-control-label" htmlFor="pid-all" /> */}
         </div>
       </th>
       <th className="nk-tb-col" onClick={() => onSortGroups("title")}>

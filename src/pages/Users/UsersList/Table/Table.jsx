@@ -119,9 +119,10 @@ export const Table = ({
               </thead>
               <tbody>
                 {sortedData?.map(
-                  ({ display_name, email, created_at, id, ...rest }) => (
+                  ({ display_name, email, created_at, id, ...rest } , index) => (
                     <Row
                       key={id}
+                      index={index}
                       name={display_name}
                       email={email}
                       createdAt={created_at}

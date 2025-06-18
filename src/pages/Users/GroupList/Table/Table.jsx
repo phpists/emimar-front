@@ -113,9 +113,10 @@ export const Table = ({ data, search, onRefetch, onEdit, isLoading }) => {
                 />
               </thead>
               <tbody>
-                {sortedData?.map(({ id, title, create_at, user }) => (
+                {sortedData?.map(({ id, title, create_at, user }, index) => (
                   <Row
                     key={id}
+                    index={index}
                     title={title}
                     createAt={create_at}
                     users={user?.map((u) => u?.display_name)?.join(", ")}

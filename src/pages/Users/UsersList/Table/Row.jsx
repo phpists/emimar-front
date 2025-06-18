@@ -11,6 +11,7 @@ export const Row = ({
   id,
   selected,
   onSelect,
+  index
 }) => {
   const [dropdown, setDrodown] = useState(false);
   const dropdownRef = useRef();
@@ -23,14 +24,15 @@ export const Row = ({
           className="custom-control custom-control-sm custom-checkbox notext"
           onClick={(e) => e.stopPropagation()}
         >
-          <input
+          {index+1}
+          {/* <input
             type="checkbox"
             className="custom-control-input"
             id={`pid-${id}`}
             checked={selected}
             onChange={onSelect}
           />
-          <label className="custom-control-label" htmlFor={`pid-${id}`} />
+          <label className="custom-control-label" htmlFor={`pid-${id}`} /> */}
         </div>
       </td>
       <td className="nk-tb-col">

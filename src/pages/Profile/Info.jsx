@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { useAppSelect } from "../../hooks/redux";
+// import { useAppSelect } from "../../hooks/redux";
+import {useLazyGetUserQuery} from "../../store/auth/auth.api"
 
 export const Info = () => {
-  const { user } = useAppSelect((state) => state.auth);
+  // const { user } = useAppSelect((state) => state.auth);
+  const [getUser, { data: user }] = useLazyGetUserQuery();
   const [formData, setFormData] = useState({
     full_name: "",
     display_name: "",
@@ -11,15 +13,19 @@ export const Info = () => {
     phone: ""
   });
 
+  useEffect(() => {
+    getUser()
+  }, [user])
+
   // Ініціалізація стейту лише при першому рендері
   useEffect(() => {
     if (user) {
       setFormData({
-        full_name: user.full_name || "",
-        display_name: user.display_name || "",
-        email: user.email || "",
-        birth_day: user.birth_day || "",
-        phone: user.phone || ""
+        full_name: user?.response?.user?.full_name || "",
+        display_name: user?.response?.user?.display_name || "",
+        email: user?.response?.user?.email || "",
+        birth_day: user?.response?.user?.birth_day || "",
+        phone: user?.response?.user?.phone || ""
       });
     }
   }, [user]);
