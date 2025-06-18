@@ -11,7 +11,6 @@ export const Header = ({ onToggleSidebar }) => {
 
   useEffect(() => {
     getUser()
-    console.log(user)
   }, [user])
 
   return (

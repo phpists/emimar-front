@@ -21,6 +21,7 @@ export const Files = ({ data, selected, onRefetchData, onSelectFolder }) => {
   const [deleteFolder] = useLazyDeleteFolderQuery();
   const [deleteFile] = useLazyDeleteFileQuery();
   const [search, setSearch] = useState("");
+  const [currentFolder, setCurrentFolder] = useState(null);
 
   const [moveFolder] = useLazyMoveFolderQuery();
   const [draggedItem, setDraggedItem] = useState(null);
@@ -34,6 +35,7 @@ export const Files = ({ data, selected, onRefetchData, onSelectFolder }) => {
     setEditFolder(null);
   };
   const handleEditFolder = (data) => {
+    setCurrentFolder(data);
     setFolderModal(true);
     setEditFolder(data);
   };
@@ -96,6 +98,7 @@ export const Files = ({ data, selected, onRefetchData, onSelectFolder }) => {
           parentId={selected}
           editData={editFolder}
           onRefetchData={onRefetchData}
+          nameFolder={currentFolder}
         />
       ) : null}
       {deleting ? (

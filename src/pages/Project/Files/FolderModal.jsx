@@ -6,7 +6,7 @@ import {
 import { toast } from "react-toastify";
 import { useAppSelect } from "../../../hooks/redux";
 
-export const FolderModal = ({ onClose, parentId, editData, onRefetchData }) => {
+export const FolderModal = ({ onClose, parentId, editData, onRefetchData, nameFolder}) => {
   const [folderData, setFolderData] = useState({
     folder_name: "",
   });
@@ -82,7 +82,7 @@ export const FolderModal = ({ onClose, parentId, editData, onRefetchData }) => {
               <input
                 type="text"
                 className="form-control"
-                value={folderData.folder_name}
+                value={nameFolder.full_name}
                 onChange={(e) =>
                   setFolderData({ ...folderData, folder_name: e.target.value })
                 }
