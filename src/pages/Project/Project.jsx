@@ -16,8 +16,8 @@ export const Project = () => {
   const [selected, setSelected] = useState();
 
   const handleSelectFolder = (id) => {
-    setSelected(id);
-  };
+    setSelected((prevSelected) => (prevSelected === id ? null : id));
+  };  
 
   const handleRefetchData = () => {
     if (data) {

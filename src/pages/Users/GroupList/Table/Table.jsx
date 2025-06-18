@@ -113,12 +113,7 @@ export const Table = ({ data, search, onRefetch, onEdit, isLoading }) => {
                 />
               </thead>
               <tbody>
-                {sortedData?.filter((u) =>
-                    search?.length > 0
-                      ? u.title.toLowerCase().includes(search.toLowerCase())
-                      : true
-                  )
-                  ?.map(({ id, title, create_at, user }) => (
+                {sortedData?.map(({ id, title, create_at, user }) => (
                   <Row
                     key={id}
                     title={title}

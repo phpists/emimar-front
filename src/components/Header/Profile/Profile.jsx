@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useClickOutside } from "../../../hooks";
 import { useNavigate } from "react-router";
 
-export const Profile = () => {
+export const Profile = ({userData}) => {
   const [show, setShow] = useState(false);
   const dropdownRef = useRef();
   const navigate = useNavigate();
@@ -20,7 +20,10 @@ export const Profile = () => {
         href="#"
         className={`dropdown-toggle me-n1 ${show ? "show" : ""}`}
         data-bs-toggle="dropdown"
-        onClick={() => setShow(!show)}
+        onClick={(e) => {
+          e.preventDefault();
+          setShow(!show)
+        }}
       >
         <div className="user-toggle">
           <div className="user-avatar sm">
@@ -39,15 +42,20 @@ export const Profile = () => {
               <span>AB</span>
             </div>
             <div className="user-info">
-              <span className="lead-text">Abu Bin Ishtiyak</span>
-              <span className="sub-text">info@softnio.com</span>
+              <span className="lead-text">{userData?.response?.user?.display_name}</span>
+              <span className="sub-text">{userData?.response?.user?.email}</span>
             </div>
           </div>
         </div>
         <div className="dropdown-inner">
           <ul className="link-list">
             <li>
-              <a href="./profile.html">
+              <a 
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate("/profile");
+                }}>
                 <em className="icon ni ni-user-alt" />
                 <span>Profile settings</span>
               </a>

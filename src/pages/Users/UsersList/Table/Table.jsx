@@ -118,12 +118,7 @@ export const Table = ({
                 />
               </thead>
               <tbody>
-                {sortedData?.filter((u) =>
-                    search?.length > 0
-                      ? u.full_name.toLowerCase().includes(search.toLowerCase())
-                      : true
-                  )
-                  ?.map(
+                {sortedData?.map(
                   ({ display_name, email, created_at, id, ...rest }) => (
                     <Row
                       key={id}
