@@ -20,8 +20,8 @@ export const Header = ({
 
   useClickOutside(dropdownRef, () => setDropdown(false));
 
-  let searchFoldersFiles = (e) => {
-    triggerSearch({project_id: Number(selectedProject), e}); 
+  let searchFoldersFiles = (q) => {
+    triggerSearch({project_id: Number(selectedProject), q}); 
   }
 
   return (
