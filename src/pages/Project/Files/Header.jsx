@@ -14,8 +14,9 @@ export const Header = ({
   useClickOutside(dropdownRef, () => setDropdown(false));
 
   return (
-    <div className="nk-fmg-body-head d-none d-lg-flex">
-      <div className="nk-fmg-search">
+    <div className="nk-fmg-body-head d-none d-lg-flex justify-between align-center">
+      {/* 🔍 Поиск */}
+      <div className="nk-fmg-search flex-grow-1 me-3">
         <em className="icon ni ni-search" />
         <input
           type="text"
@@ -25,7 +26,9 @@ export const Header = ({
           onChange={(e) => onSearch(e.target.value)}
         />
       </div>
-      {selected ? (
+
+      {/* ➕ Кнопки */}
+      {selected && (
         <div className="nk-fmg-actions">
           <ul className="nk-block-tools g-3">
             <li>
@@ -96,7 +99,7 @@ export const Header = ({
             </li>
           </ul>
         </div>
-      ) : null}
+      )}
     </div>
   );
 };

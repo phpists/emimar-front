@@ -4,7 +4,7 @@ import { TYPES } from "./types";
 
 export const FileCard = ({
   type,
-  name,
+  full_name,  
   date,
   size,
   onEdit,
@@ -12,7 +12,7 @@ export const FileCard = ({
   onSelect,
 }) => (
   <div
-    className={`nk-file-item nk-file ${onSelect && "cursor-pointer"}`}
+    className={`nk-file-item nk-file ${onSelect ? "cursor-pointer" : ""}`}
     onClick={(e) => {
       e.preventDefault();
       onSelect && onSelect();
@@ -33,13 +33,13 @@ export const FileCard = ({
                 onSelect && onSelect();
               }}
             >
-              {name}
+              {full_name}
             </a>
           </div>
         </div>
       </div>
       <ul className="nk-file-desc">
-        <li className="date">{new Date(date)?.toLocaleDateString()}</li>
+        <li className="date">{new Date(date).toLocaleDateString()}</li>
         {size ? <li className="size">{formatFileSize(size)}</li> : null}
       </ul>
     </div>
