@@ -16,8 +16,7 @@ export const Header = ({
   const [dropdown, setDropdown] = useState(false);
   const dropdownRef = useRef();
   const { selectedProject } = useAppSelect((state) => state.auth);
-
-  const [triggerSearch, { data, error, isLoading }] = useLazyGetProjectFileEntryFilterQuery();
+  const [triggerSearch] = useLazyGetProjectFileEntryFilterQuery();
 
   useClickOutside(dropdownRef, () => setDropdown(false));
 

@@ -7,7 +7,18 @@ export const Three = ({ data, selected, onSelect }) => {
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
-      setTimeout(() => window.JSLists?.createTree("f1combined"), 1000);
+      setTimeout(() =>{
+        const tree = window.JSLists?.createTree("f1combined");
+        // Якщо бібліотека підтримує розгортання:
+        if (tree && typeof tree.expandAll === "function") {
+          tree.expandAll();
+        } else {
+          // Або вручну розгортай всі вузли:
+          document.querySelectorAll("#f1combined .jsl-tree-folder").forEach(folder => {
+            folder.classList.add("jsl-open"); // чи інший клас, який відповідає за "відкритість"
+          });
+        }
+      } , 1000);
     }
   }, []);
 

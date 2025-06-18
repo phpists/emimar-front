@@ -47,21 +47,47 @@ export function transformTree(data, parentPath = "") {
   );
 }
 
+function collectAllKeys(tree) {
+  const keys = [];
+
+  function traverse(nodes) {
+    if (!nodes) return;
+    for (const node of nodes) {
+      keys.push(node.key);
+      if (node.children) traverse(node.children);
+    }
+  }
+
+  traverse(tree);
+  return keys;
+}
+
 export const FileThree = ({ nodes, selected, onSelect }) => {
   const [expandedKeys, setExpandedKeys] = useState([]);
 
   const tree = transformTree(nodes);
 
   useEffect(() => {
+    if (tree.length > 0) {
+      const allKeys = collectAllKeys(tree);
+      // Перевіряємо: чи вже всі ключі є в expandedKeys
+      if (expandedKeys.length === 0) {
+        setExpandedKeys(allKeys);
+      }
+    }
+  }, [tree , expandedKeys.length]);
+
+  useEffect(() => {
     if (selected && nodes?.response?.tree) {
       const res = findPathById(nodes?.response?.tree, selected);
       if (res) {
-        setExpandedKeys((prev) => {
-          return Array.from(new Set([...prev, ...res.keys.slice(0, -1)]));
-        });
+        const keysToAdd = res.keys.slice(0, -1).filter(k => !expandedKeys.includes(k));
+        if (keysToAdd.length > 0) {
+          setExpandedKeys(prev => Array.from(new Set([...prev, ...keysToAdd])));
+        }
       }
     }
-  }, [selected, nodes]);
+  }, [selected, nodes , expandedKeys]);
 
   const onSelectFile = (keys, info) => {
     onSelect?.(info.node.id);
