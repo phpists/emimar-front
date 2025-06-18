@@ -56,7 +56,7 @@ export const Table = ({
   const sortedData = data?.response?.users?.data
     ?.filter((u) =>
       search?.length > 0
-        ? u.title.toLowerCase().includes(search.toLowerCase())
+        ? u.display_name.toLowerCase().includes(search.toLowerCase())
         : true
     )
     .slice() 

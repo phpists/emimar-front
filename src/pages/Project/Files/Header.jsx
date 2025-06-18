@@ -21,7 +21,7 @@ export const Header = ({
   useClickOutside(dropdownRef, () => setDropdown(false));
 
   let searchFoldersFiles = (q) => {
-    triggerSearch({project_id: Number(selectedProject), q}); 
+    triggerSearch({project_id: Number(selectedProject), q});
   }
 
   return (
