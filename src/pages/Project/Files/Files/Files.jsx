@@ -1,6 +1,6 @@
 import { FileCard } from "../../../../components/FileCard/FileCard";
 
-export const Files = ({ data, selected, onDelete, search }) => {
+export const Files = ({ data, selected, onDelete, search, setDraggedItem }) => {
   if (
     data?.filter(({ parent_id }) =>
       selected ? parent_id === selected : parent_id === null
@@ -28,6 +28,8 @@ export const Files = ({ data, selected, onDelete, search }) => {
               size={size}
               date={created_at}
               onDelete={() => onDelete({ id, name, type: "file" })}
+              draggable
+              onDragStart={() => setDraggedItem({ id, type: "file" })}
             />
           ))}
       </div>

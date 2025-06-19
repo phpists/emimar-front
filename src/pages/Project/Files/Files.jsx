@@ -8,7 +8,7 @@ import { Files as FilesList } from "./Files/Files";
 import { ConfirmDeleteModal } from "../../../components/ConfirmModal";
 import {
   useLazyDeleteFileQuery,
-  useLazyDeleteFolderQuery,
+  useLazyDeleteFolderQuery, useLazyMoveFolderQuery,
 } from "../../../store/files/files.api";
 import { toast } from "react-toastify";
 
@@ -19,6 +19,8 @@ export const Files = ({ data, search, onSearch, selected, onRefetchData, onSelec
   const [deleting, setDeleting] = useState(null);
   const [deleteFolder] = useLazyDeleteFolderQuery();
   const [deleteFile] = useLazyDeleteFileQuery();
+  const [moveFolder] = useLazyMoveFolderQuery();
+  const [draggedItem, setDraggedItem] = useState(null);
 
   const handleOpenUploadModal = () => setUploadModal(true);
   const handleOpenFolderModal = () => setFolderModal(true);
@@ -55,7 +57,17 @@ export const Files = ({ data, search, onSearch, selected, onRefetchData, onSelec
     setDeleting(null);
   };
 
-  console.log({list: data?.response?.list?.folders})
+  const handleMove = ({ fromId, toFolderId, type }) => {
+    moveFolder({ folder_id: fromId, new_parent_id: toFolderId }).then(
+        (resp) => {
+          if (resp.isSuccess) {
+            toast.success("Перемещено!");
+            onRefetchData()
+          } else {
+            toast.error("Ошибка");
+          }
+        })
+  };
 
   return (
     <div className="nk-fmg-body">
@@ -105,12 +117,18 @@ export const Files = ({ data, search, onSearch, selected, onRefetchData, onSelec
                 data={data?.response?.list?.folders ?? []}
                 selected={selected}
                 onEdit={handleEditFolder}
+                onMove={handleMove}
+                draggedItem={draggedItem}
+                setDraggedItem={setDraggedItem}
                 onDelete={(data) => setDeleting(data)}
                 onSelectFolder={onSelectFolder}
                 search={search}
               />
               <FilesList
                 data={data?.response?.list?.files ?? []}
+                onMove={handleMove}
+                draggedItem={draggedItem}
+                setDraggedItem={setDraggedItem}
                 selected={selected}
                 onDelete={(data) => setDeleting(data)}
                 search={search}
