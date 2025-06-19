@@ -15,6 +15,11 @@ export const UsersList = () => {
 
   const handleSearch = (val) => setSearch(val);
   const handleChangePage = (page) => setCurrentPage(page);
+
+  const handleChangeOrder = (sortConfig) => {
+    console.log('sortConfig', sortConfig);
+  };
+
   const handleEditUser = (user) => {
     setShowModal(true);
     setEditUser(user);
@@ -57,6 +62,7 @@ export const UsersList = () => {
         data={data}
         search={search}
         onChangePage={handleChangePage}
+        onChangeOrder={handleChangeOrder}
         onRefetchUser={refetch}
         onEdit={handleEditUser}
         onEditPassword={handleChangePassword}
@@ -65,3 +71,4 @@ export const UsersList = () => {
     </div>
   );
 };
+

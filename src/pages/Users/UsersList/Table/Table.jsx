@@ -11,6 +11,7 @@ export const Table = ({
   data,
   search,
   onChangePage,
+  onChangeOrder,
   onRefetchUser,
   onEdit,
   onEditPassword,
@@ -20,7 +21,7 @@ export const Table = ({
   const [deleteUser] = useLazyDeleteUserQuery();
   const [selected, setSelected] = useState([]);
   const [deletingItems, setDeletingItems] = useState([]);
-  const [sortConfig, setSortConfig] = useState({ key: "created_at", order: "desc" });
+  const [sortConfig, setSortConfig] = useState({ key: "create_at", order: "desc" });
 
   const handleCloseDeleting = () => {
     setDeletingUser(null);
@@ -44,13 +45,15 @@ export const Table = ({
     handleCloseDeleting();
   };
 
-  const handleSortGroups = (key) => {
+  const handleSortUsers = (key) => {
     setSortConfig((prev) => {
       if (prev.key === key) {
         return { key, order: prev.order === "asc" ? "desc" : "asc" };
       }
       return { key, order: "asc" };
     });
+
+    onChangeOrder(sortConfig);
   };
 
   const sortedData = data?.response?.users?.data
@@ -59,25 +62,25 @@ export const Table = ({
         ? u.display_name.toLowerCase().includes(search.toLowerCase())
         : true
     )
-    .slice() 
+    .slice()
     .sort((a, b) => {
       const { key, order } = sortConfig;
       let aValue = a[key];
       let bValue = b[key];
-    
-      if (key === "created_at") {
+
+      if (key === "create_at") {
         const parseDate = (dateStr) => {
           const [day, month, year] = dateStr.split(".");
           return new Date(`${year}-${month}-${day}`);
         };
-    
-        aValue = new Date(aValue);
-        bValue = new Date(bValue);
+
+        aValue = parseDate(aValue);
+        bValue = parseDate(bValue);
       }
-    
+
       if (typeof aValue === "string") aValue = aValue.toLowerCase();
       if (typeof bValue === "string") bValue = bValue.toLowerCase();
-    
+
       if (aValue < bValue) return order === "asc" ? -1 : 1;
       if (aValue > bValue) return order === "asc" ? 1 : -1;
       return 0;
@@ -102,7 +105,7 @@ export const Table = ({
             <table className="nk-tb-list nk-tb-ulist">
               <thead>
                 <Header
-                  onSortGroups={handleSortGroups}
+                  onSortGroups={handleSortUsers}
                   sortConfig={sortConfig}
                   isSelectedAll={
                     selected.length === data?.response?.users?.data?.length
@@ -119,19 +122,19 @@ export const Table = ({
               </thead>
               <tbody>
                 {sortedData?.map(
-                  ({ display_name, email, created_at, id, ...rest } , index) => (
+                  ({ display_name, email, create_at, id, ...rest } , index) => (
                     <Row
                       key={id}
                       index={index}
                       name={display_name}
                       email={email}
-                      createdAt={created_at}
+                      createAt={create_at}
                       onDelete={() => setDeletingUser({ display_name, id })}
                       onEdit={() =>
                         onEdit({
                           display_name,
                           email,
-                          created_at,
+                          create_at,
                           user_id: id,
                           ...rest,
                         })
@@ -140,7 +143,7 @@ export const Table = ({
                         onEditPassword({
                           display_name,
                           email,
-                          created_at,
+                          create_at,
                           user_id: id,
                           ...rest,
                         })
@@ -178,3 +181,4 @@ export const Table = ({
     </div>
   );
 };
+

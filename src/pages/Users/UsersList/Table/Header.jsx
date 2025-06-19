@@ -35,8 +35,8 @@ export const Header = ({ isSelectedAll, onSelectAll, onDelete , onSortGroups, so
       <th className="nk-tb-col" onClick={() => onSortGroups("display_name")}>
         <span className="sub-text">Name{renderSortArrow("display_name")}</span>
       </th>
-      <th className="nk-tb-col" onClick={() => onSortGroups("created_at")}>
-        <span className="sub-text">Date create{renderSortArrow("created_at")}</span>
+      <th className="nk-tb-col" onClick={() => onSortGroups("create_at")}>
+        <span className="sub-text">Date create{renderSortArrow("create_at")}</span>
       </th>
       <th className="nk-tb-col" onClick={() => onSortGroups("email")}>
         <span className="sub-text">Email{renderSortArrow("email")}</span>

@@ -4,7 +4,7 @@ import { useClickOutside } from "../../../../hooks";
 export const Row = ({
   name,
   email,
-  createdAt,
+  createAt,
   onDelete,
   onEdit,
   onEditPassword,
@@ -43,7 +43,7 @@ export const Row = ({
         </div>
       </td>
       <td className="nk-tb-col">
-        <span>{new Date(createdAt).toLocaleString()}</span>
+        <span>{createAt}</span>
       </td>
       <td className="nk-tb-col">
         <span>{email}</span>
