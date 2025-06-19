@@ -7,8 +7,15 @@ import { UserPasswordModal} from "./UserPasswordModal"
 
 export const UsersList = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const { data, refetch, isLoading } = useGetUsersQuery({ page: currentPage });
+  const [sortConfig, setSortConfig] = useState({ sortBy: "id", sortDesc: false });
   const [search, setSearch] = useState("");
+
+  const { data, refetch, isLoading } = useGetUsersQuery({
+    page: currentPage,
+    sortBy: sortConfig.sortBy,
+    sortDesc: sortConfig.sortDesc,
+    q: search,
+  });
   const [showModal, setShowModal] = useState(false);
   const [showPasswordModal , setShowPasswordModal] = useState(false);
   const [editUser, setEditUser] = useState(null);
@@ -16,8 +23,12 @@ export const UsersList = () => {
   const handleSearch = (val) => setSearch(val);
   const handleChangePage = (page) => setCurrentPage(page);
 
-  const handleChangeOrder = (sortConfig) => {
-    console.log('sortConfig', sortConfig);
+  const handleChangeOrder = (config) => {
+    const transformedConfig = {
+      sortBy: config.key,
+      sortDesc: config.order === "desc",
+    };
+    setSortConfig(transformedConfig);
   };
 
   const handleEditUser = (user) => {
@@ -60,7 +71,6 @@ export const UsersList = () => {
       />
       <Table
         data={data}
-        search={search}
         onChangePage={handleChangePage}
         onChangeOrder={handleChangeOrder}
         onRefetchUser={refetch}

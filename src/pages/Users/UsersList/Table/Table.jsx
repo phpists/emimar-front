@@ -9,7 +9,6 @@ import { EmptyMessage } from "../../../../components/EmptyMessage";
 
 export const Table = ({
   data,
-  search,
   onChangePage,
   onChangeOrder,
   onRefetchUser,
@@ -46,45 +45,19 @@ export const Table = ({
   };
 
   const handleSortUsers = (key) => {
-    setSortConfig((prev) => {
-      if (prev.key === key) {
-        return { key, order: prev.order === "asc" ? "desc" : "asc" };
-      }
-      return { key, order: "asc" };
-    });
+    const newSortConfig = {
+      key,
+      order:
+          sortConfig.key === key
+              ? sortConfig.order === "asc"
+                  ? "desc"
+                  : "asc"
+              : "asc",
+    };
 
-    onChangeOrder(sortConfig);
+    setSortConfig(newSortConfig);
+    onChangeOrder(newSortConfig);
   };
-
-  const sortedData = data?.response?.users?.data
-    ?.filter((u) =>
-      search?.length > 0
-        ? u.display_name.toLowerCase().includes(search.toLowerCase())
-        : true
-    )
-    .slice()
-    .sort((a, b) => {
-      const { key, order } = sortConfig;
-      let aValue = a[key];
-      let bValue = b[key];
-
-      if (key === "create_at") {
-        const parseDate = (dateStr) => {
-          const [day, month, year] = dateStr.split(".");
-          return new Date(`${year}-${month}-${day}`);
-        };
-
-        aValue = parseDate(aValue);
-        bValue = parseDate(bValue);
-      }
-
-      if (typeof aValue === "string") aValue = aValue.toLowerCase();
-      if (typeof bValue === "string") bValue = bValue.toLowerCase();
-
-      if (aValue < bValue) return order === "asc" ? -1 : 1;
-      if (aValue > bValue) return order === "asc" ? 1 : -1;
-      return 0;
-    });
 
   return (
     <div className="nk-block">
@@ -121,7 +94,7 @@ export const Table = ({
                 />
               </thead>
               <tbody>
-                {sortedData?.map(
+                {data?.response?.users?.data?.map(
                   ({ display_name, email, create_at, id, ...rest } , index) => (
                     <Row
                       key={id}
@@ -181,4 +154,5 @@ export const Table = ({
     </div>
   );
 };
+
 

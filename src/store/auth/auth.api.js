@@ -58,7 +58,7 @@ export const auth = createApi({
       }),
     }),
     getUsers: build.query({
-      query: ({ page = 1, perPage = 10, sortBy = "id", sortDesc = false }) => ({
+      query: ({ page, perPage = 10, sortBy, sortDesc , q}) => ({
         url: "/user/get-users",
         headers: headers(),
         params: {
@@ -66,6 +66,7 @@ export const auth = createApi({
           perPage,
           sortBy,
           sortDesc,
+          q,
         },
       }),
     }),
