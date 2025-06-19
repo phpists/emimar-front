@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { CreateProject } from "../CreateProject";
-
 export const Header = ({ search, onSearch, onCreate, total }) => {
   const handleSearchChange = (e) => {
     onSearch(e.target.value);
@@ -12,7 +9,7 @@ export const Header = ({ search, onSearch, onCreate, total }) => {
         <div className="nk-block-head-content">
           <h3 className="nk-block-title page-title">Projects</h3>
           <div className="nk-block-des text-soft">
-            <p>You have total {total} projects.</p>
+            <p>{`You have total ${total} project${total !== 1 ? 's' : ''}.`}</p>
           </div>
         </div>
         <div className="nk-block-head-content d-flex align-items-center gap-2">

@@ -23,7 +23,7 @@ export const UsersList = () => {
         page: currentPage,
         q: debouncedSearch,
         sortBy,
-        sortDesc,
+        sortDesc
       }),
       [currentPage, debouncedSearch, sortBy, sortDesc]
   );
@@ -32,7 +32,6 @@ export const UsersList = () => {
       queryArgs,
       { refetchOnMountOrArgChange: true }
   );
-
   const handleSearch = (val) => setSearch(val);
 
   const handleChangePage = (page) => setCurrentPage(page);
@@ -71,6 +70,7 @@ export const UsersList = () => {
           search={search}
           onSearch={handleSearch}
           onCreateUser={() => setShowModal(true)}
+          total={data?.response?.users?.total}
       />
 
       <Table

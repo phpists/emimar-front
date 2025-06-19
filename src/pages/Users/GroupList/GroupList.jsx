@@ -10,19 +10,18 @@ export const GroupList = () => {
   const [showModal, setShowModal] = useState(false);
   const [editGroup, setEditGroup] = useState(null);
   const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState("display_name");
+  const [sortBy, setSortBy] = useState("title");
   const [sortDesc, setSortDesc] = useState(false);
 
   const [debouncedSearch] = useDebounce(search, 500);
 
-  console.log({ sortBy, sortDesc });
 
   const queryArgs = useMemo(
       () => ({
         page: currentPage,
         q: debouncedSearch,
         sortBy,
-        sortDesc,
+        sortDesc
       }),
       [currentPage, debouncedSearch, sortBy, sortDesc]
   );
@@ -55,10 +54,12 @@ export const GroupList = () => {
       <Header
           search={search}
           onSearch={handleSearch}
+          total={data?.response?.count}
           onCreateGroup={() => setShowModal(true)} />
       <Table
         data={data}
         onRefetch={refetch}
+        onChangePage={handleChangePage}
         onEdit={handleEdit}
         sortBy={sortBy}
         sortDesc={sortDesc}

@@ -28,21 +28,6 @@ export const Row = ({
 
   return (
     <tr className="nk-tb-item" onClick={handleOpenProject}>
-      <td className="nk-tb-col nk-tb-col-check">
-        <div
-          className="custom-control custom-control-sm custom-checkbox notext"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <input
-            type="checkbox"
-            className="custom-control-input"
-            id={`pid-${id}`}
-            checked={selected}
-            onChange={onSelect}
-          />
-          <label className="custom-control-label" htmlFor={`pid-${id}`} />
-        </div>
-      </td>
       <td className="nk-tb-col">
         <a href onClick={(e) => e.preventDefault()} className="project-title">
           <div className="user-avatar sq bg-purple">
@@ -94,6 +79,7 @@ export const Row = ({
                       href="#"
                       onClick={(e) => {
                         e.preventDefault();
+                        handleOpenProject();
                       }}
                     >
                       <em className="icon ni ni-eye" />

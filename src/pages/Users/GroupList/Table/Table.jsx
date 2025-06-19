@@ -5,8 +5,9 @@ import { useLazyDeleteGroupQuery } from "../../../../store/groups/groups.api";
 import { ConfirmDeleteModal } from "../../../../components/ConfirmModal";
 import { Loading } from "../../../../components/Loading";
 import { EmptyMessage } from "../../../../components/EmptyMessage";
+import {Pagination} from "../../../../components/Pagination";
 
-export const Table = ({ data, onRefetch, onEdit, sortBy, sortDesc, onSortChange, isLoading }) => {
+export const Table = ({ data, onRefetch, onEdit, sortBy, sortDesc, onSortChange, isLoading, onChangePage }) => {
   const [deleting, setDeleting] = useState(null);
   const [deleteGroup] = useLazyDeleteGroupQuery();
   const [selected, setSelected] = useState([]);
@@ -68,7 +69,7 @@ export const Table = ({ data, onRefetch, onEdit, sortBy, sortDesc, onSortChange,
                 />
               </thead>
               <tbody>
-                {data?.response?.map(({ id, title, create_at, user }) => (
+                {data?.response?.groups?.data?.map(({ id, title, create_at, user }) => (
                   <Row
                     key={id}
                     title={title}
@@ -101,7 +102,15 @@ export const Table = ({ data, onRefetch, onEdit, sortBy, sortDesc, onSortChange,
               <EmptyMessage title="No groups found" />
             ) : null}
           </div>
-          {/* <Pagination /> */}
+          {isLoading ? null : (
+              <Pagination
+                  currentPage={data?.response?.groups?.current_page}
+                  lastPage={data?.response?.groups?.last_page}
+                  onPageChange={(page) => {
+                    onChangePage(page);
+                  }}
+              />
+          )}
         </div>
       </div>
     </div>

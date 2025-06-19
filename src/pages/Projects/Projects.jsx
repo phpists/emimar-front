@@ -22,7 +22,7 @@ export const Projects = () => {
         page: currentPage,
         q: debouncedSearch,
         sortBy,
-        sortDesc,
+        sortDesc
       }),
       [currentPage, debouncedSearch, sortBy, sortDesc]
   );

@@ -8,10 +8,7 @@ export const Info = () => {
   const user = useAppSelect((state) => state.auth.user?.user);
   const [updateUser] = useLazyUpdateUserQuery();
 
-  console.log({user});
-
   const [formData, setFormData] = useState({
-    id: "",
     full_name: "",
     display_name: "",
     email: "",
@@ -19,15 +16,10 @@ export const Info = () => {
     phone: "",
   });
 
-  useEffect(() => {
-    console.log("user useEffect", user);
-  }, [user]);
-
   // Ініціалізація стейту лише при першому рендері
   useEffect(() => {
     if (user) {
       setFormData({
-        user_id: user.id || "",
         full_name: user.full_name || "",
         display_name: user.display_name || "",
         email: user.email || "",
@@ -39,6 +31,7 @@ export const Info = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -47,15 +40,13 @@ export const Info = () => {
 
   const handleSave = () => {
     console.log("Saved data:", formData);
-    updateUser(formData).then((resp) => {
+    updateUser({...formData, user_id: user.id}).then((resp) => {
       if (resp.isSuccess) {
         toast.success("Успешно сохранено");
       } else {
         toast.error("Ошибка");
       }
     })
-    // тут можна зробити запит на бекенд, наприклад:
-    // dispatch(updateUserProfile(formData));
   };
 
   return (
@@ -120,6 +111,7 @@ export const Info = () => {
                       type="email"
                       className="form-control"
                       name="email"
+                      disabled
                       placeholder="Email"
                       value={formData.email}
                       onChange={handleChange}
@@ -137,8 +129,8 @@ export const Info = () => {
                       maxLength={16}
                       pattern="^\+?[0-9]{0,15}$"
                       className="form-control"
-                      name="email"
-                      placeholder="Email"
+                      name="phone"
+                      placeholder="Phone number"
                       value={formData.phone}
                       onChange={handleChange}
                   />

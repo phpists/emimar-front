@@ -50,6 +50,8 @@ export const Table = ({
       list?.slice(2)?.length > 0 ? `... (+${list?.slice(2)?.length})` : ""
     }`;
 
+  console.log({data});
+
   return (
     <div className="nk-block">
       {(deleting || deletingItems?.length > 0) && (
@@ -86,7 +88,7 @@ export const Table = ({
                 />
               </thead>
               <tbody>
-                {data?.response?.projects?.map(
+                {data?.response?.projects?.data?.map(
                     ({ id, title, create_at, user, groups, rules_type }) => (
                       <Row
                         key={id}
@@ -124,15 +126,15 @@ export const Table = ({
               <EmptyMessage title="No projects found" />
             ) : null}
           </div>
-          {/*{isLoading ? null : (*/}
-          {/*    <Pagination*/}
-          {/*        currentPage={data?.response?.projects?.current_page}*/}
-          {/*        lastPage={data?.response?.projects?.last_page}*/}
-          {/*        onPageChange={(page) => {*/}
-          {/*          onChangePage(page);*/}
-          {/*        }}*/}
-          {/*    />*/}
-          {/*)}*/}
+          {isLoading ? null : (
+              <Pagination
+                  currentPage={data?.response?.projects?.current_page}
+                  lastPage={data?.response?.projects?.last_page}
+                  onPageChange={(page) => {
+                    onChangePage(page);
+                  }}
+              />
+          )}
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useClickOutside } from "../../../hooks";
 import {Arrow} from "../../../components/Arrow";
 
-export const Header = ({ isSelectedAll, onSelectAll, sortBy, sortDesc, onSortChange, onDelete }) => {
+export const Header = ({ sortBy, sortDesc, onSortChange, onDelete }) => {
   const [dropdown, setDrodown] = useState(false);
   const dropdownRef = useRef();
 
@@ -10,23 +10,6 @@ export const Header = ({ isSelectedAll, onSelectAll, sortBy, sortDesc, onSortCha
 
   return (
       <tr className="nk-tb-item nk-tb-head">
-          <th className="nk-tb-col nk-tb-col-check">
-              <div
-                  className="custom-control custom-control-sm custom-checkbox notext"
-                  onClick={(e) => {
-                      e.stopPropagation();
-                  }}
-              >
-                  <input
-                      type="checkbox"
-                      className="custom-control-input"
-                      id="pid-all"
-                      checked={isSelectedAll}
-                      onChange={(e) => onSelectAll()}
-                  />
-                  <label className="custom-control-label" htmlFor="pid-all"/>
-              </div>
-          </th>
           <th className="nk-tb-col" style={{cursor: "pointer"}} onClick={() => onSortChange("title")}>
               <span className="sub-text d-flex align-items-center">
                 Name
@@ -39,16 +22,14 @@ export const Header = ({ isSelectedAll, onSelectAll, sortBy, sortDesc, onSortCha
                 <Arrow active={sortBy === "created_at"} desc={sortDesc}/>
               </span>
           </th>
-          <th className="nk-tb-col" style={{cursor: "pointer"}} onClick={() => onSortChange("users")}>
+          <th className="nk-tb-col">
               <span className="sub-text d-flex align-items-center">
                 Users
-                <Arrow active={sortBy === "users"} desc={sortDesc}/>
               </span>
           </th>
-          <th className="nk-tb-col" style={{cursor: "pointer"}} onClick={() => onSortChange("groups")}>
+          <th className="nk-tb-col">
               <span className="sub-text d-flex align-items-center">
                 Groups
-                <Arrow active={sortBy === "groups"} desc={sortDesc}/>
               </span>
           </th>
           <th className="nk-tb-col nk-tb-col-tools text-end">

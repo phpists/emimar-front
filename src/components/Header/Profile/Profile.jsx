@@ -18,7 +18,6 @@ export const Profile = () => {
   return (
     <li ref={dropdownRef} className="dropdown user-dropdown">
       <a
-        href="#"
         className={`dropdown-toggle me-n1 ${show ? "show" : ""}`}
         data-bs-toggle="dropdown"
         onClick={() => setShow(!show)}

@@ -1,4 +1,41 @@
+import {useEffect, useState} from "react";
+import {useAppSelect} from "../../hooks/redux";
+import {toast} from "react-toastify";
+import {useUpdateUserPasswordMutation} from "../../store/auth/auth.api";
+
 export const Password = () => {
+  const user = useAppSelect((state) => state.auth.user?.user);
+  const [updateUserPassword] = useUpdateUserPasswordMutation();
+
+  const [formData, setFormData] = useState({
+    password: "",
+    repeatPassword: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    console.log({name, value})
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSave = async () => {
+    console.log("Saved data:", formData);
+    if (formData.password !== formData.repeatPassword) {
+      toast.error("Пароли не совпадают");
+      return;
+    }
+    try {
+      await updateUserPassword({ user_id: user.id, password: formData.password }).unwrap();
+      toast.success("Успешно сохранено");
+    } catch (err) {
+      toast.error("Ошибка");
+    }
+  };
+
   return (
     <div className="card">
       <div className="card-inner card-inner-lg user-form">
@@ -24,7 +61,9 @@ export const Password = () => {
                     type="password"
                     className="form-control"
                     id="password"
+                    name="password"
                     placeholder="New password"
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -41,14 +80,16 @@ export const Password = () => {
                     type="password"
                     className="form-control"
                     id="repeat-password"
+                    name="repeatPassword"
                     placeholder="New password confirmation"
+                    onChange={handleChange}
                   />
                 </div>
               </div>
             </div>
-            <a href="#" className="btn btn-primary save-btn">
+            <button onClick={handleSave} className="btn btn-primary save-btn">
               Save
-            </a>
+            </button>
           </div>
         </div>
       </div>

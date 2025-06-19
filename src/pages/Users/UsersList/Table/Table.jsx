@@ -44,6 +44,7 @@ export const Table = ({
     }
     handleCloseDeleting();
   };
+  console.log('User list', {data});
 
   return (
     <div className="nk-block">
