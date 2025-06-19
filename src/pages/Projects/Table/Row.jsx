@@ -94,8 +94,9 @@ export const Row = ({
                   <li>
                     <a
                       href="#"
-                      onClick={(e) => {
+                      onClick={(e) => { 
                         e.preventDefault();
+                        handleOpenProject();
                       }}
                     >
                       <em className="icon ni ni-eye" />

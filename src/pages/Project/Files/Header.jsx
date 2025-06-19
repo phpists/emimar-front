@@ -16,12 +16,15 @@ export const Header = ({
   const [dropdown, setDropdown] = useState(false);
   const dropdownRef = useRef();
   const { selectedProject } = useAppSelect((state) => state.auth);
-  const [triggerSearch] = useLazyGetProjectFileEntryFilterQuery();
+  const [triggerSearch , result] = useLazyGetProjectFileEntryFilterQuery();
 
   useClickOutside(dropdownRef, () => setDropdown(false));
 
   let searchFoldersFiles = (q) => {
+    // const parent_id = result;
+    // console.log(parent_id);
     triggerSearch({project_id: Number(selectedProject), q});
+    
   }
 
   return (

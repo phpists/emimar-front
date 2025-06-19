@@ -38,6 +38,7 @@ export const GroupList = () => {
       <Table
         data={data}
         search={search}
+        onChangePage={handleChangePage}
         onRefetch={refetch}
         onEdit={handleEdit}
         isLoading={isLoading}

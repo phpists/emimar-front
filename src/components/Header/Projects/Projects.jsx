@@ -57,7 +57,7 @@ export const Projects = () => {
               }}
             >
               {
-                data?.response?.projects?.find(
+                data?.response?.projects?.data?.find(
                   (p) => p.id?.toString() === selectedProject?.toString()
                 )?.title
               }
@@ -77,7 +77,7 @@ export const Projects = () => {
                   </div>
                 </li>
                 <li className="divider" />
-                {data?.response?.projects
+                {data?.response?.projects?.data
                   ?.filter(({ title }) =>
                     search?.length > 0
                       ? title.toLowerCase().includes(search.toLowerCase())

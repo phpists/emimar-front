@@ -6,8 +6,9 @@ import { ConfirmDeleteModal } from "../../../components/ConfirmModal";
 import { useLazyDeleteProjectQuery } from "../../../store/projects/projects.api";
 import { Loading } from "../../../components/Loading";
 import { EmptyMessage } from "../../../components/EmptyMessage";
+import { Pagination } from "../../../components/Pagination";
 
-export const Table = ({ data, search, onEdit, onRefetchData, isLoading }) => {
+export const Table = ({ data, search, onEdit, onRefetchData, isLoading , onChangePage }) => {
   const [deleting, setDeleting] = useState(null);
   const [deleteProject] = useLazyDeleteProjectQuery();
   const [selected, setSelected] = useState([]);
@@ -50,7 +51,7 @@ export const Table = ({ data, search, onEdit, onRefetchData, isLoading }) => {
     });
   };
 
-  const sortedData = data?.response?.projects
+  const sortedData = data?.response?.projects?.data
     ?.filter((u) =>
       search?.length > 0
         ? u.title.toLowerCase().includes(search.toLowerCase())
@@ -108,11 +109,11 @@ export const Table = ({ data, search, onEdit, onRefetchData, isLoading }) => {
                   onSortGroups={handleSortGroups}
                   sortConfig={sortConfig}
                   isSelectedAll={
-                    selected.length === data?.response?.projects?.length
+                    selected.length === data?.response?.projects?.data?.length
                   }
                   onSelectAll={() =>
                     setSelected(
-                      selected.length === data?.response?.projects?.length
+                      selected.length === data?.response?.projects?.data?.length
                         ? []
                         : data?.response?.projects?.map((v) => v.id)
                     )
@@ -167,6 +168,15 @@ export const Table = ({ data, search, onEdit, onRefetchData, isLoading }) => {
             ) : null}
           </div>
           {/* <Pagination /> */}
+          {isLoading ? null : (
+            <Pagination
+              currentPage={data?.response?.projects?.current_page}
+              lastPage={data?.response?.projects?.last_page}
+              onPageChange={(page) => {
+                onChangePage(page);
+              }}
+            />
+          )}
         </div>
       </div>
     </div>

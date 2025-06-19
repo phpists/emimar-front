@@ -5,13 +5,14 @@ import { Table } from "./Table/Table";
 import { CreateProject } from "./CreateProject";
 
 export const Projects = () => {
+  const [currentPage, setCurrentPage] = useState(1);
   const { data, refetch, isLoading } = useGetProjectsQuery();
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState(false);
   const [editData, setEditData] = useState(null);
 
   const handleSearch = (val) => setSearch(val);
-
+  const handleChangePage = (page) => setCurrentPage(page);
   const handleCloseModal = () => {
     setModal(false);
     setEditData(null);
@@ -43,7 +44,7 @@ export const Projects = () => {
                     onSearch={handleSearch}
                     onCreate={() => setModal(true)}
                     total={
-                      data?.response?.projects?.filter((u) =>
+                      data?.response?.projects?.data?.filter((u) =>
                         search?.length > 0
                           ? u.title.toLowerCase().includes(search.toLowerCase())
                           : true
@@ -53,6 +54,7 @@ export const Projects = () => {
                   <Table
                     data={data}
                     search={search}
+                    onChangePage={handleChangePage}
                     onEdit={handleEdit}
                     onRefetchData={refetch}
                     isLoading={isLoading}

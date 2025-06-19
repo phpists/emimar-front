@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
 // import { useAppSelect } from "../../hooks/redux";
-import {useLazyGetUserQuery} from "../../store/auth/auth.api"
+import {
+  useLazyGetUserQuery, 
+  useLazyUpdateUserQuery,
+  useLazyGetUsersQuery,
+} from "../../store/auth/auth.api"
+import { toast } from "react-toastify";
 
 export const Info = () => {
   // const { user } = useAppSelect((state) => state.auth);
   const [getUser, { data: user }] = useLazyGetUserQuery();
+  const [triggerGetUsers, { data: usersList }] = useLazyGetUsersQuery();
+  const [updateUser] = useLazyUpdateUserQuery();
   const [formData, setFormData] = useState({
+    user_id: "",
     full_name: "",
     display_name: "",
     email: "",
@@ -14,13 +22,15 @@ export const Info = () => {
   });
 
   useEffect(() => {
-    getUser()
+    getUser();
+    console.log(user);
   }, [user])
 
   // Ініціалізація стейту лише при першому рендері
   useEffect(() => {
     if (user) {
       setFormData({
+        user_id: user?.response?.user?.id || "",
         full_name: user?.response?.user?.full_name || "",
         display_name: user?.response?.user?.display_name || "",
         email: user?.response?.user?.email || "",
@@ -40,6 +50,16 @@ export const Info = () => {
 
   const handleSave = () => {
     console.log("Saved data:", formData);
+    updateUser(formData);
+    triggerGetUsers({ perPage: 100 }).then(
+      (resp) => {
+        if (resp.isSuccess) {
+          toast.success("Сохранено!");
+        } else {
+          toast.error("Ошибка");
+        }
+      })
+    
     // тут можна зробити запит на бекенд, наприклад:
     // dispatch(updateUserProfile(formData));
   };
@@ -124,6 +144,22 @@ export const Info = () => {
                     name="birth_day"
                     placeholder="Date of Birth"
                     value={formData.birth_day}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="data-item">
+              <div className="data-col">
+                <span className="data-label">Phone Number</span>
+                <div className="form-control-wrap">
+                  <input
+                    type="tel"
+                    className="form-control"
+                    name="phone"
+                    placeholder="Phone Number"
+                    value={formData.phone}
                     onChange={handleChange}
                   />
                 </div>

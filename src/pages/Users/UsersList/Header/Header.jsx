@@ -14,7 +14,7 @@ export const Header = ({ onCreateUser, search, onSearch }) => {
             <input
               type="text"
               className="form-control"
-              placeholder="Search projects..."
+              placeholder="Search users..."
               value={search}
               onChange={handleSearchChange}
             />

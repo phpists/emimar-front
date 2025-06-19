@@ -23,9 +23,9 @@ export const FolderModal = ({ onClose, parentId, editData, onRefetchData, nameFo
 
   useEffect(() => {
     if (editData) {
-      setFolderData({ folder_name: editData?.name, folder_id: editData?.id });
+      setFolderData({ folder_name: editData?.full_name, folder_id: editData?.id });
     }
-  }, [editData]);
+  }, []);
 
   const handleSubmit = () => {
     if (editData) {
@@ -70,7 +70,7 @@ export const FolderModal = ({ onClose, parentId, editData, onRefetchData, nameFo
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">
-              {editData ? "Edit" : "Create"} Folder
+              {editData ? "Rename" : "Create"} Folder
             </h5>
             <div href="#" className="close" onClick={onClose}>
               <em className="icon ni ni-cross" />
@@ -82,7 +82,7 @@ export const FolderModal = ({ onClose, parentId, editData, onRefetchData, nameFo
               <input
                 type="text"
                 className="form-control"
-                value={nameFolder.full_name}
+                value={folderData.folder_name}
                 onChange={(e) =>
                   setFolderData({ ...folderData, folder_name: e.target.value })
                 }

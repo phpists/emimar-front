@@ -37,11 +37,22 @@ export const Actions = ({ onEdit, onDelete }) => {
                   }}
                 >
                   <em className="icon ni ni-pen" />
-                  <span>Edit</span>
+                  <span>Rename</span>
                 </a>
               </li>
             ) : null}
-
+            <li>
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+              >
+                <em className="icon ni ni-undo" />
+                <span>Cancel Move</span>
+              </a>
+            </li>  
             <li>
               <a
                 href="#"

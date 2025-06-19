@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import { useAppSelect } from "../../hooks/redux";
 import {
   useGetProjectFileEntryQuery,
@@ -25,6 +25,10 @@ export const Project = () => {
       refetchThree();
     }
   };
+  
+  useEffect(() => {
+    console.log(threeData);
+  })
 
   return (
     <div className="nk-content p-0">

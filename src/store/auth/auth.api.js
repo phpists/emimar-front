@@ -43,7 +43,6 @@ export const auth = createApi({
     }),
     updateUserPassword: build.query({
       query: (data) => ({
-        // url: "/auth/reset-password",
         url: "/auth/change-password",
         method: "POST",
         headers: headers(),
@@ -59,10 +58,15 @@ export const auth = createApi({
       }),
     }),
     getUsers: build.query({
-      query: ({ page, perPage = 25 }) => ({
+      query: ({ page = 1, perPage = 10, sortBy = "id", sortDesc = false }) => ({
         url: "/user/get-users",
         headers: headers(),
-        params: { perPage, page },
+        params: {
+          page,
+          perPage,
+          sortBy,
+          sortDesc,
+        },
       }),
     }),
   }),
