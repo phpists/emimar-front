@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import { useLocation, useNavigate } from "react-router";
 import { useClickOutside } from "../../../hooks";
 import { useGetProjectsQuery } from "../../../store/projects/projects.api";
@@ -9,11 +9,23 @@ export const Projects = () => {
   const { pathname } = useLocation();
   const [show, setShow] = useState(false);
   const dropdownRef = useRef();
-  const { data, refetch } = useGetProjectsQuery();
   const { selectProject } = useActions();
   const { selectedProject } = useAppSelect((state) => state.auth);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
+
+  const queryArgs = useMemo(
+      () => ({
+        page: 1,
+        sortBy: 'id',
+        perPage: 1000
+      }),
+      []
+  );
+
+  const { data, refetch } = useGetProjectsQuery(
+      queryArgs
+  );
 
   useClickOutside(dropdownRef, () => {
     setShow(false);
@@ -36,6 +48,8 @@ export const Projects = () => {
     data && refetch();
   }, [pathname]);
 
+  console.log({data})
+
   if (pathname !== "/project" || !data?.response?.projects) {
     return null;
   }
@@ -57,7 +71,7 @@ export const Projects = () => {
               }}
             >
               {
-                data?.response?.projects?.find(
+                data?.response?.projects?.data?.find(
                   (p) => p.id?.toString() === selectedProject?.toString()
                 )?.title
               }
@@ -77,7 +91,7 @@ export const Projects = () => {
                   </div>
                 </li>
                 <li className="divider" />
-                {data?.response?.projects
+                {data?.response?.projects?.data
                   ?.filter(({ title }) =>
                     search?.length > 0
                       ? title.toLowerCase().includes(search.toLowerCase())
