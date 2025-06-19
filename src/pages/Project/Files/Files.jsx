@@ -69,6 +69,18 @@ export const Files = ({ data, search, onSearch, selected, onRefetchData, onSelec
         })
   };
 
+  const handleOpen = ({ url }) => {
+    window.open(url, "_blank");
+  }
+  const handleDownload = ({ url, name }) => {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = name;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+
   return (
     <div className="nk-fmg-body">
       <Header
@@ -132,6 +144,8 @@ export const Files = ({ data, search, onSearch, selected, onRefetchData, onSelec
                 selected={selected}
                 onDelete={(data) => setDeleting(data)}
                 search={search}
+                onOpen={handleOpen}
+                onDownload={handleDownload}
               />
             </div>
           </div>

@@ -17,8 +17,6 @@ export const Project = () => {
   const [search, setSearch] = useState("");
   const [debouncedSearch] = useDebounce(search, 500);
 
-  console.log({selectedProject, selected})
-
   const params = {
     project_id: selectedProject,
     q: debouncedSearch,
@@ -29,8 +27,6 @@ export const Project = () => {
       params,
       { refetchOnMountOrArgChange: true }
   );
-
-  console.log({data});
 
   const handleSearch = (val) => setSearch(val);
 

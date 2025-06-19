@@ -48,8 +48,6 @@ export const Projects = () => {
     data && refetch();
   }, [pathname]);
 
-  console.log({data})
-
   if (pathname !== "/project" || !data?.response?.projects) {
     return null;
   }
