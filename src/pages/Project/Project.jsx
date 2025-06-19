@@ -11,7 +11,6 @@ import {useDebounce} from "use-debounce";
 
 export const Project = () => {
   const { selectedProject } = useAppSelect((state) => state.auth);
-  console.log(selectedProject);
   const { data: threeData, refetch: refetchThree } =
     useGetProjectThreeQuery(selectedProject);
   const [selected, setSelected] = useState();
@@ -28,8 +27,6 @@ export const Project = () => {
       params,
       { refetchOnMountOrArgChange: true }
   );
-
-  console.log({threeData, data});
 
   const handleSearch = (val) => setSearch(val);
 

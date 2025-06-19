@@ -60,12 +60,12 @@ export const files = createApi({
         body: data,
       }),
     }),
-    uploadFile: build.query({
-      query: (data) => ({
+    uploadFiles: build.mutation({
+      query: (formData) => ({
         url: "/file-entry/upload-file",
         method: "POST",
         headers: headers(),
-        body: data,
+        body: formData,
       }),
     }),
     moveFile: build.query({
@@ -94,7 +94,7 @@ export const {
   useLazyUpdateFolderQuery,
   useLazyDeleteFolderQuery,
   useLazyMoveFolderQuery,
-  useLazyUploadFileQuery,
   useLazyMoveFileQuery,
+  useUploadFilesMutation,
   useLazyDeleteFileQuery,
 } = files;

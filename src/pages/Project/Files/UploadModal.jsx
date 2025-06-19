@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { getFileIcon } from "../../../helpers";
-import { useLazyUploadFileQuery } from "../../../store/files/files.api";
+import { useUploadFilesMutation} from "../../../store/files/files.api";
 import { useAppSelect } from "../../../hooks/redux";
+import {toast} from "react-toastify";
 
 export const UploadModal = ({ onClose, parentId, onRefetchData }) => {
   const [files, setFiles] = useState([]);
-  const [uploadFile] = useLazyUploadFileQuery();
+  const [uploadFiles] = useUploadFilesMutation();
   const { selectedProject } = useAppSelect((state) => state.auth);
   const [loading, setLoading] = useState(false);
 
@@ -21,8 +22,13 @@ export const UploadModal = ({ onClose, parentId, onRefetchData }) => {
 
   const handleFileSelect = (e) => {
     const selectedFiles = Array.from(e.target.files);
-    selectedFiles?.forEach((file) => {
-      // Simulating upload progress
+
+    if (files.length + selectedFiles.length > 10) {
+      toast.error("Максимум 10 файлів!");
+      return;
+    }
+
+    selectedFiles.forEach((file) => {
       const newFile = { name: file.name, progress: 0, file };
       setFiles((prev) => [...prev, newFile]);
 
@@ -30,7 +36,7 @@ export const UploadModal = ({ onClose, parentId, onRefetchData }) => {
       const interval = setInterval(() => {
         progress += 10;
         setFiles((prev) =>
-          prev.map((f) => (f.name === file.name ? { ...f, progress } : f))
+            prev.map((f) => (f.name === file.name ? { ...f, progress } : f))
         );
         if (progress >= 100) {
           clearInterval(interval);
@@ -45,18 +51,22 @@ export const UploadModal = ({ onClose, parentId, onRefetchData }) => {
 
   const handleSubmit = () => {
     setLoading(true);
-    Promise.all(
-      files.map(({ file }) => {
-        const data = new FormData();
-        data.append("project_id", selectedProject);
-        data.append("parent_id", parentId);
-        data.append("file", file);
-        uploadFile(data);
-      })
-    ).finally((resp) => {
-      setLoading(false);
+    const formData = new FormData();
+    formData.append("project_id", selectedProject);
+    formData.append("parent_id", parentId);
+
+    files.forEach(({ file }) => {
+      formData.append("files[]", file);
+    });
+
+    uploadFiles(formData).unwrap().then(() => {
       onClose();
       setTimeout(onRefetchData, 600);
+      toast.success("Успешно сохранено");
+    }).catch(() => {
+      toast.error("Ошибка");
+    }).finally(() => {
+      setLoading(false);
     });
   };
 
@@ -160,7 +170,7 @@ export const UploadModal = ({ onClose, parentId, onRefetchData }) => {
                       htmlFor="file"
                       className="btn btn-primary"
                       onClick={handleSubmit}
-                      disabled={files?.length === 0 || loading}
+                      disabled={files?.length === 0 || loading || files.length > 10}
                     >
                       Add Files
                     </button>
