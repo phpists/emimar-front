@@ -69,10 +69,11 @@ export const Table = ({ data, onRefetch, onEdit, sortBy, sortDesc, onSortChange,
                 />
               </thead>
               <tbody>
-                {data?.response?.groups?.data?.map(({ id, title, create_at, user }) => (
+                {data?.response?.groups?.data?.map(({ id, title, create_at, user }, index) => (
                   <Row
                     key={id}
                     title={title}
+                    index={(data?.response?.groups?.current_page - 1) * data?.response?.groups?.per_page + index + 1}
                     createAt={create_at}
                     users={user?.map((u) => u?.display_name)?.join(", ")}
                     onEdit={() =>

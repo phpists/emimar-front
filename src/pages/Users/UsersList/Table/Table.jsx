@@ -44,7 +44,6 @@ export const Table = ({
     }
     handleCloseDeleting();
   };
-  console.log('User list', {data});
 
   return (
     <div className="nk-block">
@@ -83,9 +82,10 @@ export const Table = ({
               </thead>
               <tbody>
                 {data?.response?.users?.data?.map(
-                  ({ display_name, email, created_at, id, ...rest }) => (
+                  ({ display_name, email, created_at, id, ...rest }, index) => (
                     <Row
                       key={id}
+                      index={(data?.response?.users?.current_page - 1) * data?.response?.users?.per_page + index + 1}
                       name={display_name}
                       email={email}
                       createdAt={created_at}

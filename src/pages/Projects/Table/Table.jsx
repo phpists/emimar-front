@@ -89,10 +89,11 @@ export const Table = ({
               </thead>
               <tbody>
                 {data?.response?.projects?.data?.map(
-                    ({ id, title, create_at, user, groups, rules_type }) => (
+                    ({ id, title, create_at, user, groups, rules_type }, index) => (
                       <Row
                         key={id}
                         title={title}
+                        index={(data?.response?.projects?.current_page - 1) * data?.response?.projects?.per_page + index + 1}
                         createAt={create_at}
                         users={handleCutList(user?.map((u) => u?.display_name))}
                         groups={handleCutList(groups?.map((u) => u?.title))}

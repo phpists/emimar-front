@@ -9,6 +9,7 @@ export const Row = ({
   onEdit,
   onDelete,
   id,
+  index,
   selected,
   onSelect,
 }) => {
@@ -19,91 +20,94 @@ export const Row = ({
   useClickOutside(dropdownRef, () => setDrodown(false));
 
   return (
-    <tr className="nk-tb-item" onClick={() => navigate("/project")}>
-      <td className="nk-tb-col">
-        <a
-            href="#"
-            className="project-title"
-            onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onEdit();
-            }}
-        >
-          <div className="user-avatar sq bg-purple">
+      <tr className="nk-tb-item" onClick={() => navigate("/project")}>
+          <td className="nk-tb-col">
+              <span>{index}</span>
+          </td>
+          <td className="nk-tb-col">
+              <a
+                  href="#"
+                  className="project-title"
+                  onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      onEdit();
+                  }}
+              >
+                  <div className="user-avatar sq bg-purple">
             <span>
               {title?.[0]?.toUpperCase() ?? ""}
-              {title?.[1]?.toUpperCase() ?? ""}
+                {title?.[1]?.toUpperCase() ?? ""}
             </span>
-          </div>
-          <div className="project-info">
-            <h6 className="title">{title}</h6>
-          </div>
-        </a>
-      </td>
-      <td className="nk-tb-col">
-        <span>{createAt}</span>
-      </td>
-      <td className="nk-tb-col">
-        <span>{users}</span>
-      </td>
-      <td
-        className="nk-tb-col nk-tb-col-tools"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <ul className="nk-tb-actions gx-1">
-          <li>
-            <div
-              ref={dropdownRef}
-              className={`drodown  ${dropdown ? "show" : ""}`}
-            >
-              <a
-                href="#"
-                className="dropdown-toggle btn btn-sm btn-icon btn-trigger"
-                data-bs-toggle="dropdown"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setDrodown(!dropdown);
-                }}
-              >
-                <em className="icon ni ni-more-h" />
+                  </div>
+                  <div className="project-info">
+                      <h6 className="title">{title}</h6>
+                  </div>
               </a>
-              <div
-                className={`dropdown-menu dropdown-menu-end ${
-                  dropdown ? "show" : ""
-                }`}
-              >
-                <ul className="link-list-opt no-bdr">
+          </td>
+          <td className="nk-tb-col">
+              <span>{createAt}</span>
+          </td>
+          <td className="nk-tb-col">
+              <span>{users}</span>
+          </td>
+          <td
+              className="nk-tb-col nk-tb-col-tools"
+              onClick={(e) => e.stopPropagation()}
+          >
+              <ul className="nk-tb-actions gx-1">
                   <li>
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        onDelete();
-                      }}
-                    >
-                      <em className="icon ni ni-trash" />
-                      <span>Delete</span>
-                    </a>
+                      <div
+                          ref={dropdownRef}
+                          className={`drodown  ${dropdown ? "show" : ""}`}
+                      >
+                          <a
+                              href="#"
+                              className="dropdown-toggle btn btn-sm btn-icon btn-trigger"
+                              data-bs-toggle="dropdown"
+                              onClick={(e) => {
+                                  e.preventDefault();
+                                  setDrodown(!dropdown);
+                              }}
+                          >
+                              <em className="icon ni ni-more-h"/>
+                          </a>
+                          <div
+                              className={`dropdown-menu dropdown-menu-end ${
+                                  dropdown ? "show" : ""
+                              }`}
+                          >
+                              <ul className="link-list-opt no-bdr">
+                                  <li>
+                                      <a
+                                          href="#"
+                                          onClick={(e) => {
+                                              e.preventDefault();
+                                              onDelete();
+                                          }}
+                                      >
+                                          <em className="icon ni ni-trash"/>
+                                          <span>Delete</span>
+                                      </a>
+                                  </li>
+                                  <li>
+                                      <a
+                                          href="#"
+                                          onClick={(e) => {
+                                              e.preventDefault();
+                                              onEdit();
+                                          }}
+                                      >
+                                          <em className="icon ni ni-edit"/>
+                                          <span>Edit</span>
+                                      </a>
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
                   </li>
-                  <li>
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        onEdit();
-                      }}
-                    >
-                      <em className="icon ni ni-edit" />
-                      <span>Edit</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </td>
-    </tr>
+              </ul>
+          </td>
+      </tr>
   );
 };

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo} from "react";
+import React, {useState, useEffect, useMemo, useRef} from "react";
 import { Tree } from "antd";
 const { DirectoryTree } = Tree;
 
@@ -50,6 +50,8 @@ export function transformTree(data, parentPath = "") {
 export const FileThree = ({ nodes, selected, onSelect }) => {
   const tree = useMemo(() => transformTree(nodes), [nodes]);
   const [expandedKeys, setExpandedKeys] = useState([]);
+  const initialInteractionRef = useRef(true);
+  const [selectedKey, setSelectedKey] = useState(null);
 
   useEffect(() => {
     if (tree.length > 0) {
@@ -73,6 +75,7 @@ export const FileThree = ({ nodes, selected, onSelect }) => {
     if (selected && nodes?.response?.tree) {
       const res = findPathById(nodes?.response?.tree, selected);
       if (res) {
+        setSelectedKey(res.keys[res.keys.length - 1]);
         setExpandedKeys((prev) =>
             Array.from(new Set([...prev, ...res.keys.slice(0, -1)]))
         );
@@ -81,23 +84,45 @@ export const FileThree = ({ nodes, selected, onSelect }) => {
   }, [selected, nodes]);
 
   const onSelectFile = (keys, info) => {
-    onSelect?.(info.node.id);
+    const key = info.node.key;
+    const isSelected = selectedKey === key;
+    const hasChildren = info.node.children?.length > 0;
+
+    if (!initialInteractionRef.current) {
+      if (isSelected) {
+        setSelectedKey(null);
+        if (hasChildren) {
+          setExpandedKeys(prev => prev.filter(k => !k.startsWith(key)));
+        }
+        onSelect?.(null);
+      } else {
+        setSelectedKey(key);
+        onSelect?.(info.node.id);
+
+        if (hasChildren && !expandedKeys.includes(key)) {
+          setExpandedKeys(prev => [...prev, key]);
+        }
+      }
+    } else {
+      setSelectedKey(key);
+      onSelect?.(info.node.id);
+      initialInteractionRef.current = false;
+    }
   };
 
   const onExpand = (newKeys) => {
     setExpandedKeys(newKeys);
   };
 
-  const active = findPathById(nodes?.response?.tree, selected);
-  const selectedKey = active?.keys?.[active.keys.length - 1] || "";
-
   return (
     <DirectoryTree
       onSelect={onSelectFile}
+      expandAction={false}
       onExpand={onExpand}
       treeData={tree}
       expandedKeys={expandedKeys}
       selectedKeys={selectedKey ? [selectedKey] : []}
+      autoExpandParent={false}
     />
   );
 };

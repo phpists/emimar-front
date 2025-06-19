@@ -17,6 +17,8 @@ export const Project = () => {
   const [search, setSearch] = useState("");
   const [debouncedSearch] = useDebounce(search, 500);
 
+  console.log({threeData})
+
   const params = {
     project_id: selectedProject,
     q: debouncedSearch,
