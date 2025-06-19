@@ -55,6 +55,8 @@ export const Files = ({ data, search, onSearch, selected, onRefetchData, onSelec
     setDeleting(null);
   };
 
+  console.log({list: data?.response?.list?.folders})
+
   return (
     <div className="nk-fmg-body">
       <Header

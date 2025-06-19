@@ -14,8 +14,6 @@ export const Password = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log({name, value})
-
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -23,7 +21,6 @@ export const Password = () => {
   };
 
   const handleSave = async () => {
-    console.log("Saved data:", formData);
     if (formData.password !== formData.repeatPassword) {
       toast.error("Пароли не совпадают");
       return;

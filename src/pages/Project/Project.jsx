@@ -10,25 +10,27 @@ import { transformTree } from "./FileThree";
 import {useDebounce} from "use-debounce";
 
 export const Project = () => {
-  const { selectedProject } = useAppSelect((state) => state.auth);
+  const { selectedProject, selectedItem } = useAppSelect((state) => state.auth);
   const { data: threeData, refetch: refetchThree } =
     useGetProjectThreeQuery(selectedProject);
   const [selected, setSelected] = useState();
   const [search, setSearch] = useState("");
   const [debouncedSearch] = useDebounce(search, 500);
 
-  console.log({threeData})
+  console.log({selectedProject, selected})
 
   const params = {
     project_id: selectedProject,
     q: debouncedSearch,
-    ...(threeData?.parent_id ? { parent_id: threeData.parent_id } : {}),
+    ...(selected ? { parent_id: selected } : {}),
   };
 
   const { data, refetch } = useGetProjectFileEntryQuery(
       params,
       { refetchOnMountOrArgChange: true }
   );
+
+  console.log({data});
 
   const handleSearch = (val) => setSearch(val);
 

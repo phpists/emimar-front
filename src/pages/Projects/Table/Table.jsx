@@ -22,7 +22,7 @@ export const Table = ({
   const [deleteProject] = useLazyDeleteProjectQuery();
   const [selected, setSelected] = useState([]);
   const [deletingItems, setDeletingItems] = useState([]);
-  console.log({data})
+
   const handleCloseDeleting = () => {
     setDeleting(null);
     setDeletingItems([]);
@@ -49,8 +49,6 @@ export const Table = ({
     `${list?.slice(0,2)?.join(",")} ${
       list?.slice(2)?.length > 0 ? `... (+${list?.slice(2)?.length})` : ""
     }`;
-
-  console.log({data});
 
   return (
     <div className="nk-block">

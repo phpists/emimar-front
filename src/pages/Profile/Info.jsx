@@ -39,7 +39,6 @@ export const Info = () => {
   };
 
   const handleSave = () => {
-    console.log("Saved data:", formData);
     updateUser({...formData, user_id: user.id}).then((resp) => {
       if (resp.isSuccess) {
         toast.success("Успешно сохранено");

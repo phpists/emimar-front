@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   user: null,
   selectedProject: localStorage.getItem("selectedProject") ?? null,
+  selectedItem: null
 };
 
 export const authSlice = createSlice({
@@ -15,6 +16,9 @@ export const authSlice = createSlice({
     selectProject(state, action) {
       localStorage.setItem("selectedProject", action.payload);
       state.selectedProject = action.payload;
+    },
+    selectItem(state, action) {
+      state.selectedItem = action.payload;
     },
   },
 });

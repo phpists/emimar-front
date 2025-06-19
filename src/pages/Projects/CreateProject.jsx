@@ -87,7 +87,6 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
           label: title,
         }));
 
-  console.log(data);
   return (
     <div
       className="modal fade show"

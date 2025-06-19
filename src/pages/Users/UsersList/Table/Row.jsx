@@ -15,7 +15,7 @@ export const Row = ({
 }) => {
   const [dropdown, setDrodown] = useState(false);
   const dropdownRef = useRef();
-    console.log({createdAt})
+
   useClickOutside(dropdownRef, () => setDrodown(false));
   return (
       <tr className="nk-tb-item">

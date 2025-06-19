@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useMemo, useRef} from "react";
 import { Tree } from "antd";
+import {useActions} from "../../hooks/actions";
 const { DirectoryTree } = Tree;
 
 function findPathById(tree, id, path = [], keys = [], keyPath = "") {
@@ -52,6 +53,7 @@ export const FileThree = ({ nodes, selected, onSelect }) => {
   const [expandedKeys, setExpandedKeys] = useState([]);
   const initialInteractionRef = useRef(true);
   const [selectedKey, setSelectedKey] = useState(null);
+  const { selectItem } = useActions();
 
   useEffect(() => {
     if (tree.length > 0) {
@@ -87,7 +89,7 @@ export const FileThree = ({ nodes, selected, onSelect }) => {
     const key = info.node.key;
     const isSelected = selectedKey === key;
     const hasChildren = info.node.children?.length > 0;
-
+    console.log({key, info: info.node.id})
     if (!initialInteractionRef.current) {
       if (isSelected) {
         setSelectedKey(null);

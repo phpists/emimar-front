@@ -45,8 +45,6 @@ export const Table = ({
     handleCloseDeleting();
   };
 
-  console.log({data})
-
   return (
     <div className="nk-block">
       {(deletingUser || deletingItems?.length > 0) && (
