@@ -15,7 +15,7 @@ export const Row = ({
 }) => {
   const [dropdown, setDrodown] = useState(false);
   const dropdownRef = useRef();
-
+    console.log({createdAt})
   useClickOutside(dropdownRef, () => setDrodown(false));
   return (
       <tr className="nk-tb-item">
@@ -30,7 +30,7 @@ export const Row = ({
               </div>
           </td>
           <td className="nk-tb-col">
-              <span>{new Date(createdAt).toLocaleString()}</span>
+              <span>{createdAt}</span>
           </td>
           <td className="nk-tb-col">
               <span>{email}</span>

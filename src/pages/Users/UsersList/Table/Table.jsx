@@ -45,6 +45,8 @@ export const Table = ({
     handleCloseDeleting();
   };
 
+  console.log({data})
+
   return (
     <div className="nk-block">
       {(deletingUser || deletingItems?.length > 0) && (
@@ -82,19 +84,19 @@ export const Table = ({
               </thead>
               <tbody>
                 {data?.response?.users?.data?.map(
-                  ({ display_name, email, created_at, id, ...rest }, index) => (
+                  ({ display_name, email, create_at, id, ...rest }, index) => (
                     <Row
                       key={id}
                       index={(data?.response?.users?.current_page - 1) * data?.response?.users?.per_page + index + 1}
                       name={display_name}
                       email={email}
-                      createdAt={created_at}
+                      createdAt={create_at}
                       onDelete={() => setDeletingUser({ display_name, id })}
                       onEdit={() =>
                         onEdit({
                           display_name,
                           email,
-                          created_at,
+                          create_at,
                           user_id: id,
                           ...rest,
                         })
