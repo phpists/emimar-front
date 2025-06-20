@@ -24,19 +24,16 @@ export const Project = () => {
     ...(selected?.id ? { parent_id: selected.id } : {}),
   };
 
-  const { data, refetch, isFetching } = useGetProjectFileEntryQuery(
+  const { data, refetch } = useGetProjectFileEntryQuery(
       params,
       { refetchOnMountOrArgChange: true },
       { skip: !isSearching }
   );
 
-  console.log({isFetching})
-
   const handleSearch = (val) => setSearch(val);
 
-  const handleSelectFolder = ({id, title}) => {
-    setSelected({id: id, title: title});
-    console.log({id: title})
+  const handleSelectFolder = (data) => {
+    setSelected(data);
   };
 
   const handleRefetchData = () => {
@@ -53,7 +50,7 @@ export const Project = () => {
           <div className="nk-fmg">
             <Three
               data={threeData}
-              selected={selected.id}
+              selected={selected?.id}
               onSelect={handleSelectFolder}
             />
             <Files
@@ -64,7 +61,7 @@ export const Project = () => {
               isSearching={isSearching}
               selected={selected}
               onRefetchData={handleRefetchData}
-              onSelectFolder={(id, title) => setSelected({id: id, title: title})}
+              onSelectFolder={(id) => setSelected(id)}
             />
           </div>
         </div>

@@ -39,7 +39,7 @@ export const FoldersList = ({
                             date={created_at}
                             onEdit={() => onEdit({ id, name })}
                             onDelete={() => onDelete({ id, name, type: "folder" })}
-                            onSelect={() => onSelectFolder({id: id, title: name})}
+                            onSelect={() => onSelectFolder(id)}
                             draggable
                             onDragStart={() => setDraggedItem({ id, type: "folder" })}
                             onDragOver={(e) => e.preventDefault()}

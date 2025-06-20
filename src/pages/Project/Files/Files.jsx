@@ -93,14 +93,14 @@ export const Files = ({ data, search, onSearch, selected, onRefetchData, onSelec
       {uploadModal ? (
         <UploadModal
           onClose={() => setUploadModal(false)}
-          parentId={selected.id}
+          parentId={selected?.id}
           onRefetchData={onRefetchData}
         />
       ) : null}
       {folderModal ? (
         <FolderModal
           onClose={handleCloseFolderModal}
-          parentId={selected.id}
+          parentId={selected?.id}
           editData={editFolder}
           onRefetchData={onRefetchData}
         />
@@ -127,7 +127,7 @@ export const Files = ({ data, search, onSearch, selected, onRefetchData, onSelec
             <div className="nk-files nk-files-view-group">
               <FoldersList
                 data={data?.response?.list?.folders ?? []}
-                selected={selected.id}
+                selected={selected?.id}
                 onEdit={handleEditFolder}
                 onMove={handleMove}
                 isSearching={isSearching}
@@ -145,7 +145,7 @@ export const Files = ({ data, search, onSearch, selected, onRefetchData, onSelec
                 isSearching={isSearching}
                 draggedItem={draggedItem}
                 setDraggedItem={setDraggedItem}
-                selected={selected.id}
+                selected={selected?.id}
                 onDelete={(data) => setDeleting(data)}
                 search={search}
                 onOpen={handleOpen}
