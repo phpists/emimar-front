@@ -28,7 +28,7 @@ export const Actions = ({ keyId, onEdit, onDelete , fullName , folderId, type , 
     try {
       const { data, error } = await downloadFile({ file_id: keyId });
       if (error || !data) {
-        toast.error("Помилка при завантаженні файлу");
+        toast.error("Ошибка при загрузке файла");
         return;
       }
       const url = window.URL.createObjectURL(data);
@@ -39,8 +39,9 @@ export const Actions = ({ keyId, onEdit, onDelete , fullName , folderId, type , 
       a.click();
       a.remove();
       window.URL.revokeObjectURL(url);
+      toast.success("загружено");
     } catch (e) {
-      toast.error("Помилка при завантаженні");
+      toast.error("Ошибка при загрузке файла");
       console.error("Download error", e);
     }
   };
