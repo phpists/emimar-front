@@ -126,6 +126,7 @@ export const Files = ({ data, selected, onRefetchData, onSelectFolder, onSearch 
                 onEdit={handleEditFolder}
                 onDelete={(data) => setDeleting(data)}
                 onSelectFolder={onSelectFolder}
+                onRefetchData={onRefetchData}
               />
               <FilesList
                 onMove={handleMove}

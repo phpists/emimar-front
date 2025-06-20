@@ -1,11 +1,27 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../hooks";
+import {
+  useLazyMoveFolderLevelupQuery
+} from "../../store/files/files.api";
+import { toast } from "react-toastify";
 
-export const Actions = ({ onEdit, onDelete }) => {
+export const Actions = ({ onEdit, onDelete , fullName , folderId, type , onRefetchData}) => {
   const [show, setShow] = useState(false);
   const dropdownRef = useRef();
+  const [moveFolderLevelup] = useLazyMoveFolderLevelupQuery();
 
   useClickOutside(dropdownRef, () => setShow(false));
+
+  const handleFolderLevelup = () => {
+    moveFolderLevelup({folder_id: folderId}).then((resp) => {
+      if(resp.isSuccess){
+        toast.success("Перемещено");
+        onRefetchData()
+      }else{
+        toast.error("Ошибка");
+      }
+    })
+  }
 
   return (
     <div className="nk-file-actions">
@@ -41,18 +57,43 @@ export const Actions = ({ onEdit, onDelete }) => {
                 </a>
               </li>
             ) : null}
-            <li>
+            {type !== 'folder' && <li>
+              <a
+                href={fullName}
+                target="_blank"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <em className="icon ni ni-undo" />
+                <span>View</span>
+              </a>
+            </li>}
+            {type !== 'folder' && <li>
+              <a
+                href={fullName}
+                target="_blank"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <em className="icon ni ni-undo" />
+                <span>Download</span>
+              </a>
+            </li>}
+            {type === "folder" && <li>
               <a
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
+                  handleFolderLevelup();
                 }}
               >
-                <em className="icon ni ni-undo" />
-                <span>Cancel Move</span>
+                <em className="icon ni ni-trash" />
+                <span>Move level up</span>
               </a>
-            </li>  
+            </li>}
             <li>
               <a
                 href="#"

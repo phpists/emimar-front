@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useRef} from "react";
 import { NavLink, useNavigate } from "react-router";
 import { useLazyLoginQuery } from "../store/auth/auth.api";
 import { toast } from "react-toastify";
@@ -11,6 +11,9 @@ export const Login = () => {
   const [login] = useLazyLoginQuery();
   const { loginUser } = useActions();
   const navigate = useNavigate();
+  
+  const refInputEmail = useRef(null);
+  const refInputPassword = useRef(null);
 
   const handleSubmit = () => {
     login({ login: email, password }).then((resp) => {
@@ -19,6 +22,8 @@ export const Login = () => {
         localStorage.setItem("token", resp?.data.response.access_token);
         navigate("/");
       } else {
+        refInputEmail.current.style.border = '1px solid red';
+        refInputPassword.current.style.border = '1px solid red';
         toast.error("Данные не найдены");
       }
     });
@@ -54,12 +59,16 @@ export const Login = () => {
                         </div>
                         <div className="form-control-wrap">
                           <input
+                            ref={refInputEmail}
                             type="text"
                             className="form-control form-control-lg"
                             id="default-01"
                             placeholder="Enter your email address or username"
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) => {
+                              refInputEmail.current.focus();
+                              setEmail(e.target.value)
+                            }}
                           />
                         </div>
                       </div>
@@ -87,6 +96,7 @@ export const Login = () => {
                             ></em>
                           </div>
                           <input
+                            ref={refInputPassword}
                             type={showPassword ? "text" : "password"}
                             className={`form-control form-control-lg is-shown ${
                               showPassword && "is-shown"
@@ -94,7 +104,10 @@ export const Login = () => {
                             id="password"
                             placeholder="Enter your passcode"
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) => {
+                              refInputEmail.current.focus();
+                              setPassword(e.target.value)
+                            }}
                           />
                         </div>
                       </div>

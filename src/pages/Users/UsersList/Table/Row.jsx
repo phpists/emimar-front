@@ -18,7 +18,7 @@ export const Row = ({
 
   useClickOutside(dropdownRef, () => setDrodown(false));
   return (
-    <tr className="nk-tb-item">
+    <tr className="nk-tb-item" onClick={onEdit}>
       <td className="nk-tb-col nk-tb-col-check">
         <div
           className="custom-control custom-control-sm custom-checkbox notext"

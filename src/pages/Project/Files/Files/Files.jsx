@@ -17,7 +17,7 @@ export const Files = ({ data, selected, onDelete , setDraggedItem}) => {
           ?.filter(({ parent_id, name }) =>
             selected ? parent_id === selected : parent_id === null
           )
-          ?.map(({ id, name, size, created_at }) => (
+          ?.map(({ id, name, size, created_at , full_name }) => (
             <FileCard
               key={id}
               name={name}
@@ -27,6 +27,7 @@ export const Files = ({ data, selected, onDelete , setDraggedItem}) => {
               onDelete={() => onDelete({ id, name, type: "file" })}
               draggable
               onDragStart={() => setDraggedItem({ id, type: "file" })}
+              fullName={full_name}
             />
           ))}
       </div>

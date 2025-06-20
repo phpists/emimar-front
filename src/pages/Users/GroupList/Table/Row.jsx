@@ -20,7 +20,7 @@ export const Row = ({
   useClickOutside(dropdownRef, () => setDrodown(false));
 
   return (
-    <tr className="nk-tb-item" onClick={() => navigate("/project")}>
+    <tr className="nk-tb-item" onClick={onEdit}>
       <td className="nk-tb-col nk-tb-col-check">
         <div
           className="custom-control custom-control-sm custom-checkbox notext"
@@ -40,8 +40,8 @@ export const Row = ({
       <td className="nk-tb-col">
         <div
           onClick={(e) => {
-          e.stopPropagation();
-          onEdit();
+            e.stopPropagation();
+            onEdit();
           }} 
         className="project-title">
           <div className="user-avatar sq bg-purple">

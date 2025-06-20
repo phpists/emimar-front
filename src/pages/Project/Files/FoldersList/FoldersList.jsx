@@ -9,7 +9,8 @@ export const FoldersList = ({
   onSelectFolder,
   onMove,
   draggedItem,
-  setDraggedItem
+  setDraggedItem,
+  onRefetchData
 }) => {
   return (
     <div className="nk-files-group">
@@ -31,6 +32,7 @@ export const FoldersList = ({
                 type="folder"
                 size={size}
                 date={created_at}
+                folderId={id}
                 onEdit={() => onEdit({ id, full_name })}
                 onDelete={() => onDelete({ id, full_name, type: "folder" })}
                 onSelect={() => onSelectFolder(id)}
@@ -47,6 +49,7 @@ export const FoldersList = ({
                     });
                   }
                 }}
+                onRefetchData={onRefetchData}
               />
             ))
         )}

@@ -53,6 +53,14 @@ export const files = createApi({
         body: data,
       }),
     }),
+    moveFolderLevelup: build.query({
+      query: (data) => ({
+        url: "/file-entry/move-levelup-folder",
+        method: "POST",
+        headers: headers(),
+        body: data,
+      }),
+    }),
     uploadFile: build.query({
       query: (data) => ({
         url: "/file-entry/upload-file",
@@ -87,6 +95,7 @@ export const {
   useLazyUpdateFolderQuery,
   useLazyDeleteFolderQuery,
   useLazyMoveFolderQuery,
+  useLazyMoveFolderLevelupQuery,
   useLazyUploadFileQuery,
   useLazyMoveFileQuery,
   useLazyDeleteFileQuery,
