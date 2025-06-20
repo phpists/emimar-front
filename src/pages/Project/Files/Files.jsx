@@ -7,12 +7,23 @@ import { FoldersList } from "./FoldersList/FoldersList";
 import { Files as FilesList } from "./Files/Files";
 import { ConfirmDeleteModal } from "../../../components/ConfirmModal";
 import {
+  useDownloadFileMutation,
   useLazyDeleteFileQuery,
-  useLazyDeleteFolderQuery, useLazyMoveFolderQuery,
+  useLazyDeleteFolderQuery, useLazyMoveFolderQuery, useLazyMoveLevelupFolderQuery,
 } from "../../../store/files/files.api";
 import { toast } from "react-toastify";
+import {baseUrl} from "../../../api/baseUrl";
 
-export const Files = ({ data, search, onSearch, selected, onRefetchData, onSelectFolder, debouncedSearch , isSearching }) => {
+export const Files = ({
+  data,
+  search,
+  onSearch,
+  selected,
+  onRefetchData,
+  onSelectFolder,
+  debouncedSearch ,
+  isSearching
+}) => {
   const [uploadModal, setUploadModal] = useState(false);
   const [folderModal, setFolderModal] = useState(false);
   const [editFolder, setEditFolder] = useState(null);
@@ -20,6 +31,9 @@ export const Files = ({ data, search, onSearch, selected, onRefetchData, onSelec
   const [deleteFolder] = useLazyDeleteFolderQuery();
   const [deleteFile] = useLazyDeleteFileQuery();
   const [moveFolder] = useLazyMoveFolderQuery();
+  const [downloadFile] = useDownloadFileMutation();
+  const [moveLevelupFolder] = useLazyMoveLevelupFolderQuery();
+
   const [draggedItem, setDraggedItem] = useState(null);
 
   const handleOpenUploadModal = () => setUploadModal(true);
@@ -72,13 +86,19 @@ export const Files = ({ data, search, onSearch, selected, onRefetchData, onSelec
   const handleOpen = ({ url }) => {
     window.open(url, "_blank");
   }
-  const handleDownload = ({ url, name }) => {
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = name;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
+  const handleDownload = ({ id, name }) => {
+    downloadFile({ file_id: id, name });
+  }
+
+  const handleMoveUp = (id) => {
+    moveLevelupFolder(id).then((res) => {
+      if (res.isSuccess) {
+        toast.success("Перемещено!");
+        onRefetchData()
+      } else {
+        toast.error("Ошибка");
+      }
+    });
   }
 
   return (
@@ -137,6 +157,7 @@ export const Files = ({ data, search, onSearch, selected, onRefetchData, onSelec
                 onDelete={(data) => setDeleting(data)}
                 onSelectFolder={onSelectFolder}
                 search={search}
+                onMoveUp={handleMoveUp}
               />
               <FilesList
                 data={data?.response?.list?.files ?? []}
@@ -150,6 +171,7 @@ export const Files = ({ data, search, onSearch, selected, onRefetchData, onSelec
                 search={search}
                 onOpen={handleOpen}
                 onDownload={handleDownload}
+                onMoveUp={handleMoveUp}
               />
             </div>
           </div>

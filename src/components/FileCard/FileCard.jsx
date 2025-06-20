@@ -15,7 +15,8 @@ export const FileCard = ({
    onDrop,
    onDragOver,
    onOpen,
-   onDownload
+   onDownload,
+   onMoveUp
 }) => (
   <div
     className={`nk-file-item nk-file ${onSelect && "cursor-pointer"}`}
@@ -57,6 +58,6 @@ export const FileCard = ({
         {size ? <li className="size">{formatFileSize(size)}</li> : null}
       </ul>
     </div>
-    <Actions onEdit={onEdit} onDelete={onDelete} onOpen={onOpen} onDownload={onDownload} />
+    <Actions onEdit={onEdit} onDelete={onDelete} onOpen={onOpen} onDownload={onDownload} onMoveUp={onMoveUp} />
   </div>
 );

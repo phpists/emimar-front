@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../hooks";
 
-export const Actions = ({ onEdit, onDelete, onOpen, onDownload }) => {
+export const Actions = ({ onEdit, onDelete, onOpen, onDownload, onMoveUp }) => {
   const [show, setShow] = useState(false);
   const dropdownRef = useRef();
 
@@ -44,6 +44,23 @@ export const Actions = ({ onEdit, onDelete, onOpen, onDownload }) => {
                   </li>
               ): null}
 
+              {onMoveUp ? (
+                  <li>
+                      <a
+                          href="#"
+                          onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation()
+                              onMoveUp();
+                              setShow(false);
+                          }}
+                      >
+                          <em className="icon ni ni-upload" />
+                          <span>Move up</span>
+                      </a>
+                  </li>
+              ): null}
+
               {onDownload ? (
                   <li>
                       <a
@@ -52,6 +69,7 @@ export const Actions = ({ onEdit, onDelete, onOpen, onDownload }) => {
                               e.preventDefault();
                               e.stopPropagation()
                               onDownload();
+                              setShow(false);
                           }}
                       >
                           <em className="icon ni ni-download" />

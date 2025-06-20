@@ -13,7 +13,8 @@ export const FoldersList = ({
     search,
     onMove,
     draggedItem,
-    setDraggedItem
+    setDraggedItem,
+    onMoveUp
 }) => {
     const filteredFolders = isSearching
         ? data
@@ -40,6 +41,7 @@ export const FoldersList = ({
                             onEdit={() => onEdit({ id, name })}
                             onDelete={() => onDelete({ id, name, type: "folder" })}
                             onSelect={() => onSelectFolder(id)}
+                            onMoveUp={() => onMoveUp(id)}
                             draggable
                             onDragStart={() => setDraggedItem({ id, type: "folder" })}
                             onDragOver={(e) => e.preventDefault()}

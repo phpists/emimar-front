@@ -1,8 +1,17 @@
 import { FileCard } from "../../../../components/FileCard/FileCard";
 
-export const Files = ({ data, selected, onDelete, search, setDraggedItem, onOpen, onDownload, debouncedSearch, isSearching  }) => {
-
-
+export const Files = ({
+    data,
+    selected,
+    onDelete,
+    search,
+    setDraggedItem,
+    onOpen,
+    onDownload,
+    debouncedSearch,
+    isSearching,
+    onMoveUp
+}) => {
     const filteredFiles = isSearching
         ? data
         : data?.filter(({ parent_id }) => parent_id === selected);
@@ -29,7 +38,8 @@ export const Files = ({ data, selected, onDelete, search, setDraggedItem, onOpen
                         draggable
                         onDragStart={() => setDraggedItem({ id, type: "file" })}
                         onOpen={() => onOpen({ url: full_name })}
-                        onDownload={() => onDownload({ url: full_name, name })}
+                        onDownload={() => onDownload({ id, name })}
+                        onMoveUp={() => onMoveUp(id)}
                     />
                 ))}
             </div>

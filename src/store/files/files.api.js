@@ -84,6 +84,44 @@ export const files = createApi({
         body: { file_id },
       }),
     }),
+    downloadFile: build.mutation({
+      queryFn: async ({ file_id, name }) => {
+        try {
+          const response = await fetch(`${baseUrl}file-entry/download-file?file_id=${file_id}`, {
+            method: "POST",
+            headers: {
+              Authorization: "Bearer "  + localStorage.getItem("token"),
+              Accept: "application/octet-stream"
+            }
+          });
+
+          if (!response.ok) throw new Error("Download failed");
+
+          const blob = await response.blob();
+          const url = URL.createObjectURL(blob);
+
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = name || "file";
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          URL.revokeObjectURL(url);
+
+          return { data: true };
+        } catch (error) {
+          return { error };
+        }
+      },
+    }),
+    moveLevelupFolder: build.query({
+      query: (folder_id) => ({
+        url: "/file-entry/move-levelup-folder",
+        method: "POST",
+        headers: headers(),
+        params: { folder_id },
+      }),
+    }),
   }),
 });
 
@@ -97,4 +135,6 @@ export const {
   useLazyMoveFileQuery,
   useUploadFilesMutation,
   useLazyDeleteFileQuery,
+  useDownloadFileMutation,
+  useLazyMoveLevelupFolderQuery
 } = files;
