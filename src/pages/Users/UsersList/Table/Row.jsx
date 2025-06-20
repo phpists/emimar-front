@@ -25,7 +25,14 @@ export const Row = ({
           <td className="nk-tb-col">
               <div className="project-title">
                   <div className="project-info">
-                      <h6 className="title">{name}</h6>
+                      <h6
+                          className="title"
+                          style={{cursor: "pointer"}}
+                          onClick={(e) => {
+                              e.preventDefault();
+                              onEdit();
+                          }}
+                      >{name}</h6>
                   </div>
               </div>
           </td>

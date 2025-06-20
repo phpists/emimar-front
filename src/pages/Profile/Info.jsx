@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { useAppSelect } from "../../hooks/redux";
 import {useLazyUpdateUserQuery} from "../../store/auth/auth.api";
 import { toast } from "react-toastify";
+import {useActions} from "../../hooks/actions";
 
 export const Info = () => {
   // const { user } = useAppSelect((state) => state.auth);
   const user = useAppSelect((state) => state.auth.user?.user);
   const [updateUser] = useLazyUpdateUserQuery();
+  const { loginUser } = useActions();
 
   const [formData, setFormData] = useState({
     full_name: "",
@@ -41,6 +43,7 @@ export const Info = () => {
   const handleSave = () => {
     updateUser({...formData, user_id: user.id}).then((resp) => {
       if (resp.isSuccess) {
+        loginUser(resp?.data?.response);
         toast.success("Успешно сохранено");
       } else {
         toast.error("Ошибка");

@@ -12,7 +12,7 @@ import {
 } from "../../../store/files/files.api";
 import { toast } from "react-toastify";
 
-export const Files = ({ data, search, onSearch, selected, onRefetchData, onSelectFolder }) => {
+export const Files = ({ data, search, onSearch, selected, onRefetchData, onSelectFolder, debouncedSearch , isSearching }) => {
   const [uploadModal, setUploadModal] = useState(false);
   const [folderModal, setFolderModal] = useState(false);
   const [editFolder, setEditFolder] = useState(null);
@@ -93,14 +93,14 @@ export const Files = ({ data, search, onSearch, selected, onRefetchData, onSelec
       {uploadModal ? (
         <UploadModal
           onClose={() => setUploadModal(false)}
-          parentId={selected}
+          parentId={selected.id}
           onRefetchData={onRefetchData}
         />
       ) : null}
       {folderModal ? (
         <FolderModal
           onClose={handleCloseFolderModal}
-          parentId={selected}
+          parentId={selected.id}
           editData={editFolder}
           onRefetchData={onRefetchData}
         />
@@ -127,9 +127,11 @@ export const Files = ({ data, search, onSearch, selected, onRefetchData, onSelec
             <div className="nk-files nk-files-view-group">
               <FoldersList
                 data={data?.response?.list?.folders ?? []}
-                selected={selected}
+                selected={selected.id}
                 onEdit={handleEditFolder}
                 onMove={handleMove}
+                isSearching={isSearching}
+                debouncedSearch ={debouncedSearch }
                 draggedItem={draggedItem}
                 setDraggedItem={setDraggedItem}
                 onDelete={(data) => setDeleting(data)}
@@ -139,9 +141,11 @@ export const Files = ({ data, search, onSearch, selected, onRefetchData, onSelec
               <FilesList
                 data={data?.response?.list?.files ?? []}
                 onMove={handleMove}
+                debouncedSearch ={debouncedSearch }
+                isSearching={isSearching}
                 draggedItem={draggedItem}
                 setDraggedItem={setDraggedItem}
-                selected={selected}
+                selected={selected.id}
                 onDelete={(data) => setDeleting(data)}
                 search={search}
                 onOpen={handleOpen}

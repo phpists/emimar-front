@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../../hooks";
-import { useNavigate } from "react-router";
+import {NavLink, useNavigate} from "react-router";
 import {useAppSelect} from "../../../hooks/redux";
 
 export const Profile = () => {
@@ -50,15 +50,16 @@ export const Profile = () => {
         <div className="dropdown-inner">
           <ul className="link-list">
             <li>
-              <a
-                  href="/profile.html#/profile"
+              <NavLink
+                  to="/profile"
+                  className="logo-link"
                   onClick={(e) => {
                     setShow(false);
                   }}
               >
-                <em className="icon ni ni-user-alt" />
+                <em className="icon ni ni-user-alt"/>
                 <span>Profile settings</span>
-              </a>
+              </NavLink>
             </li>
           </ul>
         </div>

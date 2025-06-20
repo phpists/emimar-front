@@ -44,6 +44,7 @@ export const FileCard = ({
               onClick={(e) => {
                 e.preventDefault();
                 onSelect && onSelect();
+                onOpen && onOpen();
               }}
             >
               {name}

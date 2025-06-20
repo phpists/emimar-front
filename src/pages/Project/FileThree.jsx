@@ -99,7 +99,7 @@ export const FileThree = ({ nodes, selected, onSelect }) => {
         onSelect?.(null);
       } else {
         setSelectedKey(key);
-        onSelect?.(info.node.id);
+        onSelect?.({id: info.node.id, title: info.node.title});
 
         if (hasChildren && !expandedKeys.includes(key)) {
           setExpandedKeys(prev => [...prev, key]);
@@ -107,7 +107,8 @@ export const FileThree = ({ nodes, selected, onSelect }) => {
       }
     } else {
       setSelectedKey(key);
-      onSelect?.(info.node.id);
+      onSelect?.({id: info.node.id, title: info.node.title});
+
       initialInteractionRef.current = false;
     }
   };

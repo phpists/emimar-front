@@ -13,25 +13,30 @@ export const Project = () => {
   const { selectedProject, selectedItem } = useAppSelect((state) => state.auth);
   const { data: threeData, refetch: refetchThree } =
     useGetProjectThreeQuery(selectedProject);
-  const [selected, setSelected] = useState();
+  const [selected, setSelected] = useState({});
   const [search, setSearch] = useState("");
   const [debouncedSearch] = useDebounce(search, 500);
+  const isSearching = Boolean(search);
 
   const params = {
     project_id: selectedProject,
     q: debouncedSearch,
-    ...(selected ? { parent_id: selected } : {}),
+    ...(selected?.id ? { parent_id: selected.id } : {}),
   };
 
-  const { data, refetch } = useGetProjectFileEntryQuery(
+  const { data, refetch, isFetching } = useGetProjectFileEntryQuery(
       params,
-      { refetchOnMountOrArgChange: true }
+      { refetchOnMountOrArgChange: true },
+      { skip: !isSearching }
   );
+
+  console.log({isFetching})
 
   const handleSearch = (val) => setSearch(val);
 
-  const handleSelectFolder = (id) => {
-    setSelected(id);
+  const handleSelectFolder = ({id, title}) => {
+    setSelected({id: id, title: title});
+    console.log({id: title})
   };
 
   const handleRefetchData = () => {
@@ -48,16 +53,18 @@ export const Project = () => {
           <div className="nk-fmg">
             <Three
               data={threeData}
-              selected={selected}
+              selected={selected.id}
               onSelect={handleSelectFolder}
             />
             <Files
               data={data}
               search={search}
+              debouncedSearch ={debouncedSearch}
               onSearch={handleSearch}
+              isSearching={isSearching}
               selected={selected}
               onRefetchData={handleRefetchData}
-              onSelectFolder={(id) => setSelected(id)}
+              onSelectFolder={(id, title) => setSelected({id: id, title: title})}
             />
           </div>
         </div>
