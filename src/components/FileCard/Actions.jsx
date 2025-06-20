@@ -89,7 +89,7 @@ export const Actions = ({ keyId, onEdit, onDelete , fullName , folderId, type , 
                   e.stopPropagation();
                 }}
               >
-                <em className="icon ni ni-undo" />
+                <em className="icon ni ni-eye" />
                 <span>View</span>
               </a>
             </li>}

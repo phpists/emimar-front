@@ -6,6 +6,7 @@ export const Header = ({
   onCreateFolder,
   selected,
   onSearch,
+  selectedFolderName
 }) => {
   const [dropdown, setDropdown] = useState(false);
   const dropdownRef = useRef();
@@ -22,7 +23,11 @@ export const Header = ({
         <input
           type="text"
           className="form-control border-transparent form-focus-none"
-          placeholder="Search files, folders"
+          placeholder={
+            selectedFolderName
+              ? `Search in "${selectedFolderName}"`
+              : "Search files, folders"
+          }
           // value={search}
           onChange={(e) => searchFoldersFiles(e.target.value)}
         />

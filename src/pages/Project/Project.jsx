@@ -10,6 +10,7 @@ import { Three } from "./Three";
 export const Project = () => {
   const { selectedProject } = useAppSelect((state) => state.auth);
   const [searchParams, setSearchParams] = useState({q: "", parent_id: null});
+  const [selectedFolderName, setSelectedFolderName] = useState("");
 
   const {data: threeData, refetch: refetchThree} = useGetProjectThreeQuery(selectedProject);
   const {data: data, refetch} = useGetProjectFileEntryQuery({
@@ -21,6 +22,22 @@ export const Project = () => {
 
   const handleSelectFolder = (id) => {
     setSelected((prevSelected) => (prevSelected === id ? null : id));
+  
+    const findNameById = (tree) => {
+      if (!tree) return null;
+      for (const node of tree) {
+        if (node.id === id) return node.name;
+        if (node.children) {
+          const result = findNameById(node.children);
+          if (result) return result;
+        }
+      }
+      return null;
+    };
+  
+    const name = findNameById(threeData?.response?.tree);
+    setSelectedFolderName(name || "");
+    setSearchParams((prev) => ({ ...prev, parent_id: id }));
   };  
 
   const handleRefetchData = () => {
@@ -45,6 +62,7 @@ export const Project = () => {
               onSelect={handleSelectFolder}
             />
             <Files
+              selectedFolderName={selectedFolderName}
               data={data}
               selected={selected}
               onRefetchData={handleRefetchData}
