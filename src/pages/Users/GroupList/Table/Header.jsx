@@ -38,8 +38,8 @@ export const Header = ({ isSelectedAll, onSelectAll, onDelete, onSortGroups, sor
       <th className="nk-tb-col" onClick={() => onSortGroups("create_at")}>
         <span className="sub-text">Date create{renderSortArrow("create_at")}</span>
       </th>
-      <th className="nk-tb-col" onClick={() => onSortGroups("users")}>
-        <span className="sub-text">Users{renderSortArrow("users")}</span>
+      <th className="nk-tb-col" onClick={() => onSortGroups("title")}>
+        <span className="sub-text">Users{renderSortArrow("title")}</span>
       </th>
       <th className="nk-tb-col nk-tb-col-tools text-end">
         <div ref={dropdownRef} className={`dropdown ${dropdown ? "show" : ""}`}>
