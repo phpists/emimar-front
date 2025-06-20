@@ -46,7 +46,6 @@ export const Actions = ({ keyId, onEdit, onDelete , fullName , folderId, type , 
     }
   };
   
-
   return (
     <div className="nk-file-actions">
       <div className={`dropdown ${show ? "show" : ""}`} ref={dropdownRef}>

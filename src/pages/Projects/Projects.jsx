@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useGetProjectsQuery } from "../../store/projects/projects.api";
+import { useGetProjectQuery } from "../../store/projects/projects.api";
 import { Header } from "./Header/Header";
 import { Table } from "./Table/Table";
 import { CreateProject } from "./CreateProject";
@@ -7,7 +7,7 @@ import { CreateProject } from "./CreateProject";
 export const Projects = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
-  const { data, refetch, isLoading } = useGetProjectsQuery({q: search});
+  const { data, refetch, isLoading } = useGetProjectQuery({q: search});
   const [modal, setModal] = useState(false);
   const [editData, setEditData] = useState(null);
 
@@ -53,7 +53,6 @@ export const Projects = () => {
                   />
                   <Table
                     data={data}
-                    search={search}
                     onChangePage={handleChangePage}
                     onEdit={handleEdit}
                     onRefetchData={refetch}

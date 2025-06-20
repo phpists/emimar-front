@@ -8,7 +8,7 @@ import { Loading } from "../../../components/Loading";
 import { EmptyMessage } from "../../../components/EmptyMessage";
 import { Pagination } from "../../../components/Pagination";
 
-export const Table = ({ data, search, onEdit, onRefetchData, isLoading , onChangePage }) => {
+export const Table = ({ data, onEdit, onRefetchData, isLoading , onChangePage }) => {
   const [deleting, setDeleting] = useState(null);
   const [deleteProject] = useLazyDeleteProjectQuery();
   const [selected, setSelected] = useState([]);
@@ -51,42 +51,6 @@ export const Table = ({ data, search, onEdit, onRefetchData, isLoading , onChang
     });
   };
 
-  const sortedData = data?.response?.projects?.data
-    ?.filter((u) =>
-      search?.length > 0
-        ? u.title.toLowerCase().includes(search.toLowerCase())
-        : true
-    )
-    .slice() 
-    .sort((a, b) => {
-      const { key, order } = sortConfig;
-    
-      let aValue = a[key];
-      let bValue = b[key];
-    
-      if (key === "users") {
-        aValue = a.user?.length || 0;
-        bValue = b.user?.length || 0;
-      }
-
-      if (key === "create_at") {
-        const parseDate = (dateStr) => {
-          const [day, month, year] = dateStr.split(".");
-          return new Date(`${year}-${month}-${day}`);
-        };
-    
-        aValue = parseDate(aValue);
-        bValue = parseDate(bValue);
-      }
-    
-      if (typeof aValue === "string") aValue = aValue.toLowerCase();
-      if (typeof bValue === "string") bValue = bValue.toLowerCase();
-    
-      if (aValue < bValue) return order === "asc" ? -1 : 1;
-      if (aValue > bValue) return order === "asc" ? 1 : -1;
-      return 0;
-    });
-
   return (
     <div className="nk-block">
       {(deleting || deletingItems?.length > 0) && (
@@ -122,13 +86,7 @@ export const Table = ({ data, search, onEdit, onRefetchData, isLoading , onChang
                 />
               </thead>
               <tbody>
-                {sortedData
-                  ?.filter((u) =>
-                    search?.length > 0
-                      ? u.title.toLowerCase().includes(search.toLowerCase())
-                      : true
-                  )
-                  ?.map(
+                {data?.response?.projects?.data?.map(
                     ({ id, title, create_at, user, groups, rules_type } , index) => (
                       <Row
                         key={id}

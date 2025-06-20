@@ -7,6 +7,12 @@ export const projects = createApi({
   baseQuery: fetchBaseQuery({ baseUrl }),
   endpoints: (build) => ({
     getProjects: build.query({
+      query: () => ({
+        url: "/project/get-projects",
+        headers: headers()
+      }),
+    }),
+    getProject: build.query({
       query: ({q}) => ({
         url: "/project/get-projects",
         headers: headers(),
@@ -42,6 +48,7 @@ export const projects = createApi({
 
 export const {
   useGetProjectsQuery,
+  useGetProjectQuery,
   useLazyCreateProjectQuery,
   useLazyUpdateProjectQuery,
   useLazyDeleteProjectQuery,
