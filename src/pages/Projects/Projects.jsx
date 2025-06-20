@@ -6,8 +6,8 @@ import { CreateProject } from "./CreateProject";
 
 export const Projects = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const { data, refetch, isLoading } = useGetProjectsQuery();
   const [search, setSearch] = useState("");
+  const { data, refetch, isLoading } = useGetProjectsQuery({q: search});
   const [modal, setModal] = useState(false);
   const [editData, setEditData] = useState(null);
 
