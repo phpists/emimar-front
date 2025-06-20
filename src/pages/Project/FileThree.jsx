@@ -90,7 +90,7 @@ export const FileThree = ({ nodes, selected, onSelect }) => {
   }, [selected, nodes , expandedKeys]);
 
   const onSelectFile = (keys, info) => {
-      const clickedId = info.node.id;
+    const clickedId = info.node.id;
     onSelect?.(clickedId);
   };
 

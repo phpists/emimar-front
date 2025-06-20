@@ -1,6 +1,6 @@
 import { FileCard } from "../../../../components/FileCard/FileCard";
 
-export const Files = ({ data, selected, onDelete, search , setDraggedItem}) => {
+export const Files = ({ data, selected, onDelete , setDraggedItem}) => {
 
   if (
     data?.filter(({ parent_id }) =>
@@ -15,11 +15,7 @@ export const Files = ({ data, selected, onDelete, search , setDraggedItem}) => {
       <div className="nk-files-list">
         {data
           ?.filter(({ parent_id, name }) =>
-            search
-              ? name.toLowerCase().includes(search)
-              : selected
-              ? parent_id === selected
-              : parent_id === null
+            selected ? parent_id === selected : parent_id === null
           )
           ?.map(({ id, name, size, created_at }) => (
             <FileCard
@@ -37,3 +33,4 @@ export const Files = ({ data, selected, onDelete, search , setDraggedItem}) => {
     </div>
   );
 };
+

@@ -14,17 +14,11 @@ export const files = createApi({
       }),
     }),
     getProjectFileEntry: build.query({
-      query: (project_id) => ({
+      query: ({project_id, q, parent_id}) => ({
         url: "/file-entry/get-project-file-entry",
         headers: headers(),
-        params: { project_id },
-      }),
-    }),
-    getProjectFileEntryFilter: build.query({
-      query: (params) => ({
-        url: "/file-entry/get-project-file-entry",
-        headers: headers(),
-        params: params,
+        // params: { project_id, q, parent_id},
+        params: { project_id, q},
       }),
     }),
     createFolder: build.query({
@@ -88,7 +82,6 @@ export const files = createApi({
 
 export const {
   useGetProjectFileEntryQuery,
-  useLazyGetProjectFileEntryFilterQuery,
   useGetProjectThreeQuery,
   useLazyCreateFolderQuery,
   useLazyUpdateFolderQuery,

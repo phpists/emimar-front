@@ -7,7 +7,6 @@ export const FoldersList = ({
   onEdit,
   onDelete,
   onSelectFolder,
-  search,
   onMove,
   draggedItem,
   setDraggedItem
@@ -16,22 +15,14 @@ export const FoldersList = ({
     <div className="nk-files-group">
       <h6 className="title">Folder</h6>
       <div className="nk-files-list">
-        {data?.filter(({ parent_id, full_name }) =>
-          search
-            ? full_name.toLowerCase().includes(search)
-            : selected
-            ? parent_id === selected
-            : parent_id === null
+        {data?.filter(({ parent_id }) =>
+            selected ? parent_id === selected : parent_id === null
         )?.length === 0 ? (
           <EmptyMessage title="Empty" />
         ) : (
           data
-            ?.filter(({ parent_id, full_name }) =>
-              search
-                ? full_name.toLowerCase().includes(search)
-                : selected
-                ? parent_id === selected
-                : parent_id === null
+            ?.filter(({ parent_id }) =>
+                selected ? parent_id === selected : parent_id === null
             )
             ?.map(({ id, full_name, size, created_at }) => (
               <FileCard

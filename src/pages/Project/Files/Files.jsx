@@ -13,14 +13,13 @@ import {
 } from "../../../store/files/files.api";
 import { toast } from "react-toastify";
 
-export const Files = ({ data, selected, onRefetchData, onSelectFolder }) => {
+export const Files = ({ data, selected, onRefetchData, onSelectFolder, onSearch }) => {
   const [uploadModal, setUploadModal] = useState(false);
   const [folderModal, setFolderModal] = useState(false);
   const [editFolder, setEditFolder] = useState(null);
   const [deleting, setDeleting] = useState(null);
   const [deleteFolder] = useLazyDeleteFolderQuery();
   const [deleteFile] = useLazyDeleteFileQuery();
-  const [search, setSearch] = useState("");
   const [currentFolder, setCurrentFolder] = useState(null);
 
   const [moveFolder] = useLazyMoveFolderQuery();
@@ -28,7 +27,6 @@ export const Files = ({ data, selected, onRefetchData, onSelectFolder }) => {
 
   const handleOpenUploadModal = () => setUploadModal(true);
   const handleOpenFolderModal = () => setFolderModal(true);
-  const handleSearch = (val) => setSearch(val);
 
   const handleCloseFolderModal = () => {
     setFolderModal(false);
@@ -74,7 +72,6 @@ export const Files = ({ data, selected, onRefetchData, onSelectFolder }) => {
         }
       })
   };
-  
 
   return (
     <div className="nk-fmg-body">
@@ -82,8 +79,7 @@ export const Files = ({ data, selected, onRefetchData, onSelectFolder }) => {
         onOpenUploadModal={handleOpenUploadModal}
         onCreateFolder={handleOpenFolderModal}
         selected={selected}
-        search={search}
-        onSearch={handleSearch}
+        onSearch={onSearch}
       />
       {uploadModal ? (
         <UploadModal
@@ -130,7 +126,6 @@ export const Files = ({ data, selected, onRefetchData, onSelectFolder }) => {
                 onEdit={handleEditFolder}
                 onDelete={(data) => setDeleting(data)}
                 onSelectFolder={onSelectFolder}
-                search={search}
               />
               <FilesList
                 onMove={handleMove}
@@ -139,7 +134,6 @@ export const Files = ({ data, selected, onRefetchData, onSelectFolder }) => {
                 data={data?.response?.list?.files ?? []}
                 selected={selected}
                 onDelete={(data) => setDeleting(data)}
-                search={search}
               />
             </div>
           </div>

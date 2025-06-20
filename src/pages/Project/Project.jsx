@@ -1,4 +1,4 @@
-import { useState , useEffect} from "react";
+import { useState } from "react";
 import { useAppSelect } from "../../hooks/redux";
 import {
   useGetProjectFileEntryQuery,
@@ -6,13 +6,17 @@ import {
 } from "../../store/files/files.api";
 import { Files } from "./Files/Files";
 import { Three } from "./Three";
-import { transformTree } from "./FileThree";
 
 export const Project = () => {
   const { selectedProject } = useAppSelect((state) => state.auth);
-  const { data: threeData, refetch: refetchThree } =
-    useGetProjectThreeQuery(selectedProject);
-  const { data: data, refetch } = useGetProjectFileEntryQuery(selectedProject);
+  const [searchParams, setSearchParams] = useState({q: "", parent_id: null});
+
+  const {data: threeData, refetch: refetchThree} = useGetProjectThreeQuery(selectedProject);
+  const {data: data, refetch} = useGetProjectFileEntryQuery({
+    project_id: selectedProject,
+    q: searchParams.q,
+    parent_id: searchParams.parent_id
+  });
   const [selected, setSelected] = useState();
 
   const handleSelectFolder = (id) => {
@@ -25,10 +29,10 @@ export const Project = () => {
       refetchThree();
     }
   };
-  
-  useEffect(() => {
-    console.log(threeData);
-  })
+
+  const handleSearch = (val) => {
+    setSearchParams(val)
+  };
 
   return (
     <div className="nk-content p-0">
@@ -45,6 +49,7 @@ export const Project = () => {
               selected={selected}
               onRefetchData={handleRefetchData}
               onSelectFolder={(id) => setSelected(id)}
+              onSearch={handleSearch}
             />
           </div>
         </div>
