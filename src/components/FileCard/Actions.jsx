@@ -90,7 +90,7 @@ export const Actions = ({ onEdit, onDelete , fullName , folderId, type , onRefet
                   handleFolderLevelup();
                 }}
               >
-                <em className="icon ni ni-trash" />
+                <em className="icon ni ni-arrow-up" />
                 <span>Move level up</span>
               </a>
             </li>}
