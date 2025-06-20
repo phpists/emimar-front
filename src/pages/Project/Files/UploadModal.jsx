@@ -50,7 +50,7 @@ export const UploadModal = ({ onClose, parentId, onRefetchData }) => {
         const data = new FormData();
         data.append("project_id", selectedProject);
         data.append("parent_id", parentId);
-        data.append("file", file);
+        data.append("files[]", file);
         uploadFile(data);
       })
     ).finally((resp) => {

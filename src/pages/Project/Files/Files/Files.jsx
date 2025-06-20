@@ -20,6 +20,7 @@ export const Files = ({ data, selected, onDelete , setDraggedItem}) => {
           ?.map(({ id, name, size, created_at , full_name }) => (
             <FileCard
               key={id}
+              fileId={id}
               name={name}
               type={name?.split(".")?.[1]}
               size={size}

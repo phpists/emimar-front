@@ -69,6 +69,16 @@ export const files = createApi({
         body: data,
       }),
     }),
+    downloadFile: build.query({
+      query: (file_id) => ({
+        url: "/file-entry/download-file",
+        method: "POST",
+        headers: headers(),
+        body: file_id, 
+        responseHandler: async (response) => response.blob(),
+        responseType: "blob",
+      }),
+    }),
     moveFile: build.query({
       query: (data) => ({
         url: "/file-entry/move-file",
@@ -97,6 +107,7 @@ export const {
   useLazyMoveFolderQuery,
   useLazyMoveFolderLevelupQuery,
   useLazyUploadFileQuery,
+  useLazyDownloadFileQuery,
   useLazyMoveFileQuery,
   useLazyDeleteFileQuery,
 } = files;

@@ -3,6 +3,7 @@ import { Actions } from "./Actions";
 import { TYPES } from "./types";
 
 export const FileCard = ({
+  key,
   type,
   name,
   date,
@@ -16,9 +17,10 @@ export const FileCard = ({
   onDragOver,
   fullName,
   folderId,
-  onRefetchData
-}) => (
-  <div
+  onRefetchData,
+  fileId
+}) => {
+  return (<div
     className={`nk-file-item nk-file ${onSelect && "cursor-pointer"}`}
     onClick={(e) => {
       e.preventDefault();
@@ -57,6 +59,7 @@ export const FileCard = ({
       </ul>
     </div>
     <Actions 
+      keyId={fileId}
       type={type} 
       onEdit={onEdit}
       onDelete={onDelete}
@@ -65,4 +68,4 @@ export const FileCard = ({
       onRefetchData={onRefetchData} 
     />
   </div>
-);
+)};

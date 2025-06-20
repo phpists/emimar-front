@@ -1,15 +1,16 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../hooks";
 import {
+  useLazyDownloadFileQuery,
   useLazyMoveFolderLevelupQuery
 } from "../../store/files/files.api";
 import { toast } from "react-toastify";
 
-export const Actions = ({ onEdit, onDelete , fullName , folderId, type , onRefetchData}) => {
+export const Actions = ({ keyId, onEdit, onDelete , fullName , folderId, type , onRefetchData}) => {
   const [show, setShow] = useState(false);
   const dropdownRef = useRef();
+  const [downloadFile] = useLazyDownloadFileQuery();
   const [moveFolderLevelup] = useLazyMoveFolderLevelupQuery();
-
   useClickOutside(dropdownRef, () => setShow(false));
 
   const handleFolderLevelup = () => {
@@ -22,6 +23,28 @@ export const Actions = ({ onEdit, onDelete , fullName , folderId, type , onRefet
       }
     })
   }
+
+  const handleDownload = async () => {
+    try {
+      const { data, error } = await downloadFile({ file_id: keyId });
+      if (error || !data) {
+        toast.error("Помилка при завантаженні файлу");
+        return;
+      }
+      const url = window.URL.createObjectURL(data);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fullName?.split("/").pop() || "file";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (e) {
+      toast.error("Помилка при завантаженні");
+      console.error("Download error", e);
+    }
+  };
+  
 
   return (
     <div className="nk-file-actions">
@@ -71,13 +94,14 @@ export const Actions = ({ onEdit, onDelete , fullName , folderId, type , onRefet
             </li>}
             {type !== 'folder' && <li>
               <a
-                href={fullName}
-                target="_blank"
+                href="#"
                 onClick={(e) => {
+                  e.preventDefault();
                   e.stopPropagation();
+                  handleDownload();
                 }}
               >
-                <em className="icon ni ni-undo" />
+                <em className="icon ni ni-download" />
                 <span>Download</span>
               </a>
             </li>}
