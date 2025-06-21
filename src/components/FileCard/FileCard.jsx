@@ -18,13 +18,15 @@ export const FileCard = ({
   fullName,
   folderId,
   onRefetchData,
-  fileId
+  fileId,
+  onSelectSearchFolder
 }) => {
   return (<div
     className={`nk-file-item nk-file ${onSelect && "cursor-pointer"}`}
     onClick={(e) => {
       e.preventDefault();
       onSelect && onSelect();
+      onSelectSearchFolder(folderId);
     }}
   >
     <div className="nk-file-info" 

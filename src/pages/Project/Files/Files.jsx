@@ -13,7 +13,7 @@ import {
 } from "../../../store/files/files.api";
 import { toast } from "react-toastify";
 
-export const Files = ({ data, selected, onRefetchData, onSelectFolder, onSearch , selectedFolderName}) => {
+export const Files = ({ data, selected, onRefetchData, onSelectFolder, onSearch , selectedFolderName , onSelectSearchFolder}) => {
   const [uploadModal, setUploadModal] = useState(false);
   const [folderModal, setFolderModal] = useState(false);
   const [editFolder, setEditFolder] = useState(null);
@@ -128,6 +128,7 @@ export const Files = ({ data, selected, onRefetchData, onSelectFolder, onSearch 
                 onDelete={(data) => setDeleting(data)}
                 onSelectFolder={onSelectFolder}
                 onRefetchData={onRefetchData}
+                onSelectSearchFolder={onSelectSearchFolder}
               />
               <FilesList
                 onMove={handleMove}

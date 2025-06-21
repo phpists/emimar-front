@@ -10,7 +10,9 @@ export const FoldersList = ({
   onMove,
   draggedItem,
   setDraggedItem,
-  onRefetchData
+  onRefetchData,
+  onSelectSearchFolder
+
 }) => {
   return (
     <div className="nk-files-group">
@@ -50,6 +52,7 @@ export const FoldersList = ({
                   }
                 }}
                 onRefetchData={onRefetchData}
+                onSelectSearchFolder={onSelectSearchFolder}
               />
             ))
         )}

@@ -68,6 +68,7 @@ export const Project = () => {
               onRefetchData={handleRefetchData}
               onSelectFolder={(id) => setSelected(id)}
               onSearch={handleSearch}
+              onSelectSearchFolder={handleSelectFolder}
             />
           </div>
         </div>
