@@ -18,7 +18,7 @@ export const Row = ({
 
   useClickOutside(dropdownRef, () => setDrodown(false));
   return (
-    <tr className="nk-tb-item" onClick={onEdit}>
+    <tr className="nk-tb-item">
       <td className="nk-tb-col nk-tb-col-check">
         <div
           className="custom-control custom-control-sm custom-checkbox notext"
@@ -36,16 +36,16 @@ export const Row = ({
         </div>
       </td>
       <td className="nk-tb-col">
-        <div className="project-title">
+        <div className="project-title" onClick={onEdit}>
           <div className="project-info">
             <h6 className="title">{name}</h6>
           </div>
         </div>
       </td>
-      <td className="nk-tb-col">
+      <td className="nk-tb-col" onClick={onEdit}>
         <span>{createAt}</span>
       </td>
-      <td className="nk-tb-col">
+      <td className="nk-tb-col" onClick={onEdit}>
         <span>{email}</span>
       </td>
       <td className="nk-tb-col nk-tb-col-tools">
