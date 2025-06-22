@@ -66,7 +66,6 @@ export const Login = () => {
                             placeholder="Enter your email address or username"
                             value={email}
                             onChange={(e) => {
-                              refInputEmail.current.focus();
                               setEmail(e.target.value)
                             }}
                           />
@@ -105,7 +104,6 @@ export const Login = () => {
                             placeholder="Enter your passcode"
                             value={password}
                             onChange={(e) => {
-                              refInputEmail.current.focus();
                               setPassword(e.target.value)
                             }}
                           />
