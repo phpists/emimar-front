@@ -98,7 +98,7 @@ export const Row = ({
                                               onChangePassword();
                                           }}
                                       >
-                                          <em className="icon ni ni-edit"/>
+                                          <em className="icon ni ni-lock-alt"/>
                                           <span>Change password</span>
                                       </a>
                                   </li>
