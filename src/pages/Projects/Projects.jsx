@@ -53,7 +53,7 @@ export const Projects = () => {
           onClose={handleCloseModal}
           editData={editData}
           onRefetchData={refetch}
-          total={data?.response?.projects?.length}
+          total={data?.response?.projects?.data?.length}
         />
       ) : null}
       <div className="nk-content-inner">

@@ -24,7 +24,7 @@ export const Project = () => {
     ...(selected?.id ? { parent_id: selected.id } : {}),
   };
 
-  const { data, refetch } = useGetProjectFileEntryQuery(
+  const { data, refetch, isFetching } = useGetProjectFileEntryQuery(
       params,
       { refetchOnMountOrArgChange: true },
       { skip: !isSearching }
@@ -56,6 +56,7 @@ export const Project = () => {
             <Files
               data={data}
               search={search}
+              isLoading={isFetching}
               debouncedSearch ={debouncedSearch}
               onSearch={handleSearch}
               isSearching={isSearching}

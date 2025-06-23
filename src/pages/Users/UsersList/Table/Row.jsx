@@ -22,16 +22,16 @@ export const Row = ({
           <td className="nk-tb-col">
               <span>{index}</span>
           </td>
-          <td className="nk-tb-col">
+          <td
+              className="nk-tb-col cursor-pointer"
+              onClick={(e) => {
+                  e.preventDefault();
+                  onEdit();
+              }}
+          >
               <div className="project-title">
                   <div className="project-info">
-                      <h6
-                          className="title"
-                          style={{cursor: "pointer"}}
-                          onClick={(e) => {
-                              e.preventDefault();
-                              onEdit();
-                          }}
+                      <h6 className="title"
                       >{name}</h6>
                   </div>
               </div>

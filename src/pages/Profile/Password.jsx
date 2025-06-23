@@ -8,8 +8,8 @@ export const Password = () => {
   const [updateUserPassword] = useUpdateUserPasswordMutation();
 
   const [formData, setFormData] = useState({
-    password: "",
-    repeatPassword: "",
+    passwordUnique: "",
+    repeatPasswordUnique: "",
   });
 
   const handleChange = (e) => {
@@ -21,7 +21,7 @@ export const Password = () => {
   };
 
   const handleSave = async () => {
-    if (formData.password !== formData.repeatPassword) {
+    if (formData.passwordUnique !== formData.repeatPasswordUnique) {
       toast.error("Пароли не совпадают");
       return;
     }
@@ -57,8 +57,8 @@ export const Password = () => {
                   <input
                     type="password"
                     className="form-control"
-                    id="password"
-                    name="password"
+                    id="passwordUnique"
+                    name="passwordUnique"
                     placeholder="New password"
                     onChange={handleChange}
                   />
@@ -76,8 +76,8 @@ export const Password = () => {
                   <input
                     type="password"
                     className="form-control"
-                    id="repeat-password"
-                    name="repeatPassword"
+                    id="repeatPasswordUnique"
+                    name="repeatPasswordUnique"
                     placeholder="New password confirmation"
                     onChange={handleChange}
                   />

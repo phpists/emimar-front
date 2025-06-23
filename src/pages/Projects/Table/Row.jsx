@@ -32,8 +32,8 @@ export const Row = ({
         <td className="nk-tb-col">
           <span>{index}</span>
         </td>
-        <td className="nk-tb-col">
-          <a href onClick={(e) => e.preventDefault()} className="project-title">
+        <td className="nk-tb-col cursor-pointer" onClick={(e) => e.preventDefault()}>
+          <a href className="project-title">
             <div className="user-avatar sq bg-purple">
             <span>
               {title?.[0]?.toUpperCase() ?? ""}

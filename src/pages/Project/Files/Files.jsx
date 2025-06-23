@@ -12,7 +12,7 @@ import {
   useLazyDeleteFolderQuery, useLazyMoveFolderQuery, useLazyMoveLevelupFolderQuery,
 } from "../../../store/files/files.api";
 import { toast } from "react-toastify";
-import {baseUrl} from "../../../api/baseUrl";
+import {Loading} from "../../../components/Loading";
 
 export const Files = ({
   data,
@@ -21,7 +21,8 @@ export const Files = ({
   selected,
   onRefetchData,
   onSelectFolder,
-  debouncedSearch ,
+  debouncedSearch,
+  isLoading,
   isSearching
 }) => {
   const [uploadModal, setUploadModal] = useState(false);
@@ -145,34 +146,38 @@ export const Files = ({
             data-content="recent-files"
           >
             <div className="nk-files nk-files-view-group">
-              <FoldersList
-                data={data?.response?.list?.folders ?? []}
-                selected={selected?.id}
-                onEdit={handleEditFolder}
-                onMove={handleMove}
-                isSearching={isSearching}
-                debouncedSearch ={debouncedSearch }
-                draggedItem={draggedItem}
-                setDraggedItem={setDraggedItem}
-                onDelete={(data) => setDeleting(data)}
-                onSelectFolder={onSelectFolder}
-                search={search}
-                onMoveUp={handleMoveUp}
-              />
-              <FilesList
-                data={data?.response?.list?.files ?? []}
-                onMove={handleMove}
-                debouncedSearch ={debouncedSearch }
-                isSearching={isSearching}
-                draggedItem={draggedItem}
-                setDraggedItem={setDraggedItem}
-                selected={selected?.id}
-                onDelete={(data) => setDeleting(data)}
-                search={search}
-                onOpen={handleOpen}
-                onDownload={handleDownload}
-                onMoveUp={handleMoveUp}
-              />
+              {isLoading ? <Loading /> :
+                <>
+                  <FoldersList
+                      data={data?.response?.list?.folders ?? []}
+                      selected={selected?.id}
+                      onEdit={handleEditFolder}
+                      onMove={handleMove}
+                      isSearching={isSearching}
+                      debouncedSearch ={debouncedSearch }
+                      draggedItem={draggedItem}
+                      setDraggedItem={setDraggedItem}
+                      onDelete={(data) => setDeleting(data)}
+                      onSelectFolder={onSelectFolder}
+                      search={search}
+                      onMoveUp={handleMoveUp}
+                  />
+                  <FilesList
+                      data={data?.response?.list?.files ?? []}
+                      onMove={handleMove}
+                      debouncedSearch ={debouncedSearch }
+                      isSearching={isSearching}
+                      draggedItem={draggedItem}
+                      setDraggedItem={setDraggedItem}
+                      selected={selected?.id}
+                      onDelete={(data) => setDeleting(data)}
+                      search={search}
+                      onOpen={handleOpen}
+                      onDownload={handleDownload}
+                      onMoveUp={handleMoveUp}
+                  />
+                </>
+              }
             </div>
           </div>
         </div>

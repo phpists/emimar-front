@@ -24,21 +24,20 @@ export const Row = ({
           <td className="nk-tb-col">
               <span>{index}</span>
           </td>
-          <td className="nk-tb-col">
-              <a
-                  href="#"
-                  className="project-title"
-                  onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      onEdit();
-                  }}
+          <td
+              className="nk-tb-col cursor-pointer"
+              onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onEdit();
+              }}>
+              <a href className="project-title"
               >
                   <div className="user-avatar sq bg-purple">
-            <span>
-              {title?.[0]?.toUpperCase() ?? ""}
-                {title?.[1]?.toUpperCase() ?? ""}
-            </span>
+                    <span>
+                      {title?.[0]?.toUpperCase() ?? ""}
+                        {title?.[1]?.toUpperCase() ?? ""}
+                    </span>
                   </div>
                   <div className="project-info">
                       <h6 className="title">{title}</h6>
