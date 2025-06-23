@@ -26,7 +26,7 @@ export const FileCard = ({
     onClick={(e) => {
       e.preventDefault();
       onSelect && onSelect();
-      onSelectSearchFolder(folderId);
+      // onSelectSearchFolder(folderId);
     }}
   >
     <div className="nk-file-info" 
