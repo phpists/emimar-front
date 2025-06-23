@@ -31,7 +31,7 @@ export const Login = () => {
           <div className="nk-wrap nk-wrap nosidebar">
             <div className="nk-content">
               <div className="nk-block nk-block-middle nk-auth-body wide-xs">
-                <div class="brand-logo pb-4 text-center">
+                <div className="brand-logo pb-4 text-center">
                   <img
                     src="/assets/images/big-logo.png"
                     alt=""
@@ -48,7 +48,7 @@ export const Login = () => {
                     <div>
                       <div className="form-group">
                         <div className="form-label-group">
-                          <label className="form-label" for="default-01">
+                          <label className="form-label" htmlFor="default-01">
                             Email or Username
                           </label>
                         </div>
@@ -65,7 +65,7 @@ export const Login = () => {
                       </div>
                       <div className="form-group">
                         <div className="form-label-group">
-                          <label className="form-label" for="password">
+                          <label className="form-label" htmlFor="password">
                             Password
                           </label>
                         </div>

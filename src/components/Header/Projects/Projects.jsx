@@ -97,6 +97,7 @@ export const Projects = () => {
                   )
                   ?.map(({ title, id }) => (
                     <li
+                      key={id}
                       className={
                         selectedProject?.toString() === id?.toString()
                           ? "active"

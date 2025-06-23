@@ -31,7 +31,7 @@ export const Row = ({
                   e.stopPropagation();
                   onEdit();
               }}>
-              <a href className="project-title"
+              <div className="project-title"
               >
                   <div className="user-avatar sq bg-purple">
                     <span>
@@ -42,7 +42,7 @@ export const Row = ({
                   <div className="project-info">
                       <h6 className="title">{title}</h6>
                   </div>
-              </a>
+              </div>
           </td>
           <td className="nk-tb-col">
               <span>{createAt}</span>

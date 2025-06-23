@@ -89,7 +89,6 @@ export const FileThree = ({ nodes, selected, onSelect }) => {
     const key = info.node.key;
     const isSelected = selectedKey === key;
     const hasChildren = info.node.children?.length > 0;
-    console.log({key, info: info.node.id})
     if (!initialInteractionRef.current) {
       if (isSelected) {
         setSelectedKey(null);

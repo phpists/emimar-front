@@ -14,16 +14,15 @@ export const Language = () => {
         show ? "show" : ""
       }`}
     >
-      <a
-        href="#"
+      <div
         className="dropdown-toggle nk-quick-nav-icon"
         data-bs-toggle="dropdown"
         onClick={() => setShow(!show)}
       >
         <div className="quick-icon border border-light">
-          <img className="icon" src="/assets/images/english-sq.png" alt />
+          <img className="icon" src="/assets/images/english-sq.png" alt="Flag icon" />
         </div>
-      </a>
+      </div>
       <div
         className={`dropdown-menu dropdown-menu-end dropdown-menu-s1 ${
           show ? "show" : ""
@@ -31,24 +30,24 @@ export const Language = () => {
       >
         <ul className="language-list">
           <li>
-            <a href="#" className="language-item">
+            <div className="language-item">
               <img
                 src="/assets/images/english.png"
-                alt
+                alt="USA flag icon"
                 className="language-flag"
               />
               <span className="language-name">English</span>
-            </a>
+            </div>
           </li>
           <li>
-            <a href="#" className="language-item">
+            <div className="language-item">
               <img
                 src="/assets/images/russia.webp"
-                alt
+                alt="Russian flag icon"
                 className="language-flag"
               />
               <span className="language-name">Русский</span>
-            </a>
+            </div>
           </li>
         </ul>
       </div>

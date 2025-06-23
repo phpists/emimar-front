@@ -10,9 +10,7 @@ export const Actions = ({ onEdit, onDelete, onOpen, onDownload, onMoveUp }) => {
   return (
     <div className="nk-file-actions">
       <div className={`dropdown ${show ? "show" : ""}`} ref={dropdownRef}>
-        <a
-          href
-          className="dropdown-toggle btn btn-sm btn-icon btn-trigger"
+        <div className="dropdown-toggle btn btn-sm btn-icon btn-trigger"
           data-bs-toggle="dropdown"
           onClick={(e) => {
             e.preventDefault();
@@ -21,7 +19,7 @@ export const Actions = ({ onEdit, onDelete, onOpen, onDownload, onMoveUp }) => {
           }}
         >
           <em className="icon ni ni-more-h" />
-        </a>
+        </div>
         <div
           className={`dropdown-menu dropdown-menu-end ${show ? "show" : ""}`}
         >
