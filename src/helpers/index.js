@@ -18,6 +18,9 @@ export const getFileIcon = (extension) => {
   if (["pdf"].includes(ext)) {
     return fileIcons.pdf;
   }
+  if (["zip", "rar", "7z"].includes(ext)) {
+    return fileIcons.zip;
+  }
   // fallback icon
   return fileIcons.default;
 };

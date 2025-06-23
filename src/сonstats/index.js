@@ -120,4 +120,21 @@ export const fileIcons = {
       </g>
     </svg>
   ),
+    zip: (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+            <rect width="72" height="72" rx="10" ry="10" fill="#003366" />
+            <text
+                x="50%"
+                y="50%"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fill="#ffffff"
+                fontSize="20"
+                fontWeight="bold"
+                fontFamily="Arial, sans-serif"
+            >
+                ZIP
+            </text>
+        </svg>
+    ),
 };
