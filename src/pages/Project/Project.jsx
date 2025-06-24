@@ -63,7 +63,7 @@ export const Project = () => {
               isSearching={isSearching}
               selected={selected}
               onRefetchData={handleRefetchData}
-              onSelectFolder={(id) => setSelected(id)}
+              onSelectFolder={(id) => setSelected({id})}
             />
           </div>
         </div>
