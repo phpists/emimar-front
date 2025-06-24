@@ -86,7 +86,7 @@ export const Actions = ({ onEdit, onCreateSubfolder, onDelete, onOpen, onDownloa
                               onCreateSubfolder();
                           }}
                       >
-                          <em className="icon ni ni-pen" />
+                          <em className="icon ni ni-folder-plus" />
                           <span>Create subfolder</span>
                       </a>
                   </li>
