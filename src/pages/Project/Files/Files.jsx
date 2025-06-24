@@ -59,7 +59,6 @@ export const Files = ({
   };
 
   const handleCreateSubfolder = (data) => {
-    console.log(data);
     setSubfolderModal(true);
     setCreateSubfolderData(data);
   }

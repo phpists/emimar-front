@@ -48,7 +48,7 @@ export const CreateSubfolderModal = ({ onClose, parentId, createSubfolderData, o
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title">
-                            Create Subfolder Folder
+                            Create Subfolder
                         </h5>
                         <div href="#" className="close" onClick={onClose}>
                             <em className="icon ni ni-cross" />
