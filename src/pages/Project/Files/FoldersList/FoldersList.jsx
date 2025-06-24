@@ -6,6 +6,7 @@ export const FoldersList = ({
     data,
     selected,
     onEdit,
+    onCreateSubfolder,
     onDelete,
     onSelectFolder,
     isSearching,
@@ -39,6 +40,7 @@ export const FoldersList = ({
                             size={size}
                             date={created_at}
                             onEdit={() => onEdit({ id, name })}
+                            onCreateSubfolder={() => onCreateSubfolder({ id })}
                             onDelete={() => onDelete({ id, name, type: "folder" })}
                             onSelect={() => onSelectFolder(id)}
                             onMoveUp={() => onMoveUp(id)}

@@ -99,7 +99,7 @@ export const UploadModal = ({ onClose, parentId, onRefetchData }) => {
                   <input
                     type="file"
                     multiple
-                    accept=".jpg,.jpeg,.png,.gif,.svg,.webp,.xls,.xlsx,.xlsm,.xlsb,.doc,.docx,.rtf,.txt,.pdf,.zip,.rar,.7z"
+                    accept=".jpg,.jpeg,.png,.gif,.svg,.webp,.xls,.xlsx,.xlsm,.xlsb,.doc,.docx,.rtf,.txt,.pdf,.zip,.rar,.7z,.dwg,.ifc,.dxf,.pln,.bimx,.edoc"
                     onChange={handleFileSelect}
                     value=""
                   />

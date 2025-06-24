@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../hooks";
 
-export const Actions = ({ onEdit, onDelete, onOpen, onDownload, onMoveUp }) => {
+export const Actions = ({ onEdit, onCreateSubfolder, onDelete, onOpen, onDownload, onMoveUp }) => {
   const [show, setShow] = useState(false);
   const dropdownRef = useRef();
 
@@ -75,6 +75,22 @@ export const Actions = ({ onEdit, onDelete, onOpen, onDownload, onMoveUp }) => {
                       </a>
                   </li>
               ): null}
+
+              {onCreateSubfolder ? (
+                  <li>
+                      <a
+                          href="#"
+                          onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation()
+                              onCreateSubfolder();
+                          }}
+                      >
+                          <em className="icon ni ni-pen" />
+                          <span>Create subfolder</span>
+                      </a>
+                  </li>
+              ) : null}
 
             {onEdit ? (
               <li>

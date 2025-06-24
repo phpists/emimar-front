@@ -8,6 +8,7 @@ export const FileCard = ({
    date,
    size,
    onEdit,
+   onCreateSubfolder,
    onDelete,
    onSelect,
    draggable,
@@ -58,6 +59,6 @@ export const FileCard = ({
         {size ? <li className="size">{formatFileSize(size)}</li> : null}
       </ul>
     </div>
-    <Actions onEdit={onEdit} onDelete={onDelete} onOpen={onOpen} onDownload={onDownload} onMoveUp={onMoveUp} />
+    <Actions onEdit={onEdit} onCreateSubfolder={onCreateSubfolder} onDelete={onDelete} onOpen={onOpen} onDownload={onDownload} onMoveUp={onMoveUp} />
   </div>
 );

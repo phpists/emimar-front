@@ -21,6 +21,24 @@ export const getFileIcon = (extension) => {
   if (["zip", "rar", "7z"].includes(ext)) {
     return fileIcons.zip;
   }
+  if (["dwg"].includes(ext)) {
+    return fileIcons.dwg;
+  }
+  if (["dxf"].includes(ext)) {
+    return fileIcons.dxf;
+  }
+  if (["ifc"].includes(ext)) {
+    return fileIcons.ifc;
+  }
+  if (["bimx"].includes(ext)) {
+    return fileIcons.bimx;
+  }
+  if (["pln"].includes(ext)) {
+    return fileIcons.archicad;
+  }
+  if (["edoc"].includes(ext)) {
+    return fileIcons.sign;
+  }
   // fallback icon
   return fileIcons.default;
 };

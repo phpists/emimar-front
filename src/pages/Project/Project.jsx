@@ -33,6 +33,7 @@ export const Project = () => {
   const handleSearch = (val) => setSearch(val);
 
   const handleSelectFolder = (data) => {
+    console.log({data});
     setSelected(data);
   };
 

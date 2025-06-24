@@ -120,20 +120,134 @@ export const fileIcons = {
       </g>
     </svg>
   ),
+
+    // ZIP archives
     zip: (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
-            <rect width="72" height="72" rx="10" ry="10" fill="#003366" />
+            <rect width="72" height="72" rx="10" ry="10" fill="#6d4c41" />
             <text
                 x="50%"
                 y="50%"
                 textAnchor="middle"
                 dominantBaseline="middle"
                 fill="#ffffff"
-                fontSize="20"
+                fontSize="18"
                 fontWeight="bold"
                 fontFamily="Arial, sans-serif"
             >
                 ZIP
+            </text>
+        </svg>
+    ),
+    // AutoCAD .dwg
+    dwg: (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+            <rect width="72" height="72" rx="10" ry="10" fill="#c62828" />
+            <text
+                x="50%"
+                y="50%"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fill="#ffffff"
+                fontSize="18"
+                fontWeight="bold"
+                fontFamily="Arial, sans-serif"
+            >
+                DWG
+            </text>
+        </svg>
+    ),
+    // AutoCAD .dxf
+    dxf: (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+            <rect width="72" height="72" rx="10" ry="10" fill="#c62828" />
+            <text
+                x="50%"
+                y="50%"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fill="#ffffff"
+                fontSize="18"
+                fontWeight="bold"
+                fontFamily="Arial, sans-serif"
+            >
+                DXF
+            </text>
+        </svg>
+    ),
+
+    // IFC files
+    ifc: (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+            <rect width="72" height="72" rx="10" ry="10" fill="#455a64" />
+            <text
+                x="50%"
+                y="50%"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fill="#ffffff"
+                fontSize="18"
+                fontWeight="bold"
+                fontFamily="Arial, sans-serif"
+            >
+                IFC
+            </text>
+        </svg>
+    ),
+
+    // BIMx Viewer files
+    bimx: (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+            <rect width="72" height="72" rx="10" ry="10" fill="#37474f" />
+            <text
+                x="50%"
+                y="50%"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fill="#ffffff"
+                fontSize="16"
+                fontWeight="bold"
+                fontFamily="Arial, sans-serif"
+            >
+                BIMx
+            </text>
+        </svg>
+    ),
+
+    // Archicad PLN
+    archicad: (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+            <rect width="72" height="72" rx="10" ry="10" fill="#1565c0" />
+            <text
+                x="50%"
+                y="50%"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fill="#ffffff"
+                fontSize="16"
+                fontWeight="bold"
+                fontFamily="Arial, sans-serif"
+            >
+                PLN
+            </text>
+        </svg>
+    ),
+
+    // EDOC e-sign files
+    sign: (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+            <rect width="72" height="72" rx="10" ry="10" fill="#2e7d32" />
+            <text
+                x="50%"
+                y="50%"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fill="#ffffff"
+                fontSize="16"
+                fontWeight="bold"
+                fontFamily="Arial, sans-serif"
+            >
+                EDOC
             </text>
         </svg>
     ),

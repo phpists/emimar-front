@@ -13,6 +13,7 @@ import {
 } from "../../../store/files/files.api";
 import { toast } from "react-toastify";
 import {Loading} from "../../../components/Loading";
+import {CreateSubfolderModal} from "./CreateSubfolderModal";
 
 export const Files = ({
   data,
@@ -27,7 +28,9 @@ export const Files = ({
 }) => {
   const [uploadModal, setUploadModal] = useState(false);
   const [folderModal, setFolderModal] = useState(false);
+  const [createSubfolderModal, setSubfolderModal] = useState(false);
   const [editFolder, setEditFolder] = useState(null);
+  const [createSubfolderData, setCreateSubfolderData] = useState(null);
   const [deleting, setDeleting] = useState(null);
   const [deleteFolder] = useLazyDeleteFolderQuery();
   const [deleteFile] = useLazyDeleteFileQuery();
@@ -44,10 +47,22 @@ export const Files = ({
     setFolderModal(false);
     setEditFolder(null);
   };
+
+  const handleCloseCreateSubfolderModal = () => {
+    setSubfolderModal(false);
+    setCreateSubfolderData(null);
+  };
+
   const handleEditFolder = (data) => {
     setFolderModal(true);
     setEditFolder(data);
   };
+
+  const handleCreateSubfolder = (data) => {
+    console.log(data);
+    setSubfolderModal(true);
+    setCreateSubfolderData(data);
+  }
 
   const handleDelete = () => {
     if (deleting?.type === "folder") {
@@ -126,6 +141,14 @@ export const Files = ({
           onRefetchData={onRefetchData}
         />
       ) : null}
+      {createSubfolderModal ? (
+        <CreateSubfolderModal
+           onClose={handleCloseCreateSubfolderModal}
+           parentId={selected?.id}
+           createSubfolderData={createSubfolderData}
+           onRefetchData={onRefetchData}
+        />
+      ) : null}
       {deleting ? (
         <ConfirmDeleteModal
           onClose={() => setDeleting(null)}
@@ -152,6 +175,7 @@ export const Files = ({
                       data={data?.response?.list?.folders ?? []}
                       selected={selected?.id}
                       onEdit={handleEditFolder}
+                      onCreateSubfolder={handleCreateSubfolder}
                       onMove={handleMove}
                       isSearching={isSearching}
                       debouncedSearch ={debouncedSearch }
