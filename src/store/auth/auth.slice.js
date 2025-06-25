@@ -20,6 +20,9 @@ export const authSlice = createSlice({
     selectItem(state, action) {
       state.selectedItem = action.payload;
     },
+    logoutUser: (state) => {
+      state.user = null;
+    }
   },
 });
 

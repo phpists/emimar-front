@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useAppSelect} from "../../hooks/redux";
 import {toast} from "react-toastify";
 import {useUpdateUserPasswordMutation} from "../../store/auth/auth.api";
@@ -14,6 +14,7 @@ export const Password = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log({name, value});
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -21,12 +22,13 @@ export const Password = () => {
   };
 
   const handleSave = async () => {
+    console.log({formData});
     if (formData.passwordUnique !== formData.repeatPasswordUnique) {
       toast.error("Пароли не совпадают");
       return;
     }
     try {
-      await updateUserPassword({ user_id: user.id, password: formData.password }).unwrap();
+      await updateUserPassword({ user_id: user.id, password: formData.passwordUnique }).unwrap();
       toast.success("Успешно сохранено");
     } catch (err) {
       toast.error("Ошибка");

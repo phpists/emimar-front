@@ -1,8 +1,13 @@
 import { NavLink, useLocation } from "react-router";
+import {useAppSelect} from "../hooks/redux";
+import {ROLES} from "../сonstats/roles";
 
 export const Sidebar = () => {
   const { pathname } = useLocation();
+  const rawUser = useAppSelect((state) => state.auth.user);
+  const user = rawUser?.user || rawUser;
 
+  const isAdmin = user?.role_id === ROLES.ADMIN;
   return (
     <div className="nk-apps-sidebar is-theme">
       <div className="nk-apps-brand">
@@ -49,37 +54,33 @@ export const Sidebar = () => {
                       </span>
                     </NavLink>
                   </li>
-                  <li
-                    className={`nk-menu-item ${
-                      pathname === "/users" ? "active" : ""
-                    }`}
-                  >
-                    <NavLink
-                      to="/users"
-                      className={`nk-menu-link ${
-                        pathname === "/users" ? "active current-page" : ""
-                      }`}
-                      aria-label="Users"
-                    >
-                      <span className="nk-menu-icon">
-                        <em className="icon ni ni-user-list" />
-                      </span>
-                    </NavLink>
-                  </li>
+                  {isAdmin && (
+                      <li className={`nk-menu-item ${pathname === "/users" ? "active" : ""}`}>
+                        <NavLink
+                            to="/users"
+                            className={`nk-menu-link ${pathname === "/users" ? "active current-page" : ""}`}
+                            aria-label="Users"
+                        >
+                          <span className="nk-menu-icon">
+                            <em className="icon ni ni-user-list" />
+                          </span>
+                        </NavLink>
+                      </li>
+                  )}
                 </ul>
               </div>
             </div>
           </div>
           <div className="nk-sidebar-footer">
             <NavLink
-              to="/profile"
-              className={`nk-menu-link d-flex align-items-center justify-content-center ${
-                pathname === "/profile" ? "active current-page" : ""
-              }`}
-              aria-label="Profile"
+                to="/profile"
+                className={`nk-menu-link d-flex align-items-center justify-content-center ${
+                    pathname === "/profile" ? "active current-page" : ""
+                }`}
+                aria-label="Profile"
             >
               <span className="nk-menu-icon">
-                <em className="icon ni ni-user-alt" />
+                <em className="icon ni ni-user-alt"/>
               </span>
             </NavLink>
           </div>
