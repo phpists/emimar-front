@@ -75,7 +75,10 @@ export const Row = ({
                               href="#"
                               className="dropdown-toggle btn btn-sm btn-icon btn-trigger"
                               data-bs-toggle="dropdown"
-                              onClick={() => setDrodown(!dropdown)}
+                              onClick={(e) => {
+                                  e.preventDefault();
+                                  setDrodown(!dropdown);
+                              }}
                           >
                               <em className="icon ni ni-more-h"/>
                           </a>

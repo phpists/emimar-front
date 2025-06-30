@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import {
   useLazyCreateFolderQuery,
   useLazyUpdateFolderQuery,
@@ -6,7 +6,13 @@ import {
 import { toast } from "react-toastify";
 import { useAppSelect } from "../../../hooks/redux";
 
-export const FolderModal = ({ onClose, parentId, editData, onRefetchData }) => {
+const presetOptions = [
+  "Сделка M | Deal M Nr. ",
+  "Сделка D | Deal D Nr. ",
+  "Заказ | Order Nr. "
+];
+
+export const FolderModal = ({ isOpen, onClose, parentId, editData, onRefetchData }) => {
   const [folderData, setFolderData] = useState({
     folder_name: "",
   });
@@ -14,6 +20,7 @@ export const FolderModal = ({ onClose, parentId, editData, onRefetchData }) => {
   const [updateFolder] = useLazyUpdateFolderQuery();
   const [loading, setLoading] = useState(false);
   const { selectedProject } = useAppSelect((state) => state.auth);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     const overlay = document.querySelector(".modal-backdrop");
@@ -22,10 +29,27 @@ export const FolderModal = ({ onClose, parentId, editData, onRefetchData }) => {
   }, []);
 
   useEffect(() => {
+    if (!isOpen) setFolderData("");
+  }, [isOpen]);
+
+  const handlePresetSelect = (e) => {
+    const value = e.target.value;
+    setFolderData((prev) => ({ ...prev, folder_name: value }));
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
+  };
+
+  useEffect(() => {
     if (editData) {
       setFolderData({ folder_name: editData?.name, folder_id: editData?.id });
     }
   }, [editData]);
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setFolderData((prev) => ({ ...prev, folder_name: value }));
+  };
 
   const handleSubmit = () => {
     if (editData) {
@@ -80,15 +104,35 @@ export const FolderModal = ({ onClose, parentId, editData, onRefetchData }) => {
             <div className="form-group">
               <label className="form-label">Folder Name</label>
               <input
-                type="text"
-                className="form-control"
-                value={folderData.folder_name}
-                onChange={(e) =>
-                  setFolderData({ ...folderData, folder_name: e.target.value })
-                }
+                  type="text"
+                  ref={inputRef}
+                  className="form-control"
+                  value={folderData.folder_name}
+                  onChange={handleChange}
               />
             </div>
-            {/* 
+            <div className="mb-3">
+              <label htmlFor="preset" className="form-label">
+                Select Folder Name Template
+              </label>
+              <select
+                  id="preset"
+                  className="form-select"
+                  onChange={handlePresetSelect}
+                  defaultValue=""
+                  style={{ cursor: "pointer" }}
+              >
+                <option value="" disabled>
+                  Choose a template
+                </option>
+                {presetOptions.map((opt, idx) => (
+                    <option key={idx} value={opt}>
+                      {opt}
+                    </option>
+                ))}
+              </select>
+            </div>
+            {/*
             <div className="form-group">
               <label className="form-label">Assign Users</label>
               <select
@@ -108,11 +152,11 @@ export const FolderModal = ({ onClose, parentId, editData, onRefetchData }) => {
 
           <div className="modal-footer bg-light">
             <button
-              className="btn btn-primary"
-              onClick={() => {
-                handleSubmit();
-              }}
-              disabled={folderData?.folder_name?.length === 0 || loading}
+                className="btn btn-primary"
+                onClick={() => {
+                  handleSubmit();
+                }}
+                disabled={folderData?.folder_name?.length === 0 || loading}
             >
               {editData ? "Save" : "Create"}
             </button>

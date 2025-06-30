@@ -16,7 +16,7 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
   const [data, setData] = useState({
     title: `Project `,
     address: "",
-    project_number: total,
+    project_number: "",
     users: [],
     groups: [],
     rules_type: "users",
@@ -54,6 +54,10 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
   }, [editData]);
 
   const handleSubmit = () => {
+    if (data.title?.length === 0 || !data.address?.trim() || !data.project_number?.toString().trim() || data?.[data?.rules_type]?.length === 0) {
+      toast.error("Заполните все обязательные поля");
+      return;
+    }
     setLoading(true);
     if (editData) {
       updateProject(data).then((resp) => {
@@ -114,7 +118,7 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
             <form>
               <div className="form-group">
                 <label className="form-label" htmlFor="project-name">
-                  Project Name
+                  Project Name <span className="text-danger">*</span>
                 </label>
                 <div className="form-control-wrap">
                   <input
@@ -131,7 +135,7 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
               </div>
               <div className="form-group">
                 <label className="form-label" htmlFor="project-number">
-                  Project Number
+                  Project Number <span className="text-danger">*</span>
                 </label>
                 <div className="form-control-wrap">
                   <input
@@ -152,7 +156,7 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
               </div>
               <div className="form-group">
                 <label className="form-label" htmlFor="address">
-                  Address
+                  Address <span className="text-danger">*</span>
                 </label>
                 <div className="form-control-wrap">
                   <input
@@ -202,7 +206,7 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
                 <label className="form-label">
                   {data?.rules_type === "users"
                       ? "Assign Users"
-                      : "Assign Groups"}
+                      : "Assign Groups"} <span className="text-danger">*</span>
                 </label>
                 <Select
                     isMulti
@@ -229,11 +233,7 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
                 type="button"
                 className="btn btn-primary"
                 onClick={handleSubmit}
-                disabled={
-                    data.title?.length === 0 ||
-                    data?.[data?.rules_type]?.length === 0 ||
-                    loading
-                }
+                disabled={loading}
             >
               {editData ? "Save" : "Create"}
             </button>

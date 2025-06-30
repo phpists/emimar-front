@@ -54,7 +54,7 @@ export const Projects = ({data, refetch}) => {
               {
                 data?.response?.projects?.data?.find(
                   (p) => p.id?.toString() === selectedProject?.toString()
-                )?.title
+                )?.project_number
               }
             </a>
             <div className={`dropdown-menu left ${show ? "show" : ""}`} style={{}}>
@@ -65,7 +65,7 @@ export const Projects = ({data, refetch}) => {
                     <input
                       type="text"
                       className="form-control border-transparent form-focus-none"
-                      placeholder="Search files, folders"
+                      placeholder="Search project number"
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
                     />
@@ -73,12 +73,12 @@ export const Projects = ({data, refetch}) => {
                 </li>
                 <li className="divider" />
                 {data?.response?.projects?.data
-                  ?.filter(({ title }) =>
-                    search?.length > 0
-                      ? title.toLowerCase().includes(search.toLowerCase())
-                      : true
+                  ?.filter(({ project_number }) =>
+                      search?.length > 0
+                          ? project_number?.toString().toLowerCase().includes(search.toLowerCase())
+                          : true
                   )
-                  ?.map(({ title, id }) => (
+                  ?.map(({ project_number, id }) => (
                     <li
                       key={id}
                       className={
@@ -93,8 +93,8 @@ export const Projects = ({data, refetch}) => {
                           e.preventDefault();
                           handleSelectProject(id);
                         }}
-                      >
-                        <span>{title}</span>
+                        style={{display: "flex", justifyContent: "center"}}>
+                        <span>{project_number}</span>
                       </a>
                     </li>
                   ))}

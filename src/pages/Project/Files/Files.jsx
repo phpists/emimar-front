@@ -148,6 +148,7 @@ export const Files = ({
           onClose={handleCloseFolderModal}
           parentId={selected?.id}
           editData={editFolder}
+          isOpen={folderModal}
           onRefetchData={onRefetchData}
         />
       ) : null}
