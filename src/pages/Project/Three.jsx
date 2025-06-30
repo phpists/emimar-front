@@ -4,10 +4,29 @@ import { FileThree } from "./FileThree";
 export const Three = ({ data, selected, onSelect }) => {
   const isFirstRender = useRef(true);
 
+  // useEffect(() => {
+  //   if (isFirstRender.current) {
+  //     isFirstRender.current = false;
+  //     setTimeout(() => window.JSLists?.createTree("f1combined"), 1000);
+  //   }
+  // }, []);
+
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
-      setTimeout(() => window.JSLists?.createTree("f1combined"), 1000);
+
+      setTimeout(() => {
+        window.JSLists?.createTree("f1combined");
+
+        // 🔽 Хак: примусово задаємо шрифт всім вкладеним елементам
+        const root = document.getElementById("f1combined");
+        if (root) {
+          root.querySelectorAll("*").forEach(el => {
+            el.style.fontFamily = "'Roboto', sans-serif";
+            el.style.fontWeight = "500";
+          });
+        }
+      }, 1000);
     }
   }, []);
 
@@ -31,7 +50,7 @@ export const Three = ({ data, selected, onSelect }) => {
               tabIndex={0}
               role="region"
               aria-label="scrollable content"
-              style={{ height: "100%", overflow: "hidden" }}
+              style={{ height: "100%", overflowY: "auto" }}
             >
               <div className="simplebar-content">
                 <ul id="f1combined" className="jslists">

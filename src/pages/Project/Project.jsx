@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useMemo, useState} from "react";
 import { useAppSelect } from "../../hooks/redux";
 import {
   useGetProjectFileEntryQuery,
@@ -6,8 +6,22 @@ import {
 } from "../../store/files/files.api";
 import { Files } from "./Files/Files";
 import { Three } from "./Three";
-import { transformTree } from "./FileThree";
+// import { transformTree } from "./FileThree";
 import {useDebounce} from "use-debounce";
+
+const transformTree = (data, parentId = null) => {
+  if (!Array.isArray(data)) return [];
+  return data.map(item => {
+    const node = {
+      ...item,
+      parent_id: parentId,
+    };
+    if (item.children?.length) {
+      node.children = transformTree(item.children, item.id);
+    }
+    return node;
+  });
+};
 
 export const Project = () => {
   const { selectedProject, selectedItem } = useAppSelect((state) => state.auth);
@@ -17,6 +31,10 @@ export const Project = () => {
   const [search, setSearch] = useState("");
   const [debouncedSearch] = useDebounce(search, 500);
   const isSearching = Boolean(search);
+
+  const tree = useMemo(() => {
+    return transformTree(threeData?.response?.tree || []);
+  }, [threeData]);
 
   const params = {
     project_id: selectedProject,
@@ -43,6 +61,44 @@ export const Project = () => {
     }
   };
 
+  const handleGoUp = () => {
+    if (!selected?.id || !tree) return;
+
+    const findNodeById = (nodes, id) => {
+      for (const node of nodes) {
+        if (node.id === id) return node;
+        if (node.children) {
+          const found = findNodeById(node.children, id);
+          if (found) return found;
+        }
+      }
+      return null;
+    };
+
+    const currentNode = findNodeById(tree, selected.id);
+    if (!currentNode?.parent_id) return;
+
+    const parentNode = findNodeById(tree, currentNode.parent_id);
+    if (parentNode) {
+      setSelected(parentNode);
+    }
+  }
+
+  const isRootSelected = useMemo(() => {
+    const findNodeById = (nodes, id) => {
+      for (const node of nodes) {
+        if (node.id === id) return node;
+        if (node.children) {
+          const found = findNodeById(node.children, id);
+          if (found) return found;
+        }
+      }
+      return null;
+    };
+    const currentNode = selected?.id ? findNodeById(tree, selected.id) : null;
+    return !currentNode?.parent_id;
+  }, [selected, tree]);
+
   return (
     <div className="nk-content p-0">
       <div className="nk-content-inner">
@@ -63,6 +119,8 @@ export const Project = () => {
               selected={selected}
               onRefetchData={handleRefetchData}
               onSelectFolder={(id) => setSelected({id})}
+              onGoUp={handleGoUp}
+              isRootSelected={isRootSelected}
             />
           </div>
         </div>

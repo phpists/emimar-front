@@ -16,7 +16,7 @@ li {
 /* List styling */
 .jslists {
   font-size: 1.3rem;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Roboto', sans-serif !important;
 }
 .jslist-ul,
 .jslist-ol,
@@ -87,3 +87,19 @@ li {
 li.divider {
   margin: 0 0 !important;
 }
+/*#f1combined,*/
+/*#f1combined * {*/
+/*  font-family: 'Roboto', sans-serif !important;*/
+/*}*/
+
+/*#f1combined,*/
+/*#f1combined * {*/
+/*  color: #6c7890 !important; !* відповідно до макету *!*/
+/*}*/
+
+/*#f1combined .active,*/
+/*#f1combined .selected,*/
+/*#f1combined .current {*/
+/*  color: #4f89ff !important; !* або інший — як активний *!*/
+/*  font-weight: 800;*/
+/*}*/

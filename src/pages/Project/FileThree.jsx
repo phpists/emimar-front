@@ -1,6 +1,5 @@
-import React, {useState, useEffect, useMemo, useRef} from "react";
+import React, { useState, useEffect } from "react";
 import { Tree } from "antd";
-import {useActions} from "../../hooks/actions";
 const { DirectoryTree } = Tree;
 
 function findPathById(tree, id, path = [], keys = [], keyPath = "") {
@@ -16,11 +15,11 @@ function findPathById(tree, id, path = [], keys = [], keyPath = "") {
       }
       if (node.children && node.children.length) {
         const result = findPathById(
-          node.children,
-          id,
-          newPath,
-          newKeys,
-          keyPath ? `${keyPath}/${node.name}` : node.name
+            node.children,
+            id,
+            newPath,
+            newKeys,
+            keyPath ? `${keyPath}/${node.name}` : node.name
         );
         if (result) return result;
       }
@@ -31,84 +30,42 @@ function findPathById(tree, id, path = [], keys = [], keyPath = "") {
 
 export function transformTree(data, parentPath = "") {
   return (
-    data?.response?.tree?.map((item) => {
-      const currentPath = parentPath ? `${parentPath}/${item.name}` : item.name;
+      data?.response?.tree?.map((item) => {
+        const currentPath = parentPath ? `${parentPath}/${item.name}` : item.name;
 
-      return {
-        title: item.full_name,
-        key: currentPath,
-        id: item?.id,
-        path: currentPath,
-        children: transformTree(
-          { response: { tree: item.children } },
-          currentPath
-        ),
-      };
-    }) || []
+        return {
+          title: item.name,
+          key: currentPath,
+          id: item?.id,
+          path: currentPath,
+          children: transformTree(
+              { response: { tree: item.children } },
+              currentPath
+          ),
+        };
+      }) || []
   );
 }
 
 export const FileThree = ({ nodes, selected, onSelect }) => {
-  const tree = useMemo(() => transformTree(nodes), [nodes]);
   const [expandedKeys, setExpandedKeys] = useState([]);
-  const initialInteractionRef = useRef(true);
-  const [selectedKey, setSelectedKey] = useState(null);
-  const { selectItem } = useActions();
+  const tree = transformTree(nodes);
+
+  const selectedId = typeof selected === "object" ? selected?.id : selected;
+  const active = findPathById(nodes?.response?.tree, selectedId);
+  const selectedKey = active?.keys?.[active.keys.length - 1] || "";
 
   useEffect(() => {
-    if (tree.length > 0) {
-      const getAllKeys = (nodes) => {
-        const keys = [];
-        const traverse = (list) => {
-          for (const node of list) {
-            keys.push(node.key);
-            if (node.children?.length) traverse(node.children);
-          }
-        };
-        traverse(nodes);
-        return keys;
-      };
-
-      setExpandedKeys(getAllKeys(tree));
+    if (selectedId && active?.keys) {
+      setExpandedKeys((prev) => {
+        return Array.from(new Set([...prev, ...active.keys.slice(0, -1)]));
+      });
     }
-  }, [tree]);
-
-  useEffect(() => {
-    if (selected && nodes?.response?.tree) {
-      const res = findPathById(nodes?.response?.tree, selected);
-      if (res) {
-        setSelectedKey(res.keys[res.keys.length - 1]);
-        setExpandedKeys((prev) =>
-            Array.from(new Set([...prev, ...res.keys.slice(0, -1)]))
-        );
-      }
-    }
-  }, [selected, nodes]);
+  }, [selectedId]);
 
   const onSelectFile = (keys, info) => {
-    const key = info.node.key;
-    const isSelected = selectedKey === key;
-    const hasChildren = info.node.children?.length > 0;
-    if (!initialInteractionRef.current) {
-      if (isSelected) {
-        setSelectedKey(null);
-        if (hasChildren) {
-          setExpandedKeys(prev => prev.filter(k => !k.startsWith(key)));
-        }
-        onSelect?.(null);
-      } else {
-        setSelectedKey(key);
-        onSelect?.({id: info.node.id, title: info.node.title});
-
-        if (hasChildren && !expandedKeys.includes(key)) {
-          setExpandedKeys(prev => [...prev, key]);
-        }
-      }
-    } else {
-      setSelectedKey(key);
-      onSelect?.({id: info.node.id, title: info.node.title});
-
-      initialInteractionRef.current = false;
+    if (info.node?.id) {
+      onSelect?.({ id: info.node.id });
     }
   };
 
@@ -117,25 +74,12 @@ export const FileThree = ({ nodes, selected, onSelect }) => {
   };
 
   return (
-    <DirectoryTree
-      onSelect={onSelectFile}
-      expandAction={false}
-      onExpand={onExpand}
-      treeData={tree}
-      expandedKeys={expandedKeys}
-      selectedKeys={selectedKey ? [selectedKey] : []}
-      autoExpandParent={false}
-    />
+      <DirectoryTree
+          onSelect={onSelectFile}
+          onExpand={onExpand}
+          treeData={tree}
+          expandedKeys={expandedKeys}
+          selectedKeys={selectedKey ? [selectedKey] : []}
+      />
   );
 };
-
-// export function transformTree(data) {
-//   return (
-//     data?.response?.tree?.map((item, index) => ({
-//       title: item.name,
-//       key: `0-${index}`,
-//       id: item?.id,
-//       children: transformTree({ response: { tree: item.children } }),
-//     })) || []
-//   );
-// }

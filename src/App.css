@@ -54,7 +54,7 @@ li {
 /* List styling */
 .jslists {
   font-size: 1.3rem;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Roboto', sans-serif !important;
 }
 .jslist-ul,
 .jslist-ol,

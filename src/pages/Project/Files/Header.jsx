@@ -6,6 +6,8 @@ export const Header = ({
   onCreateFolder,
   selected,
   search,
+  onGoUp,
+  isRootSelected,
   onSearch,
 }) => {
   const [dropdown, setDropdown] = useState(false);
@@ -28,51 +30,67 @@ export const Header = ({
       {selected ? (
         <div className="nk-fmg-actions">
           <ul className="nk-block-tools g-3">
+            {!isRootSelected && (
+                <li>
+                  <a
+                      href="#"
+                      className="btn btn-light"
+                      data-bs-toggle="modal"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onGoUp();
+                      }}
+                  >
+                    <em className="icon ni ni-arrow-up"/>
+                    <span>Go Up</span>
+                  </a>
+                </li>
+            )}
             <li>
               <div
-                ref={dropdownRef}
-                className={`dropdown ${dropdown ? "show" : ""}`}
+                  ref={dropdownRef}
+                  className={`dropdown ${dropdown ? "show" : ""}`}
               >
                 <a
-                  href="#"
-                  className="btn btn-light"
-                  data-bs-toggle="dropdown"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setDropdown(!dropdown);
-                  }}
+                    href="#"
+                    className="btn btn-light"
+                    data-bs-toggle="dropdown"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setDropdown(!dropdown);
+                    }}
                 >
-                  <em className="icon ni ni-plus" />
+                  <em className="icon ni ni-plus"/>
                   <span>Create</span>
                 </a>
                 <div
-                  className={`dropdown-menu dropdown-menu-end ${
-                    dropdown ? "show" : ""
-                  }`}
+                    className={`dropdown-menu dropdown-menu-end ${
+                        dropdown ? "show" : ""
+                    }`}
                 >
                   <ul className="link-list-opt no-bdr">
                     <li>
                       <a
-                        href="#file-upload"
-                        data-bs-toggle="modal"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          onOpenUploadModal();
-                        }}
+                          href="#file-upload"
+                          data-bs-toggle="modal"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            onOpenUploadModal();
+                          }}
                       >
-                        <em className="icon ni ni-upload-cloud" />
+                        <em className="icon ni ni-upload-cloud"/>
                         <span>Upload File</span>
                       </a>
                     </li>
                     <li>
                       <a
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          onCreateFolder();
-                        }}
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            onCreateFolder();
+                          }}
                       >
-                        <em className="icon ni ni-folder-plus" />
+                        <em className="icon ni ni-folder-plus"/>
                         <span>Create Folder</span>
                       </a>
                     </li>
@@ -82,15 +100,15 @@ export const Header = ({
             </li>
             <li>
               <a
-                href="#file-upload"
-                className="btn btn-primary"
-                data-bs-toggle="modal"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onOpenUploadModal();
-                }}
+                  href="#file-upload"
+                  className="btn btn-primary"
+                  data-bs-toggle="modal"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onOpenUploadModal();
+                  }}
               >
-                <em className="icon ni ni-upload-cloud" />
+                <em className="icon ni ni-upload-cloud"/>
                 <span>Upload</span>
               </a>
             </li>

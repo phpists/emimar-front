@@ -15,6 +15,7 @@ export const FoldersList = ({
     onMove,
     draggedItem,
     setDraggedItem,
+    isAdmin,
     onMoveUp
 }) => {
     const filteredFolders = isSearching
@@ -57,6 +58,7 @@ export const FoldersList = ({
                                     });
                                 }
                             }}
+                            isAdmin={isAdmin}
                         />
                     ))
                 )}

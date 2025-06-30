@@ -14,6 +14,8 @@ import {
 import { toast } from "react-toastify";
 import {Loading} from "../../../components/Loading";
 import {CreateSubfolderModal} from "./CreateSubfolderModal";
+import {useAppSelect} from "../../../hooks/redux";
+import {ROLES} from "../../../сonstats/roles";
 
 export const Files = ({
   data,
@@ -24,6 +26,8 @@ export const Files = ({
   onSelectFolder,
   debouncedSearch,
   isLoading,
+  onGoUp,
+  isRootSelected,
   isSearching
 }) => {
   const [uploadModal, setUploadModal] = useState(false);
@@ -37,6 +41,10 @@ export const Files = ({
   const [moveFolder] = useLazyMoveFolderQuery();
   const [downloadFile] = useDownloadFileMutation();
   const [moveLevelupFolder] = useLazyMoveLevelupFolderQuery();
+
+  const rawUser = useAppSelect((state) => state.auth.user);
+  const user = rawUser?.user || rawUser;
+  const isAdmin = user?.role_id === ROLES.ADMIN;
 
   const [draggedItem, setDraggedItem] = useState(null);
 
@@ -124,6 +132,8 @@ export const Files = ({
         selected={selected}
         search={search}
         onSearch={onSearch}
+        onGoUp={onGoUp}
+        isRootSelected={isRootSelected}
       />
       {uploadModal ? (
         <UploadModal
@@ -184,6 +194,7 @@ export const Files = ({
                       onSelectFolder={onSelectFolder}
                       search={search}
                       onMoveUp={handleMoveUp}
+                      isAdmin={isAdmin}
                   />
                   <FilesList
                       data={data?.response?.list?.files ?? []}
@@ -198,6 +209,7 @@ export const Files = ({
                       onOpen={handleOpen}
                       onDownload={handleDownload}
                       onMoveUp={handleMoveUp}
+                      isAdmin={isAdmin}
                   />
                 </>
               }

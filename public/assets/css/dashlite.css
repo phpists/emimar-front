@@ -21931,7 +21931,7 @@ ol.linenums li {
   max-height: 100%;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  overflow: hidden scroll;
+  overflow: auto scroll;
 }
 .simplebar-content-wrapper::-webkit-scrollbar,
 .simplebar-hide-scrollbar::-webkit-scrollbar,

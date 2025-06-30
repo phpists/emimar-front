@@ -10,6 +10,7 @@ export const Files = ({
     onDownload,
     debouncedSearch,
     isSearching,
+    isAdmin,
     onMoveUp
 }) => {
     const filteredFiles = isSearching
@@ -40,6 +41,7 @@ export const Files = ({
                         onOpen={() => onOpen({ url: full_name })}
                         onDownload={() => onDownload({ id, name })}
                         onMoveUp={() => onMoveUp(id)}
+                        isAdmin={isAdmin}
                     />
                 ))}
             </div>

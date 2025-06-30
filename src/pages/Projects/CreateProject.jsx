@@ -15,6 +15,7 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
   const { data: usersList } = useGetUsersQuery({ perPage: 100 });
   const [data, setData] = useState({
     title: `Project #${total}`,
+    address: "",
     users: [],
     groups: [],
     rules_type: "users",
@@ -41,11 +42,14 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
       setData({
         id: editData?.id,
         title: editData?.title,
+        address: editData.address ?? "",
         users: editData?.user?.map((u) => u.id),
         groups: editData?.groups?.map((g) => g.id),
         rules_type: editData?.rules_type,
       });
     }
+    console.log("editData.address", editData?.address); // 👈 що тут?
+
   }, [editData]);
 
   const handleSubmit = () => {
@@ -75,6 +79,7 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
       });
     }
   };
+  console.log({editData});
 
   const handleGetOptions = () =>
     data?.rules_type === "users"
@@ -115,14 +120,31 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
                 </label>
                 <div className="form-control-wrap">
                   <input
-                    type="text"
-                    className="form-control"
-                    id="project-name"
-                    placeholder="Enter project name"
-                    value={data.title}
-                    onChange={(e) =>
-                      setData({ ...data, title: e.target.value })
-                    }
+                      type="text"
+                      className="form-control"
+                      id="project-name"
+                      placeholder="Enter project name"
+                      value={data.title}
+                      onChange={(e) =>
+                          setData({...data, title: e.target.value})
+                      }
+                  />
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="form-label" htmlFor="address">
+                  Address
+                </label>
+                <div className="form-control-wrap">
+                  <input
+                      type="text"
+                      className="form-control"
+                      id="address"
+                      placeholder="Enter address"
+                      value={data.address}
+                      onChange={(e) =>
+                          setData({...data, address: e.target.value})
+                      }
                   />
                 </div>
               </div>
@@ -132,24 +154,24 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
                 <label className="form-label">Assign to:</label>
                 <div className="d-flex gap-2 mb-2">
                   <button
-                    type="button"
-                    className={`btn p-2 btn-sm ${
-                      data?.rules_type === "users"
-                        ? "btn-primary"
-                        : "btn-outline-primary"
-                    }`}
-                    onClick={() => setData({ ...data, rules_type: "users" })}
+                      type="button"
+                      className={`btn p-2 btn-sm ${
+                          data?.rules_type === "users"
+                              ? "btn-primary"
+                              : "btn-outline-primary"
+                      }`}
+                      onClick={() => setData({...data, rules_type: "users"})}
                   >
                     Users
                   </button>
                   <button
-                    type="button"
-                    className={`btn p-2 btn-sm ${
-                      data?.rules_type === "groups"
-                        ? "btn-primary"
-                        : "btn-outline-primary"
-                    }`}
-                    onClick={() => setData({ ...data, rules_type: "groups" })}
+                      type="button"
+                      className={`btn p-2 btn-sm ${
+                          data?.rules_type === "groups"
+                              ? "btn-primary"
+                              : "btn-outline-primary"
+                      }`}
+                      onClick={() => setData({...data, rules_type: "groups"})}
                   >
                     Groups
                   </button>
@@ -160,24 +182,24 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
               <div className="form-group">
                 <label className="form-label">
                   {data?.rules_type === "users"
-                    ? "Assign Users"
-                    : "Assign Groups"}
+                      ? "Assign Users"
+                      : "Assign Groups"}
                 </label>
                 <Select
-                  isMulti
-                  name="colors"
-                  options={handleGetOptions()}
-                  value={handleGetOptions()?.filter((v) =>
-                    data?.[data.rules_type]?.includes(v.value)
-                  )}
-                  onChange={(e) => {
-                    setData({
-                      ...data,
-                      [data?.rules_type]: e.map((v) => v.value),
-                    });
-                  }}
-                  className="basic-multi-select"
-                  classNamePrefix="select"
+                    isMulti
+                    name="colors"
+                    options={handleGetOptions()}
+                    value={handleGetOptions()?.filter((v) =>
+                        data?.[data.rules_type]?.includes(v.value)
+                    )}
+                    onChange={(e) => {
+                      setData({
+                        ...data,
+                        [data?.rules_type]: e.map((v) => v.value),
+                      });
+                    }}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
                 />
               </div>
             </form>
@@ -185,24 +207,24 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
 
           <div className="modal-footer bg-light">
             <button
-              type="button"
-              className="btn btn-primary"
-              onClick={handleSubmit}
-              disabled={
-                data.title?.length === 0 ||
-                data?.[data?.rules_type]?.length === 0 ||
-                loading
-              }
+                type="button"
+                className="btn btn-primary"
+                onClick={handleSubmit}
+                disabled={
+                    data.title?.length === 0 ||
+                    data?.[data?.rules_type]?.length === 0 ||
+                    loading
+                }
             >
               {editData ? "Save" : "Create"}
             </button>
             <button
-              type="button"
-              className="btn btn-light"
-              data-bs-dismiss="modal"
-              onClick={onClose}
+                type="button"
+                className="btn btn-light"
+                data-bs-dismiss="modal"
+                onClick={onClose}
             >
-              Cancel
+            Cancel
             </button>
           </div>
         </div>

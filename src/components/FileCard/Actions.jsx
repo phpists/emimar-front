@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../hooks";
 
-export const Actions = ({ onEdit, onCreateSubfolder, onDelete, onOpen, onDownload, onMoveUp }) => {
+export const Actions = ({ onEdit, onCreateSubfolder, onDelete, onOpen, onDownload, onMoveUp, isAdmin }) => {
   const [show, setShow] = useState(false);
   const dropdownRef = useRef();
 
@@ -42,7 +42,7 @@ export const Actions = ({ onEdit, onCreateSubfolder, onDelete, onOpen, onDownloa
                   </li>
               ): null}
 
-              {onMoveUp ? (
+              {(onMoveUp && isAdmin) ? (
                   <li>
                       <a
                           href="#"
@@ -108,7 +108,7 @@ export const Actions = ({ onEdit, onCreateSubfolder, onDelete, onOpen, onDownloa
               </li>
             ) : null}
 
-              {onDelete ? (
+              {(onDelete && isAdmin) ? (
                   <li>
                       <a
                           href="#"

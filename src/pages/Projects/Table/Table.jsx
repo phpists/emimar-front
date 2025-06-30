@@ -7,6 +7,8 @@ import { useLazyDeleteProjectQuery } from "../../../store/projects/projects.api"
 import { Loading } from "../../../components/Loading";
 import { EmptyMessage } from "../../../components/EmptyMessage";
 import {Pagination} from "../../../components/Pagination";
+import {ROLES} from "../../../сonstats/roles";
+import {useAppSelect} from "../../../hooks/redux";
 
 export const Table = ({
   data,
@@ -22,6 +24,10 @@ export const Table = ({
   const [deleteProject] = useLazyDeleteProjectQuery();
   const [selected, setSelected] = useState([]);
   const [deletingItems, setDeletingItems] = useState([]);
+
+  const rawUser = useAppSelect((state) => state.auth.user);
+  const user = rawUser?.user || rawUser;
+  const isAdmin = user?.role_id === ROLES.ADMIN;
 
   const handleCloseDeleting = () => {
     setDeleting(null);
@@ -83,14 +89,17 @@ export const Table = ({
                   sortBy={sortBy}
                   sortDesc={sortDesc}
                   onSortChange={onSortChange}
+                  isAdmin={isAdmin}
                 />
               </thead>
               <tbody>
                 {data?.response?.projects?.data?.map(
-                    ({ id, title, create_at, user, groups, rules_type }, index) => (
+                    ({ id, title, address, create_at, user, groups, rules_type }, index) => (
                       <Row
                         key={id}
                         title={title}
+                        address={address}
+                        isAdmin={isAdmin}
                         index={(data?.response?.projects?.current_page - 1) * data?.response?.projects?.per_page + index + 1}
                         createAt={create_at}
                         users={handleCutList(user?.map((u) => u?.display_name))}
