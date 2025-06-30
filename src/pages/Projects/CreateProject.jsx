@@ -20,6 +20,7 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
     groups: [],
     rules_type: "users",
   });
+  console.log({editData})
   const [createProject] = useLazyCreateProjectQuery();
   const [updateProject] = useLazyUpdateProjectQuery();
   const [loading, setLoading] = useState(false);
@@ -79,7 +80,7 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
       });
     }
   };
-  console.log({editData});
+  // console.log({editData});
 
   const handleGetOptions = () =>
     data?.rules_type === "users"

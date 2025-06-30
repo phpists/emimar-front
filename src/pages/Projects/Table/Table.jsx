@@ -111,6 +111,7 @@ export const Table = ({
                             create_at,
                             user,
                             groups,
+                            address,
                             rules_type,
                           })
                         }
