@@ -5,7 +5,7 @@ import { useGetProjectsQuery } from "../../../store/projects/projects.api";
 import { useActions } from "../../../hooks/actions";
 import { useAppSelect } from "../../../hooks/redux";
 
-export const Projects = () => {
+export const Projects = ({data, refetch}) => {
   const { pathname } = useLocation();
   const [show, setShow] = useState(false);
   const dropdownRef = useRef();
@@ -13,19 +13,6 @@ export const Projects = () => {
   const { selectedProject } = useAppSelect((state) => state.auth);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
-
-  const queryArgs = useMemo(
-      () => ({
-        page: 1,
-        sortBy: 'id',
-        perPage: 1000
-      }),
-      []
-  );
-
-  const { data, refetch } = useGetProjectsQuery(
-      queryArgs
-  );
 
   useClickOutside(dropdownRef, () => {
     setShow(false);
@@ -43,10 +30,6 @@ export const Projects = () => {
       navigate("/");
     }
   }, []);
-
-  useEffect(() => {
-    data && refetch();
-  }, [pathname]);
 
   if (pathname !== "/project" || !data?.response?.projects) {
     return null;

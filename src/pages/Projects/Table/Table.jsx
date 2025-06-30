@@ -7,7 +7,7 @@ import { useLazyDeleteProjectQuery } from "../../../store/projects/projects.api"
 import { Loading } from "../../../components/Loading";
 import { EmptyMessage } from "../../../components/EmptyMessage";
 import {Pagination} from "../../../components/Pagination";
-import {ROLES} from "../../../сonstats/roles";
+import {ROLES} from "../../../constats/roles";
 import {useAppSelect} from "../../../hooks/redux";
 
 export const Table = ({
@@ -94,7 +94,7 @@ export const Table = ({
               </thead>
               <tbody>
                 {data?.response?.projects?.data?.map(
-                    ({ id, title, address, create_at, user, groups, rules_type }, index) => (
+                    ({ id, title, address, project_number, create_at, user, groups, rules_type }, index) => (
                       <Row
                         key={id}
                         title={title}
@@ -112,6 +112,7 @@ export const Table = ({
                             user,
                             groups,
                             address,
+                            project_number,
                             rules_type,
                           })
                         }

@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../../hooks";
 
-export const MobileHeader = ({ onOpenUploadModal, onCreateFolder }) => {
+export const MobileHeader = ({ onOpenUploadModal, onCreateFolder, selected }) => {
   const [dropdown, setDropdown] = useState(false);
   const [search, setSearch] = useState(false);
   const dropdownRef = useRef();
@@ -12,7 +12,7 @@ export const MobileHeader = ({ onOpenUploadModal, onCreateFolder }) => {
     <div className="nk-block-head nk-block-head-sm">
       <div className="nk-block-between position-relative">
         <div className="nk-block-head-content">
-          <h3 className="nk-block-title page-title">Files</h3>
+          <h3 className="nk-block-title page-title">{selected.title}</h3>
         </div>
         <div className="nk-block-head-content">
           <ul className="nk-block-tools g-1">

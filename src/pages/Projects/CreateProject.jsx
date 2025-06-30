@@ -14,13 +14,14 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
   const { data: groupsList } = useGetGroupsQuery();
   const { data: usersList } = useGetUsersQuery({ perPage: 100 });
   const [data, setData] = useState({
-    title: `Project #${total}`,
+    title: `Project `,
     address: "",
+    project_number: total,
     users: [],
     groups: [],
     rules_type: "users",
   });
-  console.log({editData})
+
   const [createProject] = useLazyCreateProjectQuery();
   const [updateProject] = useLazyUpdateProjectQuery();
   const [loading, setLoading] = useState(false);
@@ -44,13 +45,12 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
         id: editData?.id,
         title: editData?.title,
         address: editData.address ?? "",
+        project_number: editData.project_number ?? "",
         users: editData?.user?.map((u) => u.id),
         groups: editData?.groups?.map((g) => g.id),
         rules_type: editData?.rules_type,
       });
     }
-    console.log("editData.address", editData?.address); // 👈 що тут?
-
   }, [editData]);
 
   const handleSubmit = () => {
@@ -71,8 +71,6 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
         setLoading(false);
         if (resp.isSuccess) {
           handleOpenProject(resp?.data?.response?.id);
-          //   onClose();
-          //   onRefetchData();
           toast.success("Успешно создано");
         } else {
           toast.error("Ошибка");
@@ -80,7 +78,6 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
       });
     }
   };
-  // console.log({editData});
 
   const handleGetOptions = () =>
     data?.rules_type === "users"
@@ -129,6 +126,27 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
                       onChange={(e) =>
                           setData({...data, title: e.target.value})
                       }
+                  />
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="form-label" htmlFor="project-number">
+                  Project Number
+                </label>
+                <div className="form-control-wrap">
+                  <input
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      className="form-control"
+                      id="project-number"
+                      placeholder="Enter project number"
+                      value={data.project_number}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        if (/^\d*$/.test(val)) {
+                          setData({ ...data, project_number: val === "" ? "" : Number(val) });
+                        }
+                      }}
                   />
                 </div>
               </div>
@@ -225,7 +243,7 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
                 data-bs-dismiss="modal"
                 onClick={onClose}
             >
-            Cancel
+              Cancel
             </button>
           </div>
         </div>

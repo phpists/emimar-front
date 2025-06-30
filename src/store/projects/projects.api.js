@@ -7,10 +7,10 @@ export const projects = createApi({
   baseQuery: fetchBaseQuery({ baseUrl }),
   endpoints: (build) => ({
     getProjects: build.query({
-      query: ({ page, perPage = 25, q = "", sortBy = "title", sortDesc = false }) => ({
+      query: ({ page, perPage = 25, q = "", sortBy = "title", sortDesc = false, search_type = 1 }) => ({
         url: "/project/get-projects",
         headers: headers(),
-        params: { perPage, page, q, sortBy, sortDesc},
+        params: { perPage, page, q, sortBy, sortDesc, search_type},
       }),
     }),
     createProject: build.query({

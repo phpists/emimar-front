@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 import {Loading} from "../../../components/Loading";
 import {CreateSubfolderModal} from "./CreateSubfolderModal";
 import {useAppSelect} from "../../../hooks/redux";
-import {ROLES} from "../../../сonstats/roles";
+import {ROLES} from "../../../constats/roles";
 
 export const Files = ({
   data,
@@ -95,6 +95,7 @@ export const Files = ({
   };
 
   const handleMove = ({ fromId, toFolderId, type }) => {
+    if (!isAdmin) return;
     moveFolder({ folder_id: fromId, new_parent_id: toFolderId }).then(
         (resp) => {
           if (resp.isSuccess) {
@@ -169,6 +170,7 @@ export const Files = ({
         <MobileHeader
           onOpenUploadModal={handleOpenUploadModal}
           onCreateFolder={handleOpenFolderModal}
+          selected={selected}
         />
 
         <div className="nk-fmg-listing nk-block">

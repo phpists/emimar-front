@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { useClickOutside } from "../../../hooks";
 import { useActions } from "../../../hooks/actions";
 import {useAppSelect} from "../../../hooks/redux";
-import {ROLES} from "../../../сonstats/roles";
+import {ROLES} from "../../../constats/roles";
 
 export const Row = ({
   title,

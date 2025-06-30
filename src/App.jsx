@@ -14,7 +14,7 @@ import { useLazyGetUserQuery } from "./store/auth/auth.api";
 import { useActions } from "./hooks/actions";
 import {Navigate} from "react-router-dom";
 import {RequireAuth} from "./RequireAuth";
-import {ROLES} from "./сonstats/roles";
+import {ROLES} from "./constats/roles";
 
 export const App = () => {
     const location = useLocation();

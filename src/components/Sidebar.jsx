@@ -1,6 +1,6 @@
 import { NavLink, useLocation } from "react-router";
 import {useAppSelect} from "../hooks/redux";
-import {ROLES} from "../сonstats/roles";
+import {ROLES} from "../constats/roles";
 
 export const Sidebar = () => {
   const { pathname } = useLocation();

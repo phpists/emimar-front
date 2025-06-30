@@ -1,4 +1,4 @@
-import { fileIcons } from "../сonstats";
+import { fileIcons } from "../constats";
 
 export const getFileIcon = (extension) => {
   const ext = extension?.toLowerCase();

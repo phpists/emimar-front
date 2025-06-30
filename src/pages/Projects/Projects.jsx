@@ -1,4 +1,4 @@
-import {useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import { useGetProjectsQuery } from "../../store/projects/projects.api";
 import { Header } from "./Header/Header";
 import { Table } from "./Table/Table";
@@ -14,7 +14,7 @@ export const Projects = () => {
 
   const [sortBy, setSortBy] = useState("title");
   const [sortDesc, setSortDesc] = useState(false);
-
+  const [searchType, setSearchType] = useState("1");
   const [debouncedSearch] = useDebounce(search, 500);
 
   const queryArgs = useMemo(
@@ -22,15 +22,20 @@ export const Projects = () => {
         page: currentPage,
         q: debouncedSearch,
         sortBy,
-        sortDesc
+        sortDesc,
+        search_type: searchType,
       }),
-      [currentPage, debouncedSearch, sortBy, sortDesc]
+      [currentPage, debouncedSearch, sortBy, sortDesc, searchType]
   );
 
   const { data, refetch, isLoading } = useGetProjectsQuery(
       queryArgs,
       { refetchOnMountOrArgChange: true }
   );
+
+  useEffect(() => {
+    refetch();
+  }, [searchType]);
 
   const handleSearch = (val) => setSearch(val);
 
@@ -66,6 +71,8 @@ export const Projects = () => {
                     search={search}
                     onSearch={handleSearch}
                     onCreate={() => setModal(true)}
+                    searchType={searchType}
+                    onSearchTypeChange={setSearchType}
                     total={data?.response?.count}
                   />
                   <Table
