@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Tree } from "antd";
+import {useAppSelect} from "../../hooks/redux";
 const { DirectoryTree } = Tree;
 
 function findPathById(tree, id, path = [], keys = [], keyPath = "") {
@@ -34,7 +35,7 @@ export function transformTree(data, parentPath = "") {
         const currentPath = parentPath ? `${parentPath}/${item.name}` : item.name;
 
         return {
-          title: item.name,
+          title: item.full_name,
           key: currentPath,
           id: item?.id,
           path: currentPath,
@@ -51,7 +52,7 @@ export const FileThree = ({ nodes, selected, onSelect }) => {
   const [expandedKeys, setExpandedKeys] = useState([]);
   const [selectedKey, setSelectedKey] = useState(null);
   const tree = transformTree(nodes);
-
+  const { selectedProject } = useAppSelect((state) => state.auth);
   const selectedId = typeof selected === "object" ? selected?.id : selected;
   const active = findPathById(nodes?.response?.tree, selectedId);
   const currentKey = active?.keys?.[active.keys.length - 1] || "";
@@ -64,6 +65,12 @@ export const FileThree = ({ nodes, selected, onSelect }) => {
       setSelectedKey(currentKey);
     }
   }, [selectedId]);
+
+  useEffect(() => {
+    setSelectedKey(null);
+    setExpandedKeys([]);
+    setSelectedKey(null);
+  }, [selectedProject]);
 
   const onSelectFile = (keys, info) => {
     const key = info.node?.key;
@@ -81,7 +88,7 @@ export const FileThree = ({ nodes, selected, onSelect }) => {
       onSelect?.(null);
     } else {
       setSelectedKey(key);
-      onSelect?.({ id: nodeId, title: info.node.title });
+      onSelect?.({ id: nodeId, full_name: info.node.title });
       if (hasChildren && !expandedKeys.includes(key)) {
         setExpandedKeys(prev => [...prev, key]);
       }

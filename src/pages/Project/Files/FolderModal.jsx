@@ -16,6 +16,7 @@ export const FolderModal = ({ isOpen, onClose, parentId, editData, onRefetchData
   const [folderData, setFolderData] = useState({
     folder_name: "",
   });
+  console.log({editData})
   const [createFolder] = useLazyCreateFolderQuery();
   const [updateFolder] = useLazyUpdateFolderQuery();
   const [loading, setLoading] = useState(false);
@@ -101,26 +102,28 @@ export const FolderModal = ({ isOpen, onClose, parentId, editData, onRefetchData
             </div>
           </div>
           <div className="modal-body">
-            <div className="mb-3">
-              <label htmlFor="preset" className="form-label">
-                Select Folder Name Template
-              </label>
-              <select
-                  id="preset"
-                  className="form-select"
-                  onChange={handlePresetSelect}
-                  defaultValue=""
-                  style={{cursor: "pointer"}}
-              >
-                <option value="" disabled>
-                </option>
-                {presetOptions.map((opt, idx) => (
-                    <option key={idx} value={opt}>
-                      {opt}
+            {!editData && (
+                <div className="mb-3">
+                  <label htmlFor="preset" className="form-label">
+                    Select Folder Name Template
+                  </label>
+                  <select
+                      id="preset"
+                      className="form-select"
+                      onChange={handlePresetSelect}
+                      defaultValue=""
+                      style={{cursor: "pointer"}}
+                  >
+                    <option value="" disabled>
                     </option>
-                ))}
-              </select>
-            </div>
+                    {presetOptions.map((opt, idx) => (
+                        <option key={idx} value={opt}>
+                          {opt}
+                        </option>
+                    ))}
+                  </select>
+                </div>
+            )}
             <div className="form-group">
               <label className="form-label">Folder Name</label>
               <input

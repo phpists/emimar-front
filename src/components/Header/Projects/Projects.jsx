@@ -9,7 +9,7 @@ export const Projects = ({data, refetch}) => {
   const { pathname } = useLocation();
   const [show, setShow] = useState(false);
   const dropdownRef = useRef();
-  const { selectProject } = useActions();
+  const { selectProject, selectItem  } = useActions();
   const { selectedProject } = useAppSelect((state) => state.auth);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
@@ -19,8 +19,36 @@ export const Projects = ({data, refetch}) => {
     setSearch("");
   });
 
+  const projects = useMemo(() => {
+    return (
+        data?.response?.projects?.data
+            ?.map((p) => ({
+              id: p.id,
+              title: p.title || "",
+              project_number: String(p.project_number || ""),
+            }))
+            .sort((a, b) => {
+              const numA = parseInt(a.project_number, 10);
+              const numB = parseInt(b.project_number, 10);
+              return numA - numB;
+            }) || []
+    );
+  }, [data]);
+
+  const filteredProjects = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    if (!query) return projects;
+
+    return projects.filter((p) => {
+      const numberStr = String(p.project_number || "");
+      const label = `Project No. ${numberStr}`.toLowerCase();
+      return numberStr.includes(query) || label.includes(query);
+    });
+  }, [search, projects]);
+
   const handleSelectProject = (id) => {
     selectProject(id);
+    selectItem(null);
     setShow(false);
     setSearch("");
   };
@@ -34,6 +62,9 @@ export const Projects = ({data, refetch}) => {
   if (pathname !== "/project" || !data?.response?.projects) {
     return null;
   }
+  const currentProject = data?.response?.projects?.data?.find(
+      (p) => p.id?.toString() === selectedProject?.toString()
+  );
 
   return (
     <div className="nk-header-app-name">
@@ -51,11 +82,7 @@ export const Projects = ({data, refetch}) => {
                 setShow(!show);
               }}
             >
-              {
-                data?.response?.projects?.data?.find(
-                  (p) => p.id?.toString() === selectedProject?.toString()
-                )?.project_number
-              }
+              {`Project No. ${currentProject.project_number}`}
             </a>
             <div className={`dropdown-menu left ${show ? "show" : ""}`} style={{}}>
               <ul className="link-list-opt no-bdr">
@@ -72,13 +99,7 @@ export const Projects = ({data, refetch}) => {
                   </div>
                 </li>
                 <li className="divider" />
-                {data?.response?.projects?.data
-                  ?.filter(({ project_number }) =>
-                      search?.length > 0
-                          ? project_number?.toString().toLowerCase().includes(search.toLowerCase())
-                          : true
-                  )
-                  ?.map(({ project_number, id }) => (
+                {filteredProjects.map(({ project_number, id }) => (
                     <li
                       key={id}
                       className={
@@ -93,8 +114,9 @@ export const Projects = ({data, refetch}) => {
                           e.preventDefault();
                           handleSelectProject(id);
                         }}
-                        style={{display: "flex", justifyContent: "center"}}>
-                        <span>{project_number}</span>
+                        // style={{display: "flex", justifyContent: "center"}}
+                      >
+                        <span>Project No. {project_number}</span>
                       </a>
                     </li>
                   ))}

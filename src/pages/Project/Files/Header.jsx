@@ -22,7 +22,7 @@ export const Header = ({
         <input
           type="text"
           className="form-control border-transparent form-focus-none"
-          placeholder={`Search files, folders in ${selected?.title ? selected.title : "global"}`}
+          placeholder={`Search files, folders in ${selected?.full_name ? selected.full_name : "global"}`}
           value={search}
           onChange={(e) => onSearch(e.target.value)}
         />

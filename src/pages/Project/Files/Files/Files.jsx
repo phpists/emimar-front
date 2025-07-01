@@ -28,7 +28,7 @@ export const Files = ({
         <div className="nk-files-group">
             <h6 className="title">Files</h6>
             <div className="nk-files-list">
-                {filteredFiles?.map(({ id, name, size, created_at, full_name }) => (
+                {filteredFiles?.map(({ id, name, size, created_at, full_name, mime_type, url }) => (
                     <FileCard
                         key={id}
                         name={name}
@@ -38,7 +38,7 @@ export const Files = ({
                         onDelete={() => onDelete({ id, name, type: "file" })}
                         draggable
                         onDragStart={() => setDraggedItem({ id, type: "file" })}
-                        onOpen={() => onOpen({ url: full_name })}
+                        onOpen={() => onOpen({ url: mime_type === 'text/url' ? url : full_name })}
                         onDownload={() => onDownload({ id, name })}
                         onMoveUp={() => onMoveUp(id)}
                         isAdmin={isAdmin}

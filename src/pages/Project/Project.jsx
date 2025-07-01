@@ -1,4 +1,4 @@
-import {useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import { useAppSelect } from "../../hooks/redux";
 import {
   useGetProjectFileEntryQuery,
@@ -32,6 +32,7 @@ export const Project = () => {
   const [debouncedSearch] = useDebounce(search, 500);
   const isSearching = Boolean(search);
 
+
   const tree = useMemo(() => {
     return transformTree(threeData?.response?.tree || []);
   }, [threeData]);
@@ -52,6 +53,8 @@ export const Project = () => {
 
   const handleSelectFolder = (data) => {
     setSelected(data);
+    console.log({data});
+
   };
 
   const handleRefetchData = () => {
@@ -60,6 +63,10 @@ export const Project = () => {
       refetchThree();
     }
   };
+
+  useEffect(() => {
+    setSelected({});
+  }, [selectedProject]);
 
   const handleGoUp = () => {
     if (!selected?.id || !tree) return;
@@ -81,6 +88,7 @@ export const Project = () => {
     const parentNode = findNodeById(tree, currentNode.parent_id);
     if (parentNode) {
       setSelected(parentNode);
+      console.log({parentNode});
     }
   }
 

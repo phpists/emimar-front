@@ -46,9 +46,9 @@ export const Header = ({ onToggleSidebar }) => {
 
             {isProjectPage && project?.title && (
                 <>
-                  <span className="fw-bold">{project.title}</span>
+                  <span className="fw-bold ms-2">{project.title}</span>
                   {project.address && (
-                      <small className="text-muted ms-2">{project.address}</small>
+                      <small className="text-muted ms-2 fw-bold">{project.address}</small>
                   )}
                 </>
             )}

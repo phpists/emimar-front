@@ -15,6 +15,11 @@ export const Header = ({ sortBy, sortDesc, onSortChange, onDelete, isAdmin }) =>
                 #
               </span>
           </th>
+          <th className="nk-tb-col">
+              <span className="sub-text d-flex align-items-center">
+                No.
+              </span>
+          </th>
           <th className="nk-tb-col" style={{cursor: "pointer"}} onClick={() => onSortChange("title")}>
               <span className="sub-text d-flex align-items-center">
                 Name

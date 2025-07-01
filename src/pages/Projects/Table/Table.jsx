@@ -99,6 +99,7 @@ export const Table = ({
                         key={id}
                         title={title}
                         address={address}
+                        project_number={project_number}
                         isAdmin={isAdmin}
                         index={(data?.response?.projects?.current_page - 1) * data?.response?.projects?.per_page + index + 1}
                         createAt={create_at}

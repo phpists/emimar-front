@@ -39,6 +39,9 @@ export const getFileIcon = (extension) => {
   if (["edoc"].includes(ext)) {
     return fileIcons.sign;
   }
+  if (["url"].includes(ext)) {
+    return fileIcons.url;
+  }
   // fallback icon
   return fileIcons.default;
 };

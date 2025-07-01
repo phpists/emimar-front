@@ -8,6 +8,7 @@ import {ROLES} from "../../../constats/roles";
 export const Row = ({
   title,
   address,
+  project_number,
   createAt,
   users,
   groups,
@@ -35,6 +36,9 @@ export const Row = ({
       <tr className="nk-tb-item" onClick={handleOpenProject}>
           <td className="nk-tb-col">
               <span>{index}</span>
+          </td>
+          <td className="nk-tb-col">
+              <span>{project_number}</span>
           </td>
           <td className="nk-tb-col cursor-pointer" onClick={(e) => e.preventDefault()}>
               <div className="project-title">
