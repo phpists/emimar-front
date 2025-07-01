@@ -41,6 +41,21 @@ export const Actions = ({ onEdit, onCreateSubfolder, onDelete, onOpen, onDownloa
                       </a>
                   </li>
               ): null}
+              {onEdit ? (
+                  <li>
+                      <a
+                          href="#"
+                          onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation()
+                              onEdit();
+                          }}
+                      >
+                          <em className="icon ni ni-pen" />
+                          <span>Edit</span>
+                      </a>
+                  </li>
+              ) : null}
 
               {(onMoveUp && isAdmin) ? (
                   <li>
@@ -91,22 +106,6 @@ export const Actions = ({ onEdit, onCreateSubfolder, onDelete, onOpen, onDownloa
                       </a>
                   </li>
               ) : null}
-
-            {onEdit ? (
-              <li>
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation()
-                    onEdit();
-                  }}
-                >
-                  <em className="icon ni ni-pen" />
-                  <span>Edit</span>
-                </a>
-              </li>
-            ) : null}
 
               {(onDelete && isAdmin) ? (
                   <li>

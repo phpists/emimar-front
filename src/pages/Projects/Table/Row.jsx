@@ -100,6 +100,18 @@ export const Row = ({
                                           <span>View Project</span>
                                       </a>
                                   </li>
+                                  <li>
+                                      <a
+                                          href="#"
+                                          onClick={(e) => {
+                                              e.preventDefault();
+                                              onEdit();
+                                          }}
+                                      >
+                                          <em className="icon ni ni-edit"/>
+                                          <span>Edit</span>
+                                      </a>
+                                  </li>
                                   {isAdmin && (
                                       <li>
                                           <a
@@ -114,18 +126,6 @@ export const Row = ({
                                           </a>
                                       </li>
                                   )}
-                                  <li>
-                                      <a
-                                          href="#"
-                                          onClick={(e) => {
-                                              e.preventDefault();
-                                              onEdit();
-                                          }}
-                                      >
-                                          <em className="icon ni ni-edit"/>
-                                          <span>Edit</span>
-                                      </a>
-                                  </li>
                               </ul>
                           </div>
                       </div>

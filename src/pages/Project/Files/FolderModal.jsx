@@ -101,16 +101,6 @@ export const FolderModal = ({ isOpen, onClose, parentId, editData, onRefetchData
             </div>
           </div>
           <div className="modal-body">
-            <div className="form-group">
-              <label className="form-label">Folder Name</label>
-              <input
-                  type="text"
-                  ref={inputRef}
-                  className="form-control"
-                  value={folderData.folder_name}
-                  onChange={handleChange}
-              />
-            </div>
             <div className="mb-3">
               <label htmlFor="preset" className="form-label">
                 Select Folder Name Template
@@ -120,10 +110,9 @@ export const FolderModal = ({ isOpen, onClose, parentId, editData, onRefetchData
                   className="form-select"
                   onChange={handlePresetSelect}
                   defaultValue=""
-                  style={{ cursor: "pointer" }}
+                  style={{cursor: "pointer"}}
               >
                 <option value="" disabled>
-                  Choose a template
                 </option>
                 {presetOptions.map((opt, idx) => (
                     <option key={idx} value={opt}>
@@ -131,6 +120,16 @@ export const FolderModal = ({ isOpen, onClose, parentId, editData, onRefetchData
                     </option>
                 ))}
               </select>
+            </div>
+            <div className="form-group">
+              <label className="form-label">Folder Name</label>
+              <input
+                  type="text"
+                  ref={inputRef}
+                  className="form-control"
+                  value={folderData.folder_name}
+                  onChange={handleChange}
+              />
             </div>
             {/*
             <div className="form-group">
