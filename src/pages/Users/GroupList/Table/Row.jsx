@@ -82,11 +82,11 @@ export const Row = ({
                                           href="#"
                                           onClick={(e) => {
                                               e.preventDefault();
-                                              onDelete();
+                                              onEdit();
                                           }}
                                       >
-                                          <em className="icon ni ni-trash"/>
-                                          <span>Delete</span>
+                                          <em className="icon ni ni-edit"/>
+                                          <span>Edit</span>
                                       </a>
                                   </li>
                                   <li>
@@ -94,11 +94,11 @@ export const Row = ({
                                           href="#"
                                           onClick={(e) => {
                                               e.preventDefault();
-                                              onEdit();
+                                              onDelete();
                                           }}
                                       >
-                                          <em className="icon ni ni-edit"/>
-                                          <span>Edit</span>
+                                          <em className="icon ni ni-trash"/>
+                                          <span>Delete</span>
                                       </a>
                                   </li>
                               </ul>

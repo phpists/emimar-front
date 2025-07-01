@@ -11,7 +11,7 @@ export const Header = ({ onCreateGroup, search, onSearch, total }) => {
             <div className="nk-block-head-content">
                 <h5 className="title">Group List</h5>
                 <div className="nk-block-des text-soft">
-                    <p>{`You have total ${total} group${total !== 1 ? 's' : ''}.`}</p>
+                    <p>{`You have ${total} group${total !== 1 ? 's' : ''}.`}</p>
                 </div>
             </div>
             <div className="nk-block-head-content d-flex align-items-center gap-2">

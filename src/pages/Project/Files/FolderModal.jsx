@@ -114,7 +114,7 @@ export const FolderModal = ({ isOpen, onClose, parentId, editData, onRefetchData
                       defaultValue=""
                       style={{cursor: "pointer"}}
                   >
-                    <option value="" disabled>
+                    <option value="">
                     </option>
                     {presetOptions.map((opt, idx) => (
                         <option key={idx} value={opt}>

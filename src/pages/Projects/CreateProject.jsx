@@ -148,7 +148,7 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
                       onChange={(e) => {
                         const val = e.target.value;
                         if (/^\d*$/.test(val)) {
-                          setData({ ...data, project_number: val === "" ? "" : Number(val) });
+                          setData({ ...data, project_number: val }); // зберігаємо як string
                         }
                       }}
                   />

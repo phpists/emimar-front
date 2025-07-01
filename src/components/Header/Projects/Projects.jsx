@@ -82,7 +82,9 @@ export const Projects = ({data, refetch}) => {
                 setShow(!show);
               }}
             >
-              {`Project No. ${currentProject.project_number}`}
+              {currentProject?.project_number
+                  ? `Project No. ${currentProject.project_number}`
+                  : "Loading..."}
             </a>
             <div className={`dropdown-menu left ${show ? "show" : ""}`} style={{}}>
               <ul className="link-list-opt no-bdr">

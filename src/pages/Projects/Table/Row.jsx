@@ -35,9 +35,6 @@ export const Row = ({
   return (
       <tr className="nk-tb-item" onClick={handleOpenProject}>
           <td className="nk-tb-col">
-              <span>{index}</span>
-          </td>
-          <td className="nk-tb-col">
               <span>{project_number}</span>
           </td>
           <td className="nk-tb-col cursor-pointer" onClick={(e) => e.preventDefault()}>

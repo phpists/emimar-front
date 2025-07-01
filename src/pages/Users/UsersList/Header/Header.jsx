@@ -10,7 +10,7 @@ export const Header = ({ onCreateUser, search, onSearch, total }) => {
             <div className="nk-block-head-content">
                 <h5 className="title">User List</h5>
                 <div className="nk-block-des text-soft">
-                    <p>{`You have total ${total} user${total !== 1 ? 's' : ''}.`}</p>
+                    <p>{`You have ${total} user${total !== 1 ? 's' : ''}.`}</p>
                 </div>
             </div>
 
