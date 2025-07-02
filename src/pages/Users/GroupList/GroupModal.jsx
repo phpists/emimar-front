@@ -6,12 +6,14 @@ import {
 import { toast } from "react-toastify";
 import { useGetUsersQuery } from "../../../store/auth/auth.api";
 import Select from "react-select";
+import {useTranslation} from "react-i18next";
 
 export const GroupModal = ({ onClose, editData, onRefreshData }) => {
   const [data, setData] = useState({ title: "", users: "" });
   const { data: users } = useGetUsersQuery({ page: 1, perPage: 100 });
   const [createGroup] = useLazyCreateGroupQuery();
   const [updateGroup] = useLazyUpdateGroupQuery();
+  const { t } = /** @type {any} */ useTranslation('common');
 
   useEffect(() => {
     const overlay = document.querySelector(".modal-backdrop");
@@ -37,9 +39,9 @@ export const GroupModal = ({ onClose, editData, onRefreshData }) => {
         if (resp.isSuccess) {
           onClose();
           onRefreshData();
-          toast.success("Успешно сохранено");
+          toast.success(t('SavedSuccessfully'));
         } else {
-          toast.error("Ошибка");
+          toast.error(t('Error'));
         }
       });
     } else {
@@ -47,9 +49,9 @@ export const GroupModal = ({ onClose, editData, onRefreshData }) => {
         if (resp.isSuccess) {
           onClose();
           onRefreshData();
-          toast.success("Успешно создано");
+          toast.success(t('SuccessfullyCreated'));
         } else {
-          toast.error("Ошибка");
+          toast.error(t('Error'));
         }
       });
     }
@@ -72,7 +74,7 @@ export const GroupModal = ({ onClose, editData, onRefreshData }) => {
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">
-              {editData ? "Edit" : "Create"} Group
+              {editData ? t('EditGroup') : t('CreateGroup')}
             </h5>
             <div className="close" onClick={onClose}>
               <em className="icon ni ni-cross" />
@@ -80,7 +82,7 @@ export const GroupModal = ({ onClose, editData, onRefreshData }) => {
           </div>
           <div className="modal-body">
             <div className="form-group">
-              <label className="form-label">Name</label>
+              <label className="form-label">{t('Name')}</label>
               <input
                 type="text"
                 className="form-control"
@@ -90,7 +92,7 @@ export const GroupModal = ({ onClose, editData, onRefreshData }) => {
             </div>
             <div className="form-group">
               <label className="form-label" htmlFor="project-users">
-                Assign Users
+                {t('AssignUsers')}
               </label>
               <Select
                 isMulti
@@ -116,10 +118,14 @@ export const GroupModal = ({ onClose, editData, onRefreshData }) => {
               onClick={handleSubmit}
               disabled={data?.title?.length === 0 || data?.users?.length === 0}
             >
-              {editData ? "Save" : "Create"}
+              {editData ? t('Save') : t('Create')}
             </button>
-            <button className="btn btn-light" onClick={onClose}>
-              Cancel
+            <button className="btn btn-light" onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onClose();
+            }}>
+              {t('Cancel')}
             </button>
           </div>
         </div>

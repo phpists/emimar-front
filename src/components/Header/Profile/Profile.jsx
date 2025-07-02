@@ -4,6 +4,8 @@ import {useClickOutside} from "../../../hooks";
 import {useAppSelect} from "../../../hooks/redux";
 import {useEffect, useRef, useState} from "react";
 import {useActions} from "../../../hooks/actions";
+import {useTranslation} from "react-i18next";
+
 export const Profile = () => {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
@@ -12,6 +14,7 @@ export const Profile = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const dispatch = useDispatch();
   const dropdownRef = useRef();
+  const { t } = /** @type {any} */ useTranslation('common');
 
   useClickOutside(dropdownRef, () => setShow(false));
 
@@ -72,7 +75,7 @@ export const Profile = () => {
                     onClick={() => setShow(false)}
                 >
                   <em className="icon ni ni-user-alt" />
-                  <span>Profile settings</span>
+                  <span>{t('ProfileSettings')}</span>
                 </NavLink>
               </li>
             </ul>
@@ -88,7 +91,7 @@ export const Profile = () => {
                     }}
                 >
                   <em className="icon ni ni-signout" />
-                  <span>Sign out</span>
+                  <span>{t('SignOut')}</span>
                 </a>
               </li>
             </ul>

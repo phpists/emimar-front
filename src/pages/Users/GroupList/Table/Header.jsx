@@ -1,10 +1,12 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../../../hooks";
 import {Arrow} from "../../../../components/Arrow";
+import {useTranslation} from "react-i18next";
 
 export const Header = ({ isSelectedAll, onSelectAll, sortBy, sortDesc, onSortChange, onDelete }) => {
   const [dropdown, setDrodown] = useState(false);
   const dropdownRef = useRef();
+  const { t } = /** @type {any} */ useTranslation('common');
 
   useClickOutside(dropdownRef, () => setDrodown(false));
 
@@ -17,21 +19,21 @@ export const Header = ({ isSelectedAll, onSelectAll, sortBy, sortDesc, onSortCha
           </th>
           <th className="nk-tb-col" style={{cursor: "pointer"}} onClick={() => onSortChange("title")}>
               <span className="sub-text d-flex align-items-center">
-                Name
+                {t('Name')}
                 <Arrow active={sortBy === "title"} desc={sortDesc}/>
               </span>
           </th>
 
           <th className="nk-tb-col" style={{cursor: "pointer"}} onClick={() => onSortChange("created_at")}>
               <span className="sub-text d-flex align-items-center">
-                Date create
+                {t('DateCreate')}
                 <Arrow active={sortBy === "created_at"} desc={sortDesc}/>
               </span>
           </th>
 
           <th className="nk-tb-col">
               <span className="sub-text d-flex align-items-center">
-                Users
+                {t('Users')}
               </span>
           </th>
           <th className="nk-tb-col nk-tb-col-tools text-end">
@@ -60,7 +62,7 @@ export const Header = ({ isSelectedAll, onSelectAll, sortBy, sortDesc, onSortCha
                                   }}
                               >
                                   <em className="icon ni ni-trash"/>
-                                  <span>Delete Groups</span>
+                                  <span>{t('DeleteGroups')}</span>
                               </a>
                           </li>
                       </ul>

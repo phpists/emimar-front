@@ -16,6 +16,7 @@ import {Loading} from "../../../components/Loading";
 import {CreateSubfolderModal} from "./CreateSubfolderModal";
 import {useAppSelect} from "../../../hooks/redux";
 import {ROLES} from "../../../constats/roles";
+import {useTranslation} from "react-i18next";
 
 export const Files = ({
   data,
@@ -41,6 +42,7 @@ export const Files = ({
   const [moveFolder] = useLazyMoveFolderQuery();
   const [downloadFile] = useDownloadFileMutation();
   const [moveLevelupFolder] = useLazyMoveLevelupFolderQuery();
+  const { t } = /** @type {any} */ useTranslation('common');
 
   const rawUser = useAppSelect((state) => state.auth.user);
   const user = rawUser?.user || rawUser;
@@ -63,6 +65,7 @@ export const Files = ({
 
   const handleEditFolder = (data) => {
     setFolderModal(true);
+    console.log({data})
     setEditFolder(data);
   };
 
@@ -76,18 +79,18 @@ export const Files = ({
       deleteFolder(deleting.id).then((resp) => {
         if (resp.isSuccess) {
           onRefetchData();
-          toast.success("Успешно удалено");
+          toast.success(t('SuccessfullyDeleted'));
         } else {
-          toast.error("Ошибка");
+          toast.error(t('Error'));
         }
       });
     } else if (deleting?.type === "file") {
       deleteFile(deleting.id).then((resp) => {
         if (resp.isSuccess) {
           onRefetchData();
-          toast.success("Успешно удалено");
+          toast.success(t('SuccessfullyDeleted'));
         } else {
-          toast.error("Ошибка");
+          toast.error(t('Error'));
         }
       });
     }
@@ -99,10 +102,10 @@ export const Files = ({
     moveFolder({ folder_id: fromId, new_parent_id: toFolderId }).then(
         (resp) => {
           if (resp.isSuccess) {
-            toast.success("Перемещено!");
+            toast.success(t('Moved'));
             onRefetchData()
           } else {
-            toast.error("Ошибка");
+            toast.error(t('Error'));
           }
         })
   };
@@ -117,10 +120,10 @@ export const Files = ({
   const handleMoveUp = (id) => {
     moveLevelupFolder(id).then((res) => {
       if (res.isSuccess) {
-        toast.success("Перемещено!");
+        toast.success(t('Moved'));
         onRefetchData()
       } else {
-        toast.error("Ошибка");
+        toast.error(t('Error'));
       }
     });
   }
@@ -164,7 +167,7 @@ export const Files = ({
         <ConfirmDeleteModal
           onClose={() => setDeleting(null)}
           onConfirm={handleDelete}
-          title={`Are you sure you want to delete ${deleting.name}`}
+          title={`${t('AreYouSureYouWantToDelete')} ${deleting.name}`}
         />
       ) : null}
       <div className="nk-fmg-body-content">

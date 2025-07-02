@@ -9,8 +9,10 @@ import { toast } from "react-toastify";
 import { useActions } from "../../hooks/actions";
 import { useNavigate } from "react-router";
 import Select from "react-select";
+import {useTranslation} from "react-i18next";
 
 export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
+  const { t } = /** @type {any} */ useTranslation('common');
   const { data: groupsList } = useGetGroupsQuery();
   const { data: usersList } = useGetUsersQuery({ perPage: 100 });
   const [data, setData] = useState({
@@ -55,7 +57,7 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
 
   const handleSubmit = () => {
     if (data.title?.length === 0 || !data.address?.trim() || !data.project_number?.toString().trim() || data?.[data?.rules_type]?.length === 0) {
-      toast.error("Заполните все обязательные поля");
+      toast.error(t('PleaseFillInAllRequiredFields'));
       return;
     }
     setLoading(true);
@@ -65,9 +67,9 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
         if (resp.isSuccess) {
           onClose();
           onRefetchData();
-          toast.success("Успешно сохранено");
+          toast.success(t('SavedSuccessfully'));
         } else {
-          toast.error("Ошибка");
+          toast.error(t('Error'));
         }
       });
     } else {
@@ -75,9 +77,9 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
         setLoading(false);
         if (resp.isSuccess) {
           handleOpenProject(resp?.data?.response?.id);
-          toast.success("Успешно создано");
+          toast.success(t('SuccessfullyCreated'));
         } else {
-          toast.error("Ошибка");
+          toast.error(t('Error'));
         }
       });
     }
@@ -107,7 +109,7 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">
-              {editData ? "Edit" : "Create"} Project
+              {editData ? t('EditProject') : t('CreateProject')}
             </h5>
             <a href="#" className="close" onClick={onClose} aria-label="Close">
               <em className="icon ni ni-cross" />
@@ -118,14 +120,14 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
             <form>
               <div className="form-group">
                 <label className="form-label" htmlFor="project-name">
-                  Project Name <span className="text-danger">*</span>
+                  {t('ProjectName')} <span className="text-danger">*</span>
                 </label>
                 <div className="form-control-wrap">
                   <input
                       type="text"
                       className="form-control"
                       id="project-name"
-                      placeholder="Enter project name"
+                      placeholder={t('EnterProjectName')}
                       value={data.title}
                       onChange={(e) =>
                           setData({...data, title: e.target.value})
@@ -135,7 +137,7 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
               </div>
               <div className="form-group">
                 <label className="form-label" htmlFor="project-number">
-                  Project Number <span className="text-danger">*</span>
+                  {t('ProjectNumber')} <span className="text-danger">*</span>
                 </label>
                 <div className="form-control-wrap">
                   <input
@@ -143,7 +145,7 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
                       pattern="[0-9]*"
                       className="form-control"
                       id="project-number"
-                      placeholder="Enter project number"
+                      placeholder={t('EnterProjectNumber')}
                       value={data.project_number}
                       onChange={(e) => {
                         const val = e.target.value;
@@ -156,14 +158,14 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
               </div>
               <div className="form-group">
                 <label className="form-label" htmlFor="address">
-                  Address <span className="text-danger">*</span>
+                  {t('Address')} <span className="text-danger">*</span>
                 </label>
                 <div className="form-control-wrap">
                   <input
                       type="text"
                       className="form-control"
                       id="address"
-                      placeholder="Enter address"
+                      placeholder={t('EnterAddress')}
                       value={data.address}
                       onChange={(e) =>
                           setData({...data, address: e.target.value})
@@ -174,7 +176,7 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
 
               {/* Toggle Buttons */}
               <div className="form-group">
-                <label className="form-label">Assign to:</label>
+                <label className="form-label">{t('AssignTo')}:</label>
                 <div className="d-flex gap-2 mb-2">
                   <button
                       type="button"
@@ -185,7 +187,7 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
                       }`}
                       onClick={() => setData({...data, rules_type: "users"})}
                   >
-                    Users
+                    {t('Users')}
                   </button>
                   <button
                       type="button"
@@ -196,7 +198,7 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
                       }`}
                       onClick={() => setData({...data, rules_type: "groups"})}
                   >
-                    Groups
+                    {t('Groups')}
                   </button>
                 </div>
               </div>
@@ -205,8 +207,8 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
               <div className="form-group">
                 <label className="form-label">
                   {data?.rules_type === "users"
-                      ? "Assign Users"
-                      : "Assign Groups"} <span className="text-danger">*</span>
+                      ? t('AssignUsers')
+                      : t('AssignGroups')} <span className="text-danger">*</span>
                 </label>
                 <Select
                     isMulti
@@ -235,15 +237,19 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
                 onClick={handleSubmit}
                 disabled={loading}
             >
-              {editData ? "Save" : "Create"}
+              {editData ? t('Save') : t('Create')}
             </button>
             <button
                 type="button"
                 className="btn btn-light"
                 data-bs-dismiss="modal"
-                onClick={onClose}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onClose();
+                }}
             >
-              Cancel
+              {t('Cancel')}
             </button>
           </div>
         </div>

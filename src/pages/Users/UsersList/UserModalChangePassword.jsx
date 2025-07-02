@@ -3,11 +3,13 @@ import {
     useUpdateUserPasswordMutation
 } from "../../../store/auth/auth.api";
 import { toast } from "react-toastify";
+import {useTranslation} from "react-i18next";
 
 export const UserModalChangePassword = ({ onClose, userChangePassword }) => {
     const {userId, fullName} = userChangePassword;
     const [password, setPassword] = useState("");
     const [updateUserPassword] = useUpdateUserPasswordMutation();
+    const { t } = /** @type {any} */ useTranslation('common');
 
     useEffect(() => {
         const overlay = document.querySelector(".modal-backdrop");
@@ -18,10 +20,10 @@ export const UserModalChangePassword = ({ onClose, userChangePassword }) => {
     const handleSubmit = async () => {
         try {
             await updateUserPassword({ user_id: userId, password }).unwrap();
-            toast.success("Успешно сохранено");
+            toast.success(t('SavedSuccessfully'));
             onClose();
         } catch (err) {
-            toast.error("Ошибка");
+            toast.error(t('Error'));
         }
     };
 
@@ -38,7 +40,7 @@ export const UserModalChangePassword = ({ onClose, userChangePassword }) => {
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title">
-                            {`Change Password for ${fullName}`}
+                            {`${t('ChangePasswordFor')} ${fullName}`}
                         </h5>
                         <a
                             href="#"
@@ -55,7 +57,7 @@ export const UserModalChangePassword = ({ onClose, userChangePassword }) => {
                     <div className="modal-body">
                         <div className="row">
                             <div className="form-group col-md-12">
-                                <label className="form-label">New password</label>
+                                <label className="form-label">{t('NewPassword')}</label>
                                 <input
                                     type="text"
                                     className="form-control"
@@ -74,10 +76,14 @@ export const UserModalChangePassword = ({ onClose, userChangePassword }) => {
                             onClick={handleSubmit}
                             disabled={isFormInvalid}
                         >
-                            Save Changes
+                            {t('SaveChanges')}
                         </button>
-                        <button className="btn btn-light" onClick={onClose}>
-                            Cancel
+                        <button className="btn btn-light" onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            onClose();
+                        }}>
+                            {t('Cancel')}
                         </button>
                     </div>
                 </div>

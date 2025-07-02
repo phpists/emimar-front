@@ -3,13 +3,14 @@ import { useAppSelect } from "../../hooks/redux";
 import {useLazyGetUserQuery, useLazyUpdateUserQuery} from "../../store/auth/auth.api";
 import { toast } from "react-toastify";
 import {useActions} from "../../hooks/actions";
+import {useTranslation} from "react-i18next";
 
 export const Info = () => {
-  // const { user } = useAppSelect((state) => state.auth);
   const user = useAppSelect((state) => state.auth.user?.user);
   const [updateUser] = useLazyUpdateUserQuery();
   const { loginUser } = useActions();
   const [getUser] = useLazyGetUserQuery();
+  const { t } = /** @type {any} */ useTranslation('common');
 
   const [formData, setFormData] = useState({
     full_name: "",
@@ -53,9 +54,9 @@ export const Info = () => {
     updateUser({...formData, user_id: user.id}).then((resp) => {
       if (resp.isSuccess) {
         loginUser(resp?.data?.response)
-        toast.success("Успешно сохранено");
+        toast.success(t('SavedSuccessfully'));
       } else {
-        toast.error("Ошибка");
+        toast.error(t('Error'));
       }
     });
   };
@@ -66,7 +67,7 @@ export const Info = () => {
         <div className="nk-block-head nk-block-head-lg">
           <div className="nk-block-between">
             <div className="nk-block-head-content">
-              <h4 className="nk-block-title">Personal Information</h4>
+              <h4 className="nk-block-title">{t('PersonalInformation')}</h4>
               <div className="nk-block-des"></div>
             </div>
             <div className="nk-block-head-content align-self-start d-lg-none">
@@ -84,13 +85,13 @@ export const Info = () => {
           <div className="nk-data data-list">
             <div className="data-item">
               <div className="data-col">
-                <span className="data-label">Full Name</span>
+                <span className="data-label">{t('FullName')}</span>
                 <div className="form-control-wrap">
                   <input
                       type="text"
                       className="form-control"
                       name="full_name"
-                      placeholder="Full Name"
+                      placeholder={t('FullName')}
                       value={formData.full_name}
                       onChange={handleChange}
                   />
@@ -100,13 +101,13 @@ export const Info = () => {
 
             <div className="data-item">
               <div className="data-col">
-                <span className="data-label">Display Name</span>
+                <span className="data-label">{t('DisplayName')}</span>
                 <div className="form-control-wrap">
                   <input
                       type="text"
                       className="form-control"
                       name="display_name"
-                      placeholder="Display Name"
+                      placeholder={t('DisplayName')}
                       value={formData.display_name}
                       onChange={handleChange}
                   />
@@ -116,14 +117,14 @@ export const Info = () => {
 
             <div className="data-item">
               <div className="data-col">
-                <span className="data-label">Email</span>
+                <span className="data-label">{t('Email')}</span>
                 <div className="form-control-wrap">
                   <input
                       type="email"
                       className="form-control"
                       name="email"
                       disabled
-                      placeholder="Email"
+                      placeholder={t('Email')}
                       value={formData.email}
                       onChange={handleChange}
                   />
@@ -133,7 +134,7 @@ export const Info = () => {
 
             <div className="data-item">
               <div className="data-col">
-                <span className="data-label">Phone number</span>
+                <span className="data-label">{t('PhoneNumber')}</span>
                 <div className="form-control-wrap">
                   <input
                       type="tel"
@@ -141,7 +142,7 @@ export const Info = () => {
                       pattern="^\+?[0-9]{0,15}$"
                       className="form-control"
                       name="phone"
-                      placeholder="Phone number"
+                      placeholder={t('PhoneNumber')}
                       value={formData.phone}
                       onChange={handleChange}
                   />
@@ -151,13 +152,13 @@ export const Info = () => {
 
             <div className="data-item">
               <div className="data-col">
-                <span className="data-label">Date of Birth</span>
+                <span className="data-label">{t('DateOfBirth')}</span>
                 <div className="form-control-wrap">
                   <input
                       type="date"
                       className="form-control"
                       name="birth_day"
-                      placeholder="Date of Birth"
+                      placeholder={t('DateOfBirth')}
                       value={formData.birth_day}
                       onChange={handleChange}
                   />
@@ -165,8 +166,8 @@ export const Info = () => {
               </div>
             </div>
 
-            <button onClick={handleSave} className="btn btn-primary save-btn">
-              Save
+            <button onClick={handleSave} className="btn btn-primary mt-2">
+              {t('Save')}
             </button>
           </div>
         </div>

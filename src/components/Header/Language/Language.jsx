@@ -1,11 +1,27 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../../hooks";
+import i18n from "../../../i18n";
+
+const LANGUAGES = [
+  { code: "en", label: "English", flag: "/assets/images/english.png" },
+  { code: "ru", label: "Русский", flag: "/assets/images/russia.webp" },
+];
 
 export const Language = () => {
   const [show, setShow] = useState(false);
   const dropdownRef = useRef();
 
+  const currentLang = i18n.language || localStorage.getItem('lang') || 'en';
+
   useClickOutside(dropdownRef, () => setShow(false));
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    localStorage.setItem("lang", lng);
+    setShow(false);
+  };
+
+  const currentFlag = LANGUAGES.find(l => l.code === currentLang)?.flag;
 
   return (
     <li
@@ -20,35 +36,23 @@ export const Language = () => {
         onClick={() => setShow(!show)}
       >
         <div className="quick-icon border border-light">
-          <img className="icon" src="/assets/images/english-sq.png" alt="Flag icon" />
+          <img className="icon" src={currentFlag} alt="Flag icon"/>
         </div>
       </div>
       <div
-        className={`dropdown-menu dropdown-menu-end dropdown-menu-s1 ${
+          className={`dropdown-menu dropdown-menu-end dropdown-menu-s1 ${
           show ? "show" : ""
         }`}
       >
         <ul className="language-list">
-          <li>
-            <div className="language-item">
-              <img
-                src="/assets/images/english.png"
-                alt="USA flag icon"
-                className="language-flag"
-              />
-              <span className="language-name">English</span>
-            </div>
-          </li>
-          <li>
-            <div className="language-item">
-              <img
-                src="/assets/images/russia.webp"
-                alt="Russian flag icon"
-                className="language-flag"
-              />
-              <span className="language-name">Русский</span>
-            </div>
-          </li>
+          {LANGUAGES.map(({ code, label, flag }) => (
+              <li key={code} onClick={() => changeLanguage(code)} style={{cursor: "pointer"}}>
+                <div className="language-item">
+                  <img src={flag} alt={`${label} flag`} className="language-flag" />
+                  <span className="language-name">{label}</span>
+                </div>
+              </li>
+          ))}
         </ul>
       </div>
     </li>

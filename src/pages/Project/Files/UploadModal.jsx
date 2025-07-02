@@ -3,12 +3,14 @@ import { getFileIcon } from "../../../helpers";
 import { useUploadFilesMutation} from "../../../store/files/files.api";
 import { useAppSelect } from "../../../hooks/redux";
 import {toast} from "react-toastify";
+import {useTranslation} from "react-i18next";
 
 export const UploadModal = ({ onClose, parentId, onRefetchData }) => {
   const [files, setFiles] = useState([]);
   const [uploadFiles] = useUploadFilesMutation();
   const { selectedProject } = useAppSelect((state) => state.auth);
   const [loading, setLoading] = useState(false);
+  const { t } = /** @type {any} */ useTranslation('common');
 
   useEffect(() => {
     const overlay = document.querySelector(".modal-backdrop");
@@ -24,7 +26,7 @@ export const UploadModal = ({ onClose, parentId, onRefetchData }) => {
     const selectedFiles = Array.from(e.target.files);
 
     if (files.length + selectedFiles.length > 10) {
-      toast.error("Максимум 10 файлів!");
+      toast.error(t('MaximumFiles', { count: 10 }));
       return;
     }
 
@@ -62,9 +64,9 @@ export const UploadModal = ({ onClose, parentId, onRefetchData }) => {
     uploadFiles(formData).unwrap().then(() => {
       onClose();
       setTimeout(onRefetchData, 600);
-      toast.success("Успешно сохранено");
+      toast.success(t('SavedSuccessfully'));
     }).catch(() => {
-      toast.error("Ошибка");
+      toast.error(t('Error'));
     }).finally(() => {
       setLoading(false);
     });
@@ -92,7 +94,7 @@ export const UploadModal = ({ onClose, parentId, onRefetchData }) => {
             </div>
             <div className="modal-body modal-body-md">
               <div className="nk-upload-form">
-                <h5 className="title mb-3">Upload File</h5>
+                <h5 className="title mb-3">{t('UploadFiles')}</h5>
 
                 <div className="upload-zone small bg-lighter dropzone dz-clickable">
                   {" "}
@@ -105,16 +107,15 @@ export const UploadModal = ({ onClose, parentId, onRefetchData }) => {
                   />
                   <div className="dz-message" data-dz-message>
                     <span className="dz-message-text">
-                      <span>Drag and drop</span> files here or
-                      <span>browse</span>
+                      <span>{t('DragAndDropFilesHereOrBrowse')}</span>
                     </span>
                   </div>
                 </div>
               </div>
 
               <div className="nk-upload-list">
-                <h6 className="title">Uploaded Files</h6>
-                {files.length === 0 && <div>No files uploaded</div>}
+                <h6 className="title">{t('UploadedFiles')}</h6>
+                {files.length === 0 && <div>{t('NoFilesUploaded')}</div>}
                 {files?.map((file, index) => (
                   <div key={index} className="nk-upload-item">
                     {" "}
@@ -125,11 +126,11 @@ export const UploadModal = ({ onClose, parentId, onRefetchData }) => {
                       <div className="nk-upload-title">
                         <span className="title">{file.name}</span>
                         {file.progress < 100 && (
-                          <span className="meta">{file.progress}% Done</span>
+                          <span className="meta">{file.progress}% {t('Done')}</span>
                         )}
 
                         {file.progress === 100 && (
-                          <span className="meta"> Uploaded </span>
+                          <span className="meta">{t('Uploaded')}</span>
                         )}
                       </div>
                       {file.progress < 100 && (
@@ -162,8 +163,12 @@ export const UploadModal = ({ onClose, parentId, onRefetchData }) => {
               <div className="nk-modal-action justify-end">
                 <ul className="btn-toolbar g-4 align-center">
                   <li>
-                    <a href="#" className="link link-primary" onClick={onClose}>
-                      Cancel
+                    <a href="#" className="link link-primary" onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      onClose();
+                    }}>
+                      {t('Cancel')}
                     </a>
                   </li>
                   <li>
@@ -173,7 +178,7 @@ export const UploadModal = ({ onClose, parentId, onRefetchData }) => {
                       onClick={handleSubmit}
                       disabled={files?.length === 0 || loading || files.length > 10}
                     >
-                      Add Files
+                      {t('AddFiles')}
                     </button>
                   </li>
                 </ul>

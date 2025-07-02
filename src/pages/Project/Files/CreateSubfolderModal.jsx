@@ -5,6 +5,7 @@ import {
 } from "../../../store/files/files.api";
 import { toast } from "react-toastify";
 import { useAppSelect } from "../../../hooks/redux";
+import {useTranslation} from "react-i18next";
 
 export const CreateSubfolderModal = ({ onClose, parentId, createSubfolderData, onRefetchData }) => {
     const [folderData, setFolderData] = useState({
@@ -13,6 +14,7 @@ export const CreateSubfolderModal = ({ onClose, parentId, createSubfolderData, o
     const [createFolder] = useLazyCreateFolderQuery();
     const [loading, setLoading] = useState(false);
     const { selectedProject } = useAppSelect((state) => state.auth);
+    const { t } = /** @type {any} */ useTranslation('common');
 
     useEffect(() => {
         const overlay = document.querySelector(".modal-backdrop");
@@ -30,9 +32,9 @@ export const CreateSubfolderModal = ({ onClose, parentId, createSubfolderData, o
             if (resp.isSuccess) {
                 onClose();
                 onRefetchData();
-                toast.success("Успешно создано");
+                toast.success(t('SuccessfullyCreated'));
             } else {
-                toast.error("Ошибка");
+                toast.error(t('Error'));
             }
         });
     };
@@ -48,7 +50,7 @@ export const CreateSubfolderModal = ({ onClose, parentId, createSubfolderData, o
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title">
-                            Create Subfolder
+                            {t('CreateSubfolder')}
                         </h5>
                         <div href="#" className="close" onClick={onClose}>
                             <em className="icon ni ni-cross" />
@@ -56,7 +58,7 @@ export const CreateSubfolderModal = ({ onClose, parentId, createSubfolderData, o
                     </div>
                     <div className="modal-body">
                         <div className="form-group">
-                            <label className="form-label">Folder Name</label>
+                            <label className="form-label">{t('FolderName')}</label>
                             <input
                                 type="text"
                                 className="form-control"
@@ -76,10 +78,14 @@ export const CreateSubfolderModal = ({ onClose, parentId, createSubfolderData, o
                             }}
                             disabled={folderData?.folder_name?.length === 0 || loading}
                         >
-                            Create
+                            {t('Create')}
                         </button>
-                        <button className="btn btn-light" onClick={onClose}>
-                            Cancel
+                        <button className="btn btn-light" onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            onClose();
+                        }}>
+                            {t('Cancel')}
                         </button>
                     </div>
                 </div>

@@ -1,6 +1,7 @@
 import { EmptyMessage } from "../../../../components/EmptyMessage";
 import { FileCard } from "../../../../components/FileCard/FileCard";
 import {useEffect, useState} from "react";
+import {useTranslation} from "react-i18next";
 
 export const FoldersList = ({
     data,
@@ -18,6 +19,8 @@ export const FoldersList = ({
     isAdmin,
     onMoveUp
 }) => {
+    const { t } = /** @type {any} */ useTranslation('common');
+
     const filteredFolders = isSearching
         ? data
         : data?.filter(({ parent_id }) => parent_id === null || parent_id === selected);
@@ -28,10 +31,10 @@ export const FoldersList = ({
 
     return (
         <div className="nk-files-group">
-            <h6 className="title">Folder</h6>
+            <h6 className="title">{t('Folder')}</h6>
             <div className="nk-files-list">
                 {filteredFolders?.length === 0 ? (
-                    <EmptyMessage title="Empty" />
+                    <EmptyMessage title={t('Empty')} />
                 ) : (
                     filteredFolders?.map(({ id, name, full_name, size, created_at }) => (
                         <FileCard
@@ -40,7 +43,7 @@ export const FoldersList = ({
                             type="folder"
                             size={size}
                             date={created_at}
-                            onEdit={() => onEdit({ id, name })}
+                            onEdit={() => onEdit({ id, full_name })}
                             onCreateSubfolder={() => onCreateSubfolder({ id })}
                             onDelete={() => onDelete({ id, name, type: "folder" })}
                             onSelect={() => onSelectFolder(id)}

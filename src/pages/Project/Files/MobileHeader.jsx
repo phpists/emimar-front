@@ -1,7 +1,10 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../../hooks";
+import {useTranslation} from "react-i18next";
 
 export const MobileHeader = ({ onOpenUploadModal, onCreateFolder, selected }) => {
+  const { t } = /** @type {any} */ useTranslation('common');
+
   const [dropdown, setDropdown] = useState(false);
   const [search, setSearch] = useState(false);
   const dropdownRef = useRef();
@@ -48,14 +51,14 @@ export const MobileHeader = ({ onOpenUploadModal, onCreateFolder, selected }) =>
                     <li onClick={onOpenUploadModal}>
                       <a href="#file-upload" data-bs-toggle="modal">
                         <em className="icon ni ni-upload-cloud" />
-                        <span>Upload File</span>
+                        <span>{t('UploadFile')}</span>
                       </a>
                     </li>
 
                     <li onClick={onCreateFolder}>
                       <a href="#">
                         <em className="icon ni ni-folder-plus" />
-                        <span>Create Folder</span>
+                        <span>{t('CreateFolder')}</span>
                       </a>
                     </li>
                   </ul>

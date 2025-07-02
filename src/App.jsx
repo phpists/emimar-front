@@ -15,6 +15,7 @@ import { useActions } from "./hooks/actions";
 import {Navigate} from "react-router-dom";
 import {RequireAuth} from "./RequireAuth";
 import {ROLES} from "./constats/roles";
+import {Links} from "./pages/Links/Links";
 
 export const App = () => {
     const location = useLocation();
@@ -81,6 +82,14 @@ export const App = () => {
                                     element={
                                         <RequireAuth>
                                             <Profile />
+                                        </RequireAuth>
+                                    }
+                                />
+                                <Route
+                                    path="/links"
+                                    element={
+                                        <RequireAuth>
+                                            <Links />
                                         </RequireAuth>
                                     }
                                 />

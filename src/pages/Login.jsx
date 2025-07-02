@@ -19,7 +19,7 @@ export const Login = () => {
         localStorage.setItem("token", resp?.data.response.access_token);
         navigate("/");
       } else {
-        toast.error("Данные не найдены");
+        toast.error("Incorrect email or password");
       }
     });
   };

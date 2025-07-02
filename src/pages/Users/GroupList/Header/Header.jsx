@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { GroupModal } from "../GroupModal";
+import {useTranslation} from "react-i18next";
 
 export const Header = ({ onCreateGroup, search, onSearch, total }) => {
+    const { t } = /** @type {any} */ useTranslation('common');
+
     const handleSearchChange = (e) => {
         onSearch(e.target.value);
     };
@@ -9,9 +12,9 @@ export const Header = ({ onCreateGroup, search, onSearch, total }) => {
     <div>
         <div className="d-flex justify-content-between align-items-center mb-3">
             <div className="nk-block-head-content">
-                <h5 className="title">Group List</h5>
+                <h5 className="title">{t('GroupList')}</h5>
                 <div className="nk-block-des text-soft">
-                    <p>{`You have ${total} group${total !== 1 ? 's' : ''}.`}</p>
+                    <p>{`${total !== 1 ? t('GroupsTotalPlural', {count: total}) : t('GroupsTotal', {count: total})}.`}</p>
                 </div>
             </div>
             <div className="nk-block-head-content d-flex align-items-center gap-2">
@@ -19,13 +22,13 @@ export const Header = ({ onCreateGroup, search, onSearch, total }) => {
                         <input
                             type="text"
                             className="form-control"
-                            placeholder="Search projects..."
+                            placeholder={`${t('SearchGroups')}...`}
                             value={search}
                             onChange={handleSearchChange}
                         />
                     </div>
                     <button className="btn btn-primary" onClick={onCreateGroup}>
-                        + Create Group
+                        + {t('CreateGroup')}
                     </button>
                 </div>
             </div>

@@ -1,4 +1,7 @@
+import {useTranslation} from "react-i18next";
+
 export const Header = ({ onCreateUser, search, onSearch, total }) => {
+    const { t } = /** @type {any} */ useTranslation('common');
 
     const handleSearchChange = (e) => {
         onSearch(e.target.value);
@@ -8,9 +11,9 @@ export const Header = ({ onCreateUser, search, onSearch, total }) => {
     <div>
         <div className="d-flex justify-content-between align-items-center mb-3">
             <div className="nk-block-head-content">
-                <h5 className="title">User List</h5>
+                <h5 className="title">{t('UserList')}</h5>
                 <div className="nk-block-des text-soft">
-                    <p>{`You have ${total} user${total !== 1 ? 's' : ''}.`}</p>
+                    <p>{`${total !== 1 ? t('UsersTotalPlural', {count: total}) : t('UsersTotal', {count: total})}.`}</p>
                 </div>
             </div>
 
@@ -19,13 +22,13 @@ export const Header = ({ onCreateUser, search, onSearch, total }) => {
                 <input
                             type="text"
                             className="form-control"
-                            placeholder="Search users..."
+                            placeholder={`${t('SearchUsers')}...`}
                             value={search}
                             onChange={handleSearchChange}
                         />
                     </div>
                     <button className="btn btn-primary" onClick={onCreateUser}>
-                        + Create User
+                        + {t('CreateUser')}
                     </button>
                 </div>
 

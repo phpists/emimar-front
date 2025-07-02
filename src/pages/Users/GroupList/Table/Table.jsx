@@ -6,12 +6,14 @@ import { ConfirmDeleteModal } from "../../../../components/ConfirmModal";
 import { Loading } from "../../../../components/Loading";
 import { EmptyMessage } from "../../../../components/EmptyMessage";
 import {Pagination} from "../../../../components/Pagination";
+import {useTranslation} from "react-i18next";
 
 export const Table = ({ data, onRefetch, onEdit, sortBy, sortDesc, onSortChange, isLoading, onChangePage }) => {
   const [deleting, setDeleting] = useState(null);
   const [deleteGroup] = useLazyDeleteGroupQuery();
   const [selected, setSelected] = useState([]);
   const [deletingItems, setDeletingItems] = useState([]);
+  const { t } = /** @type {any} */ useTranslation('common');
 
   const handleCloseDeleting = () => {
     setDeleting(null);
@@ -41,7 +43,7 @@ export const Table = ({ data, onRefetch, onEdit, sortBy, sortDesc, onSortChange,
         <ConfirmDeleteModal
           onClose={handleCloseDeleting}
           onConfirm={handleDelete}
-          title={`Are you sure you want to delete ${
+          title={`${t('AreYouSureYouWantToDelete')} ${
             deletingItems?.length > 0
               ? `${deletingItems?.length} groups`
               : deleting?.title
@@ -100,7 +102,7 @@ export const Table = ({ data, onRefetch, onEdit, sortBy, sortDesc, onSortChange,
             </table>
             {isLoading ? <Loading /> : null}
             {data?.response?.length === 0 && !isLoading ? (
-              <EmptyMessage title="No groups found" />
+              <EmptyMessage title={t('NoGroupsFound')} />
             ) : null}
           </div>
           {isLoading ? null : (

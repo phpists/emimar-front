@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../../../hooks";
+import {useTranslation} from "react-i18next";
 
 export const Row = ({
   name,
@@ -15,6 +16,7 @@ export const Row = ({
 }) => {
   const [dropdown, setDrodown] = useState(false);
   const dropdownRef = useRef();
+    const { t } = /** @type {any} */ useTranslation('common');
 
   useClickOutside(dropdownRef, () => setDrodown(false));
   return (
@@ -75,19 +77,7 @@ export const Row = ({
                                           }}
                                       >
                                           <em className="icon ni ni-edit"/>
-                                          <span>Edit</span>
-                                      </a>
-                                  </li>
-                                  <li>
-                                      <a
-                                          href="#"
-                                          onClick={(e) => {
-                                              e.preventDefault();
-                                              onDelete();
-                                          }}
-                                      >
-                                          <em className="icon ni ni-trash"/>
-                                          <span>Delete</span>
+                                          <span>{t('Edit')}</span>
                                       </a>
                                   </li>
                                   <li>
@@ -99,7 +89,19 @@ export const Row = ({
                                           }}
                                       >
                                           <em className="icon ni ni-lock-alt"/>
-                                          <span>Change password</span>
+                                          <span>{t('ChangePassword')}</span>
+                                      </a>
+                                  </li>
+                                  <li>
+                                      <a
+                                          href="#"
+                                          onClick={(e) => {
+                                              e.preventDefault();
+                                              onDelete();
+                                          }}
+                                      >
+                                          <em className="icon ni ni-trash"/>
+                                          <span>{t('Delete')}</span>
                                       </a>
                                   </li>
                               </ul>

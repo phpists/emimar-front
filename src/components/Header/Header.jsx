@@ -56,7 +56,7 @@ export const Header = ({ onToggleSidebar }) => {
 
           <div className="nk-header-tools ms-2">
             <ul className="nk-quick-nav">
-              <Notifications/>
+              {/*<Notifications/>*/}
               <Language/>
               <Profile/>
             </ul>

@@ -6,6 +6,7 @@ import { Row } from "./Row";
 import { useLazyDeleteUserQuery } from "../../../../store/auth/auth.api";
 import { Loading } from "../../../../components/Loading";
 import { EmptyMessage } from "../../../../components/EmptyMessage";
+import {useTranslation} from "react-i18next";
 
 export const Table = ({
   data,
@@ -22,6 +23,7 @@ export const Table = ({
   const [deleteUser] = useLazyDeleteUserQuery();
   const [selected, setSelected] = useState([]);
   const [deletingItems, setDeletingItems] = useState([]);
+  const { t } = /** @type {any} */ useTranslation('common');
 
   const handleCloseDeleting = () => {
     setDeletingUser(null);
@@ -51,10 +53,10 @@ export const Table = ({
         <ConfirmDeleteModal
           onClose={handleCloseDeleting}
           onConfirm={handleDelete}
-          title={`Are you sure you want to delete ${
+          title={`${t('AreYouSureYouWantToDelete')} ${
             deletingItems?.length > 0
               ? `${deletingItems?.length} users`
-              : deletingUser?.title
+              : deletingUser?.display_name
           }`}
         />
       )}
@@ -119,7 +121,7 @@ export const Table = ({
             </table>
             {isLoading ? <Loading /> : null}
             {data?.response?.users?.data?.length === 0 && !isLoading ? (
-              <EmptyMessage title="No users found" />
+              <EmptyMessage title={t('NoUsersFound')} />
             ) : null}
           </div>
           {isLoading ? null : (

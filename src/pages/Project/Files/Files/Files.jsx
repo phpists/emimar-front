@@ -1,4 +1,5 @@
 import { FileCard } from "../../../../components/FileCard/FileCard";
+import {useTranslation} from "react-i18next";
 
 export const Files = ({
     data,
@@ -13,6 +14,8 @@ export const Files = ({
     isAdmin,
     onMoveUp
 }) => {
+    const { t } = /** @type {any} */ useTranslation('common');
+
     const filteredFiles = isSearching
         ? data
         : data?.filter(({ parent_id }) => parent_id === selected);
@@ -26,7 +29,7 @@ export const Files = ({
 
     return (
         <div className="nk-files-group">
-            <h6 className="title">Files</h6>
+            <h6 className="title">{t('Files')}</h6>
             <div className="nk-files-list">
                 {filteredFiles?.map(({ id, name, size, created_at, full_name, mime_type, url }) => (
                     <FileCard

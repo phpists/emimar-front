@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../../hooks";
+import {useTranslation} from "react-i18next";
 
 export const Header = ({
   onOpenUploadModal,
@@ -12,6 +13,7 @@ export const Header = ({
 }) => {
   const [dropdown, setDropdown] = useState(false);
   const dropdownRef = useRef();
+  const { t } = /** @type {any} */ useTranslation('common');
 
   useClickOutside(dropdownRef, () => setDropdown(false));
 
@@ -22,7 +24,7 @@ export const Header = ({
         <input
           type="text"
           className="form-control border-transparent form-focus-none"
-          placeholder={`Search files, folders in ${selected?.full_name ? selected.full_name : "global"}`}
+          placeholder={`${t('SearchFoldersAndFilesIn')} ${selected?.full_name ? selected.full_name : "global"}`}
           value={search}
           onChange={(e) => onSearch(e.target.value)}
         />
@@ -42,7 +44,7 @@ export const Header = ({
                       }}
                   >
                     <em className="icon ni ni-arrow-up"/>
-                    <span>Go Up</span>
+                    <span>{t('MoveUp')}</span>
                   </a>
                 </li>
             )}
@@ -61,7 +63,7 @@ export const Header = ({
                     }}
                 >
                   <em className="icon ni ni-plus"/>
-                  <span>Create</span>
+                  <span>{t('Create')}</span>
                 </a>
                 <div
                     className={`dropdown-menu dropdown-menu-end ${
@@ -79,7 +81,7 @@ export const Header = ({
                           }}
                       >
                         <em className="icon ni ni-upload-cloud"/>
-                        <span>Upload File</span>
+                        <span>{t('UploadFile')}</span>
                       </a>
                     </li>
                     <li>
@@ -91,7 +93,7 @@ export const Header = ({
                           }}
                       >
                         <em className="icon ni ni-folder-plus"/>
-                        <span>Create Folder</span>
+                        <span>{t('CreateFolder')}</span>
                       </a>
                     </li>
                   </ul>
@@ -109,7 +111,7 @@ export const Header = ({
                   }}
               >
                 <em className="icon ni ni-upload-cloud"/>
-                <span>Upload</span>
+                <span>{t('Upload')}</span>
               </a>
             </li>
           </ul>

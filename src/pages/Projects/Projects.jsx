@@ -4,7 +4,6 @@ import { Header } from "./Header/Header";
 import { Table } from "./Table/Table";
 import { CreateProject } from "./CreateProject";
 import {useDebounce} from "use-debounce";
-import {useGetUsersQuery} from "../../store/auth/auth.api";
 
 export const Projects = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -12,8 +11,8 @@ export const Projects = () => {
   const [editData, setEditData] = useState(null);
   const [search, setSearch] = useState("");
 
-  const [sortBy, setSortBy] = useState("title");
-  const [sortDesc, setSortDesc] = useState(false);
+  const [sortBy, setSortBy] = useState("project_number");
+  const [sortDesc, setSortDesc] = useState(true);
   const [searchType, setSearchType] = useState("1");
   const [debouncedSearch] = useDebounce(search, 500);
 

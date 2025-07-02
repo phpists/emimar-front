@@ -1,9 +1,11 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../hooks";
+import {useTranslation} from "react-i18next";
 
 export const Actions = ({ onEdit, onCreateSubfolder, onDelete, onOpen, onDownload, onMoveUp, isAdmin }) => {
   const [show, setShow] = useState(false);
   const dropdownRef = useRef();
+    const { t } = /** @type {any} */ useTranslation('common');
 
   useClickOutside(dropdownRef, () => setShow(false));
 
@@ -37,7 +39,7 @@ export const Actions = ({ onEdit, onCreateSubfolder, onDelete, onOpen, onDownloa
                           }}
                       >
                           <em className="icon ni ni-eye" />
-                          <span>Open</span>
+                          <span>{t('Open')}</span>
                       </a>
                   </li>
               ): null}
@@ -52,7 +54,7 @@ export const Actions = ({ onEdit, onCreateSubfolder, onDelete, onOpen, onDownloa
                           }}
                       >
                           <em className="icon ni ni-pen" />
-                          <span>Edit</span>
+                          <span>{t('Edit')}</span>
                       </a>
                   </li>
               ) : null}
@@ -69,7 +71,7 @@ export const Actions = ({ onEdit, onCreateSubfolder, onDelete, onOpen, onDownloa
                           }}
                       >
                           <em className="icon ni ni-upload" />
-                          <span>Move up</span>
+                          <span>{t('MoveFileUp')}</span>
                       </a>
                   </li>
               ): null}
@@ -86,7 +88,7 @@ export const Actions = ({ onEdit, onCreateSubfolder, onDelete, onOpen, onDownloa
                           }}
                       >
                           <em className="icon ni ni-download" />
-                          <span>Download</span>
+                          <span>{t('Download')}</span>
                       </a>
                   </li>
               ): null}
@@ -102,7 +104,7 @@ export const Actions = ({ onEdit, onCreateSubfolder, onDelete, onOpen, onDownloa
                           }}
                       >
                           <em className="icon ni ni-folder-plus" />
-                          <span>Create subfolder</span>
+                          <span>{t('CreateSubfolder')}</span>
                       </a>
                   </li>
               ) : null}
@@ -118,7 +120,7 @@ export const Actions = ({ onEdit, onCreateSubfolder, onDelete, onOpen, onDownloa
                           }}
                       >
                           <em className="icon ni ni-trash"/>
-                          <span>Delete</span>
+                          <span>{t('Delete')}</span>
                       </a>
                   </li>
               ): null}

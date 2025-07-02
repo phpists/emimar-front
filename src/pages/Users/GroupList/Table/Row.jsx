@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { useClickOutside } from "../../../../hooks";
+import {useTranslation} from "react-i18next";
 
 export const Row = ({
   title,
@@ -16,6 +17,7 @@ export const Row = ({
   const [dropdown, setDrodown] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef();
+  const { t } = /** @type {any} */ useTranslation('common');
 
   useClickOutside(dropdownRef, () => setDrodown(false));
 
@@ -86,7 +88,7 @@ export const Row = ({
                                           }}
                                       >
                                           <em className="icon ni ni-edit"/>
-                                          <span>Edit</span>
+                                          <span>{t('Edit')}</span>
                                       </a>
                                   </li>
                                   <li>
@@ -98,7 +100,7 @@ export const Row = ({
                                           }}
                                       >
                                           <em className="icon ni ni-trash"/>
-                                          <span>Delete</span>
+                                          <span>{t('Delete')}</span>
                                       </a>
                                   </li>
                               </ul>

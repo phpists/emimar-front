@@ -1,4 +1,8 @@
+import {useTranslation} from "react-i18next";
+
 export const Pagination = ({ currentPage, lastPage, onPageChange }) => {
+  const { t } = /** @type {any} */ useTranslation('common');
+
   if (lastPage === 1) {
     return null;
   }
@@ -48,7 +52,7 @@ export const Pagination = ({ currentPage, lastPage, onPageChange }) => {
                   handleClick(currentPage - 1);
                 }}
               >
-                Prev
+                {t('PreviousPage')}
               </a>
             </li>
 
@@ -67,7 +71,7 @@ export const Pagination = ({ currentPage, lastPage, onPageChange }) => {
                   handleClick(currentPage + 1);
                 }}
               >
-                Next
+                {t('NextPage')}
               </a>
             </li>
           </ul>

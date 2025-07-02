@@ -1,6 +1,5 @@
 import { formatFileSize, getFileIcon } from "../../helpers";
 import { Actions } from "./Actions";
-import { TYPES } from "./types";
 
 export const FileCard = ({
    type,
@@ -60,6 +59,14 @@ export const FileCard = ({
         {size ? <li className="size">{formatFileSize(size)}</li> : null}
       </ul>
     </div>
-    <Actions onEdit={onEdit} isAdmin={isAdmin} onCreateSubfolder={onCreateSubfolder} onDelete={onDelete} onOpen={onOpen} onDownload={onDownload} onMoveUp={onMoveUp} />
+    <Actions
+        onEdit={onEdit}
+        isAdmin={isAdmin}
+        onCreateSubfolder={onCreateSubfolder}
+        onDelete={onDelete}
+        onOpen={onOpen}
+        onDownload={onDownload}
+        onMoveUp={onMoveUp}
+    />
   </div>
 );

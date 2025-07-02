@@ -9,6 +9,7 @@ import { EmptyMessage } from "../../../components/EmptyMessage";
 import {Pagination} from "../../../components/Pagination";
 import {ROLES} from "../../../constats/roles";
 import {useAppSelect} from "../../../hooks/redux";
+import {useTranslation} from "react-i18next";
 
 export const Table = ({
   data,
@@ -24,7 +25,7 @@ export const Table = ({
   const [deleteProject] = useLazyDeleteProjectQuery();
   const [selected, setSelected] = useState([]);
   const [deletingItems, setDeletingItems] = useState([]);
-
+  const { t } = /** @type {any} */ useTranslation('common');
   const rawUser = useAppSelect((state) => state.auth.user);
   const user = rawUser?.user || rawUser;
   const isAdmin = user?.role_id === ROLES.ADMIN;
@@ -62,7 +63,7 @@ export const Table = ({
         <ConfirmDeleteModal
           onClose={handleCloseDeleting}
           onConfirm={handleDelete}
-          title={`Are you sure you want to delete ${
+          title={`${t('AreYouSureYouWantToDelete')} ${
             deletingItems?.length > 0
               ? `${deletingItems?.length} projects`
               : deleting?.title
@@ -134,7 +135,7 @@ export const Table = ({
             </table>
             {isLoading ? <Loading /> : null}
             {data?.response?.projects?.length === 0 && !isLoading ? (
-              <EmptyMessage title="No projects found" />
+              <EmptyMessage title={t('NoProjectsFound')} />
             ) : null}
           </div>
           {isLoading ? null : (

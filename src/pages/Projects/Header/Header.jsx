@@ -1,7 +1,10 @@
 import {useAppSelect} from "../../../hooks/redux";
 import {ROLES} from "../../../constats/roles";
+import {useTranslation} from "react-i18next";
 
 export const Header = ({ search, onSearch, onCreate, total, searchType, onSearchTypeChange }) => {
+
+  const { t } = /** @type {any} */ useTranslation('common');
 
   const rawUser = useAppSelect((state) => state.auth.user);
   const user = rawUser?.user || rawUser;
@@ -20,9 +23,9 @@ export const Header = ({ search, onSearch, onCreate, total, searchType, onSearch
     <div className="nk-block-head nk-block-head-sm">
       <div className="nk-block-between">
         <div className="nk-block-head-content">
-          <h3 className="nk-block-title page-title">Projects</h3>
+          <h3 className="nk-block-title page-title">{t('Projects')}</h3>
           <div className="nk-block-des text-soft">
-            <p>{`You have ${total} project${total !== 1 ? 's' : ''}.`}</p>
+            <p>{total !== 1 ? t('ProjectsTotalPlural', { count: total }) : t('ProjectsTotal', { count: total })}.</p>
           </div>
         </div>
         <div className="nk-block-head-content d-flex align-items-center gap-2">
@@ -69,7 +72,7 @@ export const Header = ({ search, onSearch, onCreate, total, searchType, onSearch
             <input
                 type="text"
                 className="form-control"
-                placeholder="Search projects..."
+                placeholder={`${t('SearchProjects')}...`}
                 value={search}
                 onChange={handleSearchChange}
             />
@@ -96,7 +99,7 @@ export const Header = ({ search, onSearch, onCreate, total, searchType, onSearch
                           }}
                       >
                         <em className="icon ni ni-plus"/>
-                        <span>Add Project</span>
+                        <span>{t('AddProject')}</span>
                       </a>
                     </li>
                 )}

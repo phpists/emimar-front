@@ -2,10 +2,12 @@ import {useState} from "react";
 import {useAppSelect} from "../../hooks/redux";
 import {toast} from "react-toastify";
 import {useUpdateUserPasswordMutation} from "../../store/auth/auth.api";
+import {useTranslation} from "react-i18next";
 
 export const Password = () => {
   const user = useAppSelect((state) => state.auth.user?.user);
   const [updateUserPassword] = useUpdateUserPasswordMutation();
+  const { t } = /** @type {any} */ useTranslation('common');
 
   const [formData, setFormData] = useState({
     passwordUnique: "",
@@ -24,14 +26,14 @@ export const Password = () => {
   const handleSave = async () => {
     console.log({formData});
     if (formData.passwordUnique !== formData.repeatPasswordUnique) {
-      toast.error("Пароли не совпадают");
+      toast.error(t('ThePasswordsDoNotMatch'));
       return;
     }
     try {
       await updateUserPassword({ user_id: user.id, password: formData.passwordUnique }).unwrap();
-      toast.success("Успешно сохранено");
+      toast.success(t('SavedSuccessfully'));
     } catch (err) {
-      toast.error("Ошибка");
+      toast.error(t('Error'));
     }
   };
 
@@ -41,7 +43,7 @@ export const Password = () => {
         <div className="nk-block-head nk-block-head-lg">
           <div className="nk-block-between">
             <div className="nk-block-head-content">
-              <h4 className="nk-block-title">Change password</h4>
+              <h4 className="nk-block-title">{t('ChangePassword')}</h4>
               <div className="nk-block-des"></div>
             </div>
           </div>
@@ -54,14 +56,14 @@ export const Password = () => {
               data-bs-target="#profile-edit"
             >
               <div className="data-col">
-                <span className="data-label">New password</span>
+                <span className="data-label">{t('NewPassword')}</span>
                 <div className="form-control-wrap">
                   <input
                     type="password"
                     className="form-control"
                     id="passwordUnique"
                     name="passwordUnique"
-                    placeholder="New password"
+                    placeholder={t('NewPassword')}
                     onChange={handleChange}
                   />
                 </div>
@@ -73,21 +75,21 @@ export const Password = () => {
               data-bs-target="#profile-edit"
             >
               <div className="data-col">
-                <span className="data-label">New password confirmation</span>
+                <span className="data-label">{t('NewPasswordConfirmation')}</span>
                 <div className="form-control-wrap">
                   <input
                     type="password"
                     className="form-control"
                     id="repeatPasswordUnique"
                     name="repeatPasswordUnique"
-                    placeholder="New password confirmation"
+                    placeholder={t('NewPasswordConfirmation')}
                     onChange={handleChange}
                   />
                 </div>
               </div>
             </div>
-            <button onClick={handleSave} className="btn btn-primary save-btn">
-              Save
+            <button onClick={handleSave} className="btn btn-primary mt-2">
+              {t('Save')}
             </button>
           </div>
         </div>

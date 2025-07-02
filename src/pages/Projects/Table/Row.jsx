@@ -4,6 +4,7 @@ import { useClickOutside } from "../../../hooks";
 import { useActions } from "../../../hooks/actions";
 import {useAppSelect} from "../../../hooks/redux";
 import {ROLES} from "../../../constats/roles";
+import {useTranslation} from "react-i18next";
 
 export const Row = ({
   title,
@@ -24,6 +25,7 @@ export const Row = ({
   const navigate = useNavigate();
   const dropdownRef = useRef();
   const { selectProject } = useActions();
+  const { t } = /** @type {any} */ useTranslation('common');
 
   useClickOutside(dropdownRef, () => setDrodown(false));
 
@@ -98,7 +100,7 @@ export const Row = ({
                                           }}
                                       >
                                           <em className="icon ni ni-eye"/>
-                                          <span>View Project</span>
+                                          <span>{t('ViewProject')}</span>
                                       </a>
                                   </li>
                                   <li>
@@ -110,7 +112,7 @@ export const Row = ({
                                           }}
                                       >
                                           <em className="icon ni ni-edit"/>
-                                          <span>Edit</span>
+                                          <span>{t('Edit')}</span>
                                       </a>
                                   </li>
                                   {isAdmin && (
@@ -123,7 +125,7 @@ export const Row = ({
                                               }}
                                           >
                                               <em className="icon ni ni-trash"/>
-                                              <span>Delete</span>
+                                              <span>{t('Delete')}</span>
                                           </a>
                                       </li>
                                   )}

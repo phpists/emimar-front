@@ -5,6 +5,7 @@ import {
 } from "../../../store/files/files.api";
 import { toast } from "react-toastify";
 import { useAppSelect } from "../../../hooks/redux";
+import {useTranslation} from "react-i18next";
 
 const presetOptions = [
   "Сделка M | Deal M Nr. ",
@@ -22,6 +23,7 @@ export const FolderModal = ({ isOpen, onClose, parentId, editData, onRefetchData
   const [loading, setLoading] = useState(false);
   const { selectedProject } = useAppSelect((state) => state.auth);
   const inputRef = useRef(null);
+  const { t } = /** @type {any} */ useTranslation('common');
 
   useEffect(() => {
     const overlay = document.querySelector(".modal-backdrop");
@@ -43,7 +45,7 @@ export const FolderModal = ({ isOpen, onClose, parentId, editData, onRefetchData
 
   useEffect(() => {
     if (editData) {
-      setFolderData({ folder_name: editData?.name, folder_id: editData?.id });
+      setFolderData({ folder_name: editData?.full_name, folder_id: editData?.id });
     }
   }, [editData]);
 
@@ -60,9 +62,9 @@ export const FolderModal = ({ isOpen, onClose, parentId, editData, onRefetchData
           if (resp.isSuccess) {
             onClose();
             onRefetchData();
-            toast.success("Успешно сохранено");
+            toast.success(t('SavedSuccessfully'));
           } else {
-            toast.error("Ошибка");
+            toast.error(t('Error'));
           }
         }
       );
@@ -76,9 +78,9 @@ export const FolderModal = ({ isOpen, onClose, parentId, editData, onRefetchData
         if (resp.isSuccess) {
           onClose();
           onRefetchData();
-          toast.success("Успешно сохранено");
+          toast.success(t('SavedSuccessfully'));
         } else {
-          toast.error("Ошибка");
+          toast.error(t('Error'));
         }
       });
     }
@@ -95,7 +97,7 @@ export const FolderModal = ({ isOpen, onClose, parentId, editData, onRefetchData
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">
-              {editData ? "Edit" : "Create"} Folder
+              {editData ? t('EditFolder') : t('CreateFolder')}
             </h5>
             <div href="#" className="close" onClick={onClose}>
               <em className="icon ni ni-cross" />
@@ -105,7 +107,7 @@ export const FolderModal = ({ isOpen, onClose, parentId, editData, onRefetchData
             {!editData && (
                 <div className="mb-3">
                   <label htmlFor="preset" className="form-label">
-                    Select Folder Name Template
+                    {t('SelectFolderNameTemplate')}
                   </label>
                   <select
                       id="preset"
@@ -125,7 +127,7 @@ export const FolderModal = ({ isOpen, onClose, parentId, editData, onRefetchData
                 </div>
             )}
             <div className="form-group">
-              <label className="form-label">Folder Name</label>
+              <label className="form-label">{t('FolderName')}</label>
               <input
                   type="text"
                   ref={inputRef}
@@ -160,10 +162,14 @@ export const FolderModal = ({ isOpen, onClose, parentId, editData, onRefetchData
                 }}
                 disabled={folderData?.folder_name?.length === 0 || loading}
             >
-              {editData ? "Save" : "Create"}
+              {editData ? t('Save') : t('Create')}
             </button>
-            <button className="btn btn-light" onClick={onClose}>
-              Cancel
+            <button className="btn btn-light" onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onClose();
+            }}>
+              {t('Cancel')}
             </button>
           </div>
         </div>

@@ -67,22 +67,38 @@ export const Sidebar = () => {
                         </NavLink>
                       </li>
                   )}
+                  <li className={`nk-menu-item ${pathname === "/links" ? "active" : ""}`}>
+                    <NavLink
+                        to="/links"
+                        className={`nk-menu-link ${pathname === "/links" ? "active current-page" : ""}`}
+                        aria-label="Links"
+                    >
+                      <span className="nk-menu-icon">
+                        <em className="icon ni ni-link" />
+                      </span>
+                    </NavLink>
+                  </li>
                 </ul>
               </div>
             </div>
           </div>
           <div className="nk-sidebar-footer">
-            <NavLink
-                to="/profile"
-                className={`nk-menu-link d-flex align-items-center justify-content-center ${
-                    pathname === "/profile" ? "active current-page" : ""
-                }`}
-                aria-label="Profile"
-            >
+            <ul className="nk-menu apps-menu">
+              <li className={`nk-menu-item ${pathname === "/profile" ? "active" : ""}`}>
+                <NavLink
+                    to="/profile"
+                    className={`nk-menu-link d-flex align-items-center justify-content-center ${
+                        pathname === "/profile" ? "active current-page" : ""
+                    }`}
+                    aria-label="Profile"
+                >
               <span className="nk-menu-icon">
                 <em className="icon ni ni-user-alt"/>
               </span>
-            </NavLink>
+                </NavLink>
+              </li>
+            </ul>
+
           </div>
         </div>
       </div>

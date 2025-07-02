@@ -4,8 +4,11 @@ import {
   useLazyUpdateUserQuery,
 } from "../../../store/auth/auth.api";
 import { toast } from "react-toastify";
+import {useTranslation} from "react-i18next";
 
 export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
+  const { t } = /** @type {any} */ useTranslation('common');
+
   const [newUser, setNewUser] = useState({
     user_id: "",
     full_name: "",
@@ -43,9 +46,9 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
         if (resp.isSuccess) {
           onClose();
           onRefetchUser();
-          toast.success("Успешно сохранено");
+          toast.success(t('SavedSuccessfully'));
         } else {
-          toast.error("Ошибка");
+          toast.error(t('Error'));
         }
       });
     } else {
@@ -53,9 +56,9 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
         if (resp.isSuccess) {
           onClose();
           onRefetchUser();
-          toast.success("Успешно создано");
+          toast.success(t('SuccessfullyCreated'));
         } else {
-          toast.error("Ошибка");
+          toast.error(t('Error'));
         }
       });
     }
@@ -74,7 +77,7 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">
-              {editUser ? "Edit User" : "Create User"}
+              {editUser ? t('EditUser') : t('CreateUser')}
             </h5>
             <a
               href="#"
@@ -91,7 +94,7 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
           <div className="modal-body">
             <div className="row">
               <div className="form-group col-md-6">
-                <label className="form-label">Full Name</label>
+                <label className="form-label">{t('FullName')}</label>
                 <input
                     type="text"
                     className="form-control"
@@ -102,7 +105,7 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
                 />
               </div>
               <div className="form-group col-md-6">
-                <label className="form-label">Display Name</label>
+                <label className="form-label">{t('DisplayName')}</label>
                 <input
                     type="text"
                     className="form-control"
@@ -115,7 +118,7 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Email</label>
+              <label className="form-label">{t('Email')}</label>
               <input
                   type="email"
                   className="form-control"
@@ -127,7 +130,7 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
             </div>
             <div className="row">
               <div className="form-group col-md-6">
-                <label className="form-label">Phone number</label>
+                <label className="form-label">{t('PhoneNumber')}</label>
                 <input
                     type="tel"
                     maxLength={16}
@@ -141,7 +144,7 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
               </div>
 
               <div className="form-group col-md-6">
-                <label className="form-label">Date of Birth</label>
+                <label className="form-label">{t('DateOfBirth')}</label>
                 <input
                     type="date"
                     className="form-control"
@@ -160,10 +163,14 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
                 onClick={handleSubmit}
                 disabled={isFormInvalid}
             >
-              {editUser ? "Save Changes" : "Create"}
+              {editUser ? t('SaveChanges') : t('Create')}
             </button>
-            <button className="btn btn-light" onClick={onClose}>
-              Cancel
+            <button className="btn btn-light" onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onClose();
+            }}>
+              {t('Cancel')}
             </button>
           </div>
         </div>

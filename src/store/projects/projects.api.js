@@ -37,12 +37,47 @@ export const projects = createApi({
         body: { id },
       }),
     }),
+    getLinks: build.query({
+      query: ({ page, perPage = 25 }) => ({
+        url: "/link/get-links",
+        headers: headers(),
+        params: { perPage, page},
+      }),
+    }),
+    createLink: build.query({
+      query: (data) => ({
+        method: "POST",
+        url: "/link/create-link",
+        headers: headers(),
+        body: data,
+      }),
+    }),
+    updateLink: build.query({
+      query: (data) => ({
+        method: "POST",
+        url: "/link/update-link",
+        headers: headers(),
+        body: data,
+      }),
+    }),
+    deleteLink: build.query({
+      query: (id) => ({
+        method: "DELETE",
+        url: "/link/delete-link",
+        headers: headers(),
+        body: { id },
+      }),
+    }),
   }),
 });
 
 export const {
   useGetProjectsQuery,
+  useGetLinksQuery,
   useLazyCreateProjectQuery,
+  useLazyCreateLinkQuery,
   useLazyUpdateProjectQuery,
+  useLazyUpdateLinkQuery,
   useLazyDeleteProjectQuery,
+  useLazyDeleteLinkQuery,
 } = projects;
