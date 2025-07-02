@@ -17,7 +17,6 @@ export const FolderModal = ({ isOpen, onClose, parentId, editData, onRefetchData
   const [folderData, setFolderData] = useState({
     folder_name: "",
   });
-  console.log({editData})
   const [createFolder] = useLazyCreateFolderQuery();
   const [updateFolder] = useLazyUpdateFolderQuery();
   const [loading, setLoading] = useState(false);
