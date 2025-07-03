@@ -8,6 +8,7 @@ import { Files } from "./Files/Files";
 import { Three } from "./Three";
 // import { transformTree } from "./FileThree";
 import {useDebounce} from "use-debounce";
+import {useActions} from "../../hooks/actions";
 
 const transformTree = (data, parentId = null) => {
   if (!Array.isArray(data)) return [];
@@ -31,6 +32,7 @@ export const Project = () => {
   const [search, setSearch] = useState("");
   const [debouncedSearch] = useDebounce(search, 500);
   const isSearching = Boolean(search);
+  const { setProjectData  } = useActions();
 
 
   const tree = useMemo(() => {
@@ -63,6 +65,10 @@ export const Project = () => {
       refetchThree();
     }
   };
+
+  useEffect(() => {
+    setProjectData(data?.response?.project);
+  }, [data]);
 
   useEffect(() => {
     setSelected({});

@@ -4,25 +4,27 @@ import { useClickOutside } from "../../../hooks";
 import { useGetProjectsQuery } from "../../../store/projects/projects.api";
 import { useActions } from "../../../hooks/actions";
 import { useAppSelect } from "../../../hooks/redux";
+import {useTranslation} from "react-i18next";
 
-export const Projects = ({data, refetch}) => {
+export const Projects = ({data, search, onSearch}) => {
+  const { projectData } = useAppSelect((state) => state.projects);
+
   const { pathname } = useLocation();
+  const { t } = /** @type {any} */ useTranslation('common');
   const [show, setShow] = useState(false);
   const dropdownRef = useRef();
   const { selectProject, selectItem  } = useActions();
   const { selectedProject } = useAppSelect((state) => state.auth);
-  const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
   useClickOutside(dropdownRef, () => {
     setShow(false);
-    setSearch("");
+    onSearch("");
   });
 
   const projects = useMemo(() => {
     return (
-        data?.response?.projects?.data
-            ?.map((p) => ({
+        data?.response?.project?.map((p) => ({
               id: p.id,
               title: p.title || "",
               project_number: String(p.project_number || ""),
@@ -50,7 +52,7 @@ export const Projects = ({data, refetch}) => {
     selectProject(id);
     selectItem(null);
     setShow(false);
-    setSearch("");
+    onSearch("");
   };
 
   useEffect(() => {
@@ -59,12 +61,9 @@ export const Projects = ({data, refetch}) => {
     }
   }, []);
 
-  if (pathname !== "/project" || !data?.response?.projects) {
+  if (pathname !== "/project") {
     return null;
   }
-  const currentProject = data?.response?.projects?.data?.find(
-      (p) => p.id?.toString() === selectedProject?.toString()
-  );
 
   return (
     <div className="nk-header-app-name">
@@ -82,21 +81,19 @@ export const Projects = ({data, refetch}) => {
                 setShow(!show);
               }}
             >
-              {currentProject?.project_number
-                  ? `Project No. ${currentProject.project_number}`
-                  : "Loading..."}
+              {projectData?.project_number && `Project No. ${projectData.project_number}`}
             </a>
             <div className={`dropdown-menu left ${show ? "show" : ""}`} style={{}}>
-              <ul className="link-list-opt no-bdr">
+              <ul className="link-list-opt no-bdr" style={{ maxHeight: 'calc(100vh - 150px)', overflowY: 'auto' }}>
                 <li>
                   <div className="nk-fmg-search project-search">
                     <em className="icon ni ni-search" />
                     <input
                       type="text"
                       className="form-control border-transparent form-focus-none"
-                      placeholder="Search project number"
+                      placeholder={t('SearchProjectNumber')}
                       value={search}
-                      onChange={(e) => setSearch(e.target.value)}
+                      onChange={(e) => onSearch(e.target.value)}
                     />
                   </div>
                 </li>

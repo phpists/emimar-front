@@ -34,43 +34,7 @@ export const Header = ({ sortBy, sortDesc, onSortChange, onDelete, isAdmin }) =>
                 {/*<Arrow active={sortBy === "created_at"} desc={sortDesc}/>*/}
               </span>
             </th>
-            <th className="nk-tb-col nk-tb-col-tools text-end">
-                {/*{isAdmin && (*/}
-                    <div ref={dropdownRef} className={`dropdown ${dropdown ? "show" : ""}`}>
-                        <button
-                            href="#"
-                            className="btn btn-xs btn-trigger btn-icon dropdown-toggle me-n1"
-                            data-bs-toggle="dropdown"
-                            data-offset="0,5"
-                            onClick={() => setDrodown(!dropdown)}
-                        >
-                            <em className="icon ni ni-more-h"/>
-                        </button>
-                        <div
-                            className={`dropdown-menu dropdown-menu-end ${
-                                dropdown ? "show" : ""
-                            }`}
-                        >
-                            <ul className="link-list-opt no-bdr">
-                                <li>
-                                    <a
-                                        href="#"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            e.preventDefault();
-                                            onDelete();
-                                        }}
-                                    >
-                                        <em className="icon ni ni-trash"/>
-                                        <span>{t('DeleteLinks')}</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                {/*)*/}
-                {/*}*/}
-            </th>
+            <th className="nk-tb-col nk-tb-col-tools text-end"></th>
         </tr>
     );
 };

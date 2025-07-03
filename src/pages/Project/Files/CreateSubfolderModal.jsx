@@ -52,13 +52,13 @@ export const CreateSubfolderModal = ({ onClose, parentId, createSubfolderData, o
                         <h5 className="modal-title">
                             {t('CreateSubfolder')}
                         </h5>
-                        <div href="#" className="close" onClick={onClose}>
-                            <em className="icon ni ni-cross" />
+                        <div className="close" onClick={onClose}>
+                            <em className="icon ni ni-cross"/>
                         </div>
                     </div>
                     <div className="modal-body">
                         <div className="form-group">
-                            <label className="form-label">{t('FolderName')}</label>
+                        <label className="form-label">{t('FolderName')} <span className="text-danger">*</span></label>
                             <input
                                 type="text"
                                 className="form-control"

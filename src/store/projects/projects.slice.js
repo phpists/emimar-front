@@ -1,11 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {};
+const initialState = {
+  projectData: null
+};
 
 export const projectsSlice = createSlice({
   name: "projects",
   initialState,
-  reducers: {},
+  reducers: {
+    setProjectData: (state, action) => {
+      state.projectData = action.payload;
+    }
+  },
 });
 
 export const projectsActions = projectsSlice.actions;

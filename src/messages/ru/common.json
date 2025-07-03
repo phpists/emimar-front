@@ -125,5 +125,13 @@
   "NoLinksFound": "Ссылки не найдены",
 
   "EnterName": "Введите имя",
-  "EnterLink": "Введите ссылку"
+  "EnterLink": "Введите ссылку",
+  "SearchProjectNumber": "Поиск по номеру проекта",
+
+  "SignInHeader": "Вход",
+  "SignIn": "Войти",
+  "EmailOrUsername": "Email или имя пользователя",
+  "EnterYourEmailAddressOrUsername": "Введите email или имя пользователя",
+  "Password": "Пароль",
+  "EnterYourPassword": "Введите пароль"
 }

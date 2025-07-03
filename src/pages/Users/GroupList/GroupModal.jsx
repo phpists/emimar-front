@@ -82,9 +82,9 @@ export const GroupModal = ({ onClose, editData, onRefreshData }) => {
           </div>
           <div className="modal-body">
             <div className="form-group">
-              <label className="form-label">{t('Name')}</label>
+              <label className="form-label">{t('Name')} <span className="text-danger">*</span></label>
               <input
-                type="text"
+                  type="text"
                 className="form-control"
                 value={data.title}
                 onChange={(e) => setData({ ...data, title: e.target.value })}
@@ -92,10 +92,10 @@ export const GroupModal = ({ onClose, editData, onRefreshData }) => {
             </div>
             <div className="form-group">
               <label className="form-label" htmlFor="project-users">
-                {t('AssignUsers')}
+                {t('AssignUsers')} <span className="text-danger">*</span>
               </label>
               <Select
-                isMulti
+                  isMulti
                 name="colors"
                 options={handleGetOptions()}
                 value={handleGetOptions()?.filter((v) =>

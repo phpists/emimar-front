@@ -11,7 +11,7 @@ export const Projects = () => {
   const [editData, setEditData] = useState(null);
   const [search, setSearch] = useState("");
 
-  const [sortBy, setSortBy] = useState("project_number");
+  const [sortBy, setSortBy] = useState("id");
   const [sortDesc, setSortDesc] = useState(true);
   const [searchType, setSearchType] = useState("1");
   const [debouncedSearch] = useDebounce(search, 500);

@@ -111,15 +111,15 @@ export const CreateProject = ({ onClose, editData, onRefetchData, total }) => {
             <h5 className="modal-title">
               {editData ? t('EditProject') : t('CreateProject')}
             </h5>
-            <a href="#" className="close" onClick={onClose} aria-label="Close">
-              <em className="icon ni ni-cross" />
-            </a>
+            <div className="close" onClick={onClose}>
+              <em className="icon ni ni-cross"/>
+            </div>
           </div>
 
           <div className="modal-body">
             <form>
               <div className="form-group">
-                <label className="form-label" htmlFor="project-name">
+              <label className="form-label" htmlFor="project-name">
                   {t('ProjectName')} <span className="text-danger">*</span>
                 </label>
                 <div className="form-control-wrap">

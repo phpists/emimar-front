@@ -36,39 +36,7 @@ export const Header = ({ isSelectedAll, onSelectAll, sortBy, sortDesc, onSortCha
                 {t('Users')}
               </span>
           </th>
-          <th className="nk-tb-col nk-tb-col-tools text-end">
-              <div ref={dropdownRef} className={`dropdown ${dropdown ? "show" : ""}`}>
-                  <button
-                      href="#"
-                      className="btn btn-xs btn-trigger btn-icon dropdown-toggle me-n1"
-                      data-bs-toggle="dropdown"
-                      data-offset="0,5"
-                      onClick={() => setDrodown(!dropdown)}
-                  >
-                      <em className="icon ni ni-more-h"/>
-                  </button>
-                  <div
-                      className={`dropdown-menu dropdown-menu-end ${
-                          dropdown ? "show" : ""
-                      }`}
-                  >
-                      <ul className="link-list-opt no-bdr">
-                          <li>
-                              <a
-                                  href="#"
-                                  onClick={(e) => {
-                                      e.preventDefault();
-                                      onDelete();
-                                  }}
-                              >
-                                  <em className="icon ni ni-trash"/>
-                                  <span>{t('DeleteGroups')}</span>
-                              </a>
-                          </li>
-                      </ul>
-                  </div>
-              </div>
-          </th>
+          <th className="nk-tb-col nk-tb-col-tools text-end"></th>
       </tr>
   );
 };

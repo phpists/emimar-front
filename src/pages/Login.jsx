@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router";
 import { useLazyLoginQuery } from "../store/auth/auth.api";
 import { toast } from "react-toastify";
 import { useActions } from "../hooks/actions";
+import {useTranslation} from "react-i18next";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -11,6 +12,7 @@ export const Login = () => {
   const [login] = useLazyLoginQuery();
   const { loginUser } = useActions();
   const navigate = useNavigate();
+  const { t } = /** @type {any} */ useTranslation('common');
 
   const handleSubmit = () => {
     login({ login: email, password }).then((resp) => {
@@ -42,14 +44,14 @@ export const Login = () => {
                   <div className="card-inner card-inner-lg">
                     <div className="nk-block-head">
                       <div className="nk-block-head-content">
-                        <h4 className="nk-block-title">Sign-In</h4>
+                        <h4 className="nk-block-title">{t('SignInHeader')}</h4>
                       </div>
                     </div>
                     <div>
                       <div className="form-group">
                         <div className="form-label-group">
                           <label className="form-label" htmlFor="default-01">
-                            Email or Username
+                            {t('EmailOrUsername')}
                           </label>
                         </div>
                         <div className="form-control-wrap">
@@ -57,7 +59,7 @@ export const Login = () => {
                             type="text"
                             className="form-control form-control-lg"
                             id="default-01"
-                            placeholder="Enter your email address or username"
+                            placeholder={t('EnterYourEmailAddressOrUsername')}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                           />
@@ -66,7 +68,7 @@ export const Login = () => {
                       <div className="form-group">
                         <div className="form-label-group">
                           <label className="form-label" htmlFor="password">
-                            Password
+                            {t('Password')}
                           </label>
                         </div>
                         <div className="form-control-wrap">
@@ -92,7 +94,7 @@ export const Login = () => {
                               showPassword && "is-shown"
                             }`}
                             id="password"
-                            placeholder="Enter your passcode"
+                            placeholder={t('EnterYourPassword')}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                           />
@@ -106,7 +108,7 @@ export const Login = () => {
                           }
                           onClick={handleSubmit}
                         >
-                          Sign in
+                          {t('SignIn')}
                         </button>
                       </div>
                     </div>

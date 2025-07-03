@@ -98,14 +98,14 @@ export const FolderModal = ({ isOpen, onClose, parentId, editData, onRefetchData
             <h5 className="modal-title">
               {editData ? t('EditFolder') : t('CreateFolder')}
             </h5>
-            <div href="#" className="close" onClick={onClose}>
-              <em className="icon ni ni-cross" />
+            <div className="close" onClick={onClose}>
+              <em className="icon ni ni-cross"/>
             </div>
           </div>
           <div className="modal-body">
             {!editData && (
                 <div className="mb-3">
-                  <label htmlFor="preset" className="form-label">
+                <label htmlFor="preset" className="form-label">
                     {t('SelectFolderNameTemplate')}
                   </label>
                   <select
@@ -126,7 +126,7 @@ export const FolderModal = ({ isOpen, onClose, parentId, editData, onRefetchData
                 </div>
             )}
             <div className="form-group">
-              <label className="form-label">{t('FolderName')}</label>
+              <label className="form-label">{t('FolderName')} <span className="text-danger">*</span></label>
               <input
                   type="text"
                   ref={inputRef}

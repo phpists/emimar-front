@@ -60,6 +60,13 @@ export const projects = createApi({
         body: data,
       }),
     }),
+    getProjectsFastSearch: build.query({
+      query: ({ q = ""}) => ({
+        url: "/project/get-projects-fast-search",
+        headers: headers(),
+        params: { q },
+      }),
+    }),
     deleteLink: build.query({
       query: (id) => ({
         method: "DELETE",
@@ -73,6 +80,7 @@ export const projects = createApi({
 
 export const {
   useGetProjectsQuery,
+  useGetProjectsFastSearchQuery,
   useGetLinksQuery,
   useLazyCreateProjectQuery,
   useLazyCreateLinkQuery,

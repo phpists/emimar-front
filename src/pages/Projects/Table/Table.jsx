@@ -53,7 +53,7 @@ export const Table = ({
   };
 
   const handleCutList = (list) =>
-    `${list?.slice(0,2)?.join(",")} ${
+    `${list?.slice(0,2)?.join(", ")} ${
       list?.slice(2)?.length > 0 ? `... (+${list?.slice(2)?.length})` : ""
     }`;
 

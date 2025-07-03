@@ -79,22 +79,15 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
             <h5 className="modal-title">
               {editUser ? t('EditUser') : t('CreateUser')}
             </h5>
-            <a
-              href="#"
-              className="close"
-              onClick={(e) => {
-                e.preventDefault();
-                onClose();
-              }}
-            >
-              <em className="icon ni ni-cross" />
-            </a>
+            <div className="close" onClick={onClose}>
+              <em className="icon ni ni-cross"/>
+            </div>
           </div>
 
           <div className="modal-body">
             <div className="row">
               <div className="form-group col-md-6">
-                <label className="form-label">{t('FullName')}</label>
+                <label className="form-label">{t('FullName')} <span className="text-danger">*</span></label>
                 <input
                     type="text"
                     className="form-control"
@@ -105,7 +98,7 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
                 />
               </div>
               <div className="form-group col-md-6">
-                <label className="form-label">{t('DisplayName')}</label>
+                <label className="form-label">{t('DisplayName')} <span className="text-danger">*</span></label>
                 <input
                     type="text"
                     className="form-control"
@@ -118,7 +111,7 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">{t('Email')}</label>
+              <label className="form-label">{t('Email')} <span className="text-danger">*</span></label>
               <input
                   type="email"
                   className="form-control"
@@ -130,7 +123,7 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
             </div>
             <div className="row">
               <div className="form-group col-md-6">
-                <label className="form-label">{t('PhoneNumber')}</label>
+                <label className="form-label">{t('PhoneNumber')} <span className="text-danger">*</span></label>
                 <input
                     type="tel"
                     maxLength={16}
@@ -144,7 +137,7 @@ export const UserModal = ({ onClose, onRefetchUser, editUser }) => {
               </div>
 
               <div className="form-group col-md-6">
-                <label className="form-label">{t('DateOfBirth')}</label>
+                <label className="form-label">{t('DateOfBirth')} <span className="text-danger">*</span></label>
                 <input
                     type="date"
                     className="form-control"

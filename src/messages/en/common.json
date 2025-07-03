@@ -123,5 +123,13 @@
   "NoLinksFound": "No links found",
 
   "EnterName": "Enter name",
-  "EnterLink": "Enter link"
+  "EnterLink": "Enter link",
+  "SearchProjectNumber": "Search project number",
+
+  "SignInHeader": "Sign-In",
+  "SignIn": "Sign in",
+  "EmailOrUsername": "Email or Username",
+  "EnterYourEmailAddressOrUsername": "Enter your email address or username",
+  "Password": "Password",
+  "EnterYourPassword": "Enter your password"
 }

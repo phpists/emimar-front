@@ -79,14 +79,14 @@ export const CreateLink = ({ onClose, editData, onRefetchData, total }) => {
                         <h5 className="modal-title">
                             {editData ? t('EditLink') : t('CreateLink')}
                         </h5>
-                        <a href="#" className="close" onClick={onClose} aria-label="Close">
-                            <em className="icon ni ni-cross" />
-                        </a>
+                        <div className="close" onClick={onClose}>
+                            <em className="icon ni ni-cross"/>
+                        </div>
                     </div>
 
                     <div className="modal-body">
                         <form>
-                            <div className="form-group">
+                        <div className="form-group">
                                 <label className="form-label" htmlFor="project-name">
                                     {t('Name')} <span className="text-danger">*</span>
                                 </label>
@@ -105,7 +105,7 @@ export const CreateLink = ({ onClose, editData, onRefetchData, total }) => {
                             </div>
                             <div className="form-group">
                                 <label className="form-label" htmlFor="project-number">
-                                    Link <span className="text-danger">*</span>
+                                    {t('Link')} <span className="text-danger">*</span>
                                 </label>
                                 <div className="form-control-wrap">
                                     <input

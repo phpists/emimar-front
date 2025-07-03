@@ -42,22 +42,15 @@ export const UserModalChangePassword = ({ onClose, userChangePassword }) => {
                         <h5 className="modal-title">
                             {`${t('ChangePasswordFor')} ${fullName}`}
                         </h5>
-                        <a
-                            href="#"
-                            className="close"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                onClose();
-                            }}
-                        >
-                            <em className="icon ni ni-cross" />
-                        </a>
+                        <div className="close" onClick={onClose}>
+                            <em className="icon ni ni-cross"/>
+                        </div>
                     </div>
 
                     <div className="modal-body">
                         <div className="row">
-                            <div className="form-group col-md-12">
-                                <label className="form-label">{t('NewPassword')}</label>
+                        <div className="form-group col-md-12">
+                                <label className="form-label">{t('NewPassword')} <span className="text-danger">*</span></label>
                                 <input
                                     type="text"
                                     className="form-control"
